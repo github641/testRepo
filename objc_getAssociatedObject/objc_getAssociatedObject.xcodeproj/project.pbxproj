@@ -18,6 +18,8 @@
 		6C9D56361ED80C12001E287A /* ViewController4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D56351ED80C12001E287A /* ViewController4.swift */; };
 		6C9D56391ED81627001E287A /* ViewController5.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D56381ED81627001E287A /* ViewController5.m */; };
 		6C9D563E1ED81E8A001E287A /* ViewController6.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D563D1ED81E8A001E287A /* ViewController6.m */; };
+		6C9D56411ED823F0001E287A /* UIButton+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D56401ED823F0001E287A /* UIButton+Action.m */; };
+		6C9D56441ED82775001E287A /* ViewController7.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D56431ED82775001E287A /* ViewController7.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,10 @@
 		6C9D563A1ED81B54001E287A /* AssociatedMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssociatedMacro.h; sourceTree = "<group>"; };
 		6C9D563C1ED81E8A001E287A /* ViewController6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController6.h; sourceTree = "<group>"; };
 		6C9D563D1ED81E8A001E287A /* ViewController6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController6.m; sourceTree = "<group>"; };
+		6C9D563F1ED823F0001E287A /* UIButton+Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Action.h"; sourceTree = "<group>"; };
+		6C9D56401ED823F0001E287A /* UIButton+Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Action.m"; sourceTree = "<group>"; };
+		6C9D56421ED82775001E287A /* ViewController7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController7.h; sourceTree = "<group>"; };
+		6C9D56431ED82775001E287A /* ViewController7.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController7.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +94,10 @@
 				6C9D563A1ED81B54001E287A /* AssociatedMacro.h */,
 				6C9D563C1ED81E8A001E287A /* ViewController6.h */,
 				6C9D563D1ED81E8A001E287A /* ViewController6.m */,
+				6C9D56421ED82775001E287A /* ViewController7.h */,
+				6C9D56431ED82775001E287A /* ViewController7.m */,
+				6C9D563F1ED823F0001E287A /* UIButton+Action.h */,
+				6C9D56401ED823F0001E287A /* UIButton+Action.m */,
 				6C512B3B1ED7FC9A009764B1 /* Main.storyboard */,
 				6C512B3E1ED7FC9A009764B1 /* Assets.xcassets */,
 				6C512B401ED7FC9A009764B1 /* LaunchScreen.storyboard */,
@@ -179,6 +189,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C512B3A1ED7FC9A009764B1 /* ViewController.m in Sources */,
+				6C9D56411ED823F0001E287A /* UIButton+Action.m in Sources */,
+				6C9D56441ED82775001E287A /* ViewController7.m in Sources */,
 				6C9D563E1ED81E8A001E287A /* ViewController6.m in Sources */,
 				6C9D56361ED80C12001E287A /* ViewController4.swift in Sources */,
 				6C9D56301ED80344001E287A /* ViewController2.m in Sources */,
