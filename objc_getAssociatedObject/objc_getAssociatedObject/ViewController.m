@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import<objc/runtime.h>
 #import "ViewController3.h"
+#import "ViewController5.h"
 @interface ViewController ()
 
 @end
@@ -36,6 +37,15 @@
     NSString *s = @"a";
     s.property = @"xxx";
     NSLog(@"%@", s.property);
+    
+    s.name = @"ys";
+    s.delegate = self;
+    
+    s.isOK = 1;
+    
+    NSLog(@"%@ %@ %@", s.name, s.delegate, @(s.isOK));
+    
+    
     
 }
 

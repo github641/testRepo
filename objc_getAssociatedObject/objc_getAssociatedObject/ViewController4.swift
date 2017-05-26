@@ -29,32 +29,32 @@ import Foundation
 //public func objc_getAssociatedObject(object: AnyObject!, _ key: UnsafePointer) -> AnyObject!
 
 
-private struct AssociatedKeys {
-    
-    static var itemName = "itemName"
-}
-
-extension MKAnnotation {
-    
-    var itemName: String! {
-        
-        get {
-            
-            guard let str = objc_getAssociatedObject(self, &AssociatedKeys.itemName) as ? String else {
-                return nil
-            }
-            
-            return str
-        }
-        
-        
-        set {
-            
-            objc_setAssociatedObject(self, &AssociatedKeys.itemName, String(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-        
-        
-        
-    }
-    
-}
+//private struct AssociatedKeys {
+//    
+//    static var itemName = "itemName"
+//}
+//
+//extension MKAnnotation {
+//    
+//    var itemName: String! {
+//        
+//        get {
+//            
+//            guard let str = objc_getAssociatedObject(self, &AssociatedKeys.itemName) as ? String else {
+//                return nil
+//            }
+//            
+//            return str
+//        }
+//        
+//        
+//        set {
+//            
+//            objc_setAssociatedObject(self, &AssociatedKeys.itemName, String(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//        }
+//        
+//        
+//        
+//    }
+//    
+//}
