@@ -15,6 +15,7 @@
 		6C512B421ED7FC9A009764B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C512B401ED7FC9A009764B1 /* LaunchScreen.storyboard */; };
 		6C9D56301ED80344001E287A /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D562F1ED80344001E287A /* ViewController2.m */; };
 		6C9D56331ED80761001E287A /* ViewController3.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D56321ED80761001E287A /* ViewController3.m */; };
+		6C9D56361ED80C12001E287A /* ViewController4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D56351ED80C12001E287A /* ViewController4.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		6C9D562F1ED80344001E287A /* ViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController2.m; sourceTree = "<group>"; };
 		6C9D56311ED80761001E287A /* ViewController3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController3.h; sourceTree = "<group>"; };
 		6C9D56321ED80761001E287A /* ViewController3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController3.m; sourceTree = "<group>"; };
+		6C9D56341ED80C11001E287A /* objc_getAssociatedObject-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "objc_getAssociatedObject-Bridging-Header.h"; sourceTree = "<group>"; };
+		6C9D56351ED80C12001E287A /* ViewController4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController4.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,11 +75,13 @@
 				6C9D562F1ED80344001E287A /* ViewController2.m */,
 				6C9D56311ED80761001E287A /* ViewController3.h */,
 				6C9D56321ED80761001E287A /* ViewController3.m */,
+				6C9D56351ED80C12001E287A /* ViewController4.swift */,
 				6C512B3B1ED7FC9A009764B1 /* Main.storyboard */,
 				6C512B3E1ED7FC9A009764B1 /* Assets.xcassets */,
 				6C512B401ED7FC9A009764B1 /* LaunchScreen.storyboard */,
 				6C512B431ED7FC9A009764B1 /* Info.plist */,
 				6C512B321ED7FC9A009764B1 /* Supporting Files */,
+				6C9D56341ED80C11001E287A /* objc_getAssociatedObject-Bridging-Header.h */,
 			);
 			path = objc_getAssociatedObject;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 				TargetAttributes = {
 					6C512B2E1ED7FC9A009764B1 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -161,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C512B3A1ED7FC9A009764B1 /* ViewController.m in Sources */,
+				6C9D56361ED80C12001E287A /* ViewController4.swift in Sources */,
 				6C9D56301ED80344001E287A /* ViewController2.m in Sources */,
 				6C512B371ED7FC9A009764B1 /* AppDelegate.m in Sources */,
 				6C512B341ED7FC9A009764B1 /* main.m in Sources */,
@@ -282,10 +289,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = objc_getAssociatedObject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alldk.objc-getAssociatedObject";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "objc_getAssociatedObject/objc_getAssociatedObject-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -293,10 +304,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = objc_getAssociatedObject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alldk.objc-getAssociatedObject";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "objc_getAssociatedObject/objc_getAssociatedObject-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
