@@ -10,6 +10,8 @@ import Foundation
  /* lzy注170526：
  
  http://www.jianshu.com/p/3030fc787648
+ 
+ http://www.jianshu.com/p/b67badd56334
  由于swift中的extension不可以扩展存储属性。于是看到了这两个方法。
  
  这两个函数都有associate，意思就是关联。
