@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import<objc/runtime.h>
+#import "ViewController3.h"
 @interface ViewController ()
 
 @end
@@ -30,6 +31,11 @@
     btn.backgroundColor = [UIColor redColor];
     
     [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSString *s = @"a";
+    s.property = @"xxx";
+    NSLog(@"%@", s.property);
     
 }
 
