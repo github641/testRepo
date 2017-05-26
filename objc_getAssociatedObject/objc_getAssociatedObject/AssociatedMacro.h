@@ -12,7 +12,7 @@
 
 #import <objc/runtime.h>
 // 添加id类型属性
-#define ASSOCIATED(propertyName, setter, type, objc_AssociationPolicy)\
+#define Associated(propertyName, setter, type, objc_AssociationPolicy)\
 - (type)propertyName {\
 return objc_getAssociatedObject(self, _cmd);\
 }\
@@ -21,9 +21,19 @@ return objc_getAssociatedObject(self, _cmd);\
 {\
 objc_setAssociatedObject(self, @selector(propertyName), object, objc_AssociationPolicy);\
 }
+// 依旧是 添加id类型属性，支持传入自定义的key
+#define AssociatedKey(propertyName, setter, key, type, objc_AssociationPolicy)\
+- (type)propertyName {\
+return objc_getAssociatedObject(self, key);\
+}\
+\
+- (void)setter:(type)object\
+{\
+objc_setAssociatedObject(self, key, object, objc_AssociationPolicy);\
+}
 
 // 添加BOOL类型属性
-#define ASSOCIATED_BOOL(propertyName, setter)\
+#define Associated_BOOL(propertyName, setter)\
 - (BOOL)propertyName {\
 NSNumber *value = objc_getAssociatedObject(self, _cmd); return value.boolValue;\
 }\
@@ -34,7 +44,7 @@ objc_setAssociatedObject(self, @selector(propertyName), @(object), OBJC_ASSOCIAT
 }
 
 // 添加NSInteger类型属性
-#define ASSOCIATED_NSInteger(propertyName, setter)\
+#define Associated_NSInteger(propertyName, setter)\
 - (NSInteger)propertyName {\
 NSNumber *value = objc_getAssociatedObject(self, _cmd); return value.integerValue;\
 }\
@@ -45,7 +55,7 @@ objc_setAssociatedObject(self, @selector(propertyName), @(object), OBJC_ASSOCIAT
 }
 
 // 添加float类型属性
-#define ASSOCIATED_float(propertyName, setter)\
+#define Associated_float(propertyName, setter)\
 - (float)propertyName {\
 NSNumber *value = objc_getAssociatedObject(self, _cmd); return value.floatValue;\
 }\
@@ -56,7 +66,7 @@ objc_setAssociatedObject(self, @selector(propertyName), @(object), OBJC_ASSOCIAT
 }
 
 // 添加double类型属性
-#define ASSOCIATED_double(propertyName, setter)\
+#define Associated_double(propertyName, setter)\
 - (double)propertyName {\
 NSNumber *value = objc_getAssociatedObject(self, _cmd); return value.doubleValue;\
 }\
@@ -67,7 +77,7 @@ objc_setAssociatedObject(self, @selector(propertyName), @(object), OBJC_ASSOCIAT
 }
 
 // 添加long long类型属性
-#define ASSOCIATED_longlong(propertyName, setter)\
+#define Associated_longlong(propertyName, setter)\
 - (long long)propertyName {\
 NSNumber *value = objc_getAssociatedObject(self, _cmd); return value.longLongValue;\
 }\

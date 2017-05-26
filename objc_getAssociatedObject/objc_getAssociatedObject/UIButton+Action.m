@@ -8,6 +8,7 @@
 
 #import "UIButton+Action.h"
 #import <objc/runtime.h>
+#import "AssociatedMacro.h"
  /* lzy注170526：
   
   objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)
@@ -34,28 +35,25 @@ static NSString *keyOfBlock;
 
 - (void)buttonClick:(UIButton *)btn{
     
-    ActionBlock block1 = (ActionBlock)objc_getAssociatedObject(btn, &keyOfMethod);
+    ActionBlock block1 = (ActionBlock)objc_getAssociatedObject(btn, &keyOfBlock);
     
     if (block1) {
         block1(btn);
     }
     
-    
-    ActionBlock block2 = (ActionBlock)objc_getAssociatedObject(btn, &keyOfBlock);
-    
-    if (block2) {
-        block2(btn);
-    }
 }
 
-- (void)setActionBlock:(ActionBlock)actionBlock{
-    
-    objc_setAssociatedObject(self, &keyOfBlock, actionBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
+//- (void)setActionBlock:(ActionBlock)actionBlock{
+//    
+//    objc_setAssociatedObject(self, &keyOfBlock, actionBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+//}
+//
+//- (ActionBlock)actionBlock{
+//    
+//    return objc_getAssociatedObject(self, &keyOfBlock);
+//}
 
-- (ActionBlock)actionBlock{
-    
-    return objc_getAssociatedObject(self, &keyOfBlock);
-}
+AssociatedKey(actionBlock, setActionBlock, &keyOfBlock, ActionBlock, OBJC_ASSOCIATION_COPY_NONATOMIC)
+
 
 @end
