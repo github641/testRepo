@@ -13,6 +13,7 @@
 		6C06E0351ED96E360042A252 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C06E0331ED96E360042A252 /* Main.storyboard */; };
 		6C06E0371ED96E360042A252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C06E0361ED96E360042A252 /* Assets.xcassets */; };
 		6C06E03A1ED96E360042A252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C06E0381ED96E360042A252 /* LaunchScreen.storyboard */; };
+		6C06E0431ED978DF0042A252 /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C06E0421ED978DF0042A252 /* ViewController2.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		6C06E0361ED96E360042A252 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6C06E0391ED96E360042A252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6C06E03B1ED96E360042A252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C06E0411ED978DF0042A252 /* ViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController2.h; sourceTree = "<group>"; };
+		6C06E0421ED978DF0042A252 /* ViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController2.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,8 @@
 				6C06E02E1ED96E360042A252 /* AppDelegate.m */,
 				6C06E0301ED96E360042A252 /* ViewController.h */,
 				6C06E0311ED96E360042A252 /* ViewController.m */,
+				6C06E0411ED978DF0042A252 /* ViewController2.h */,
+				6C06E0421ED978DF0042A252 /* ViewController2.m */,
 				6C06E0331ED96E360042A252 /* Main.storyboard */,
 				6C06E0361ED96E360042A252 /* Assets.xcassets */,
 				6C06E0381ED96E360042A252 /* LaunchScreen.storyboard */,
@@ -151,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C06E0321ED96E360042A252 /* ViewController.m in Sources */,
+				6C06E0431ED978DF0042A252 /* ViewController2.m in Sources */,
 				6C06E02F1ED96E360042A252 /* AppDelegate.m in Sources */,
 				6C06E02C1ED96E360042A252 /* main.m in Sources */,
 			);
