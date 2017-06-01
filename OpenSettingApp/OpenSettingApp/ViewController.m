@@ -19,11 +19,18 @@
     
     str = @"General";
     
-    
+    str = @"Privacy";
+
+//        str = @"Privacy&path=MICROPHONE";// 隐私->麦克风
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"App-Prefs:root=%@", str]];
     
     [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+        if (success) {
+            NSLog(@"跳转成功");
+        }else{
+            NSLog(@"跳转失败");
+        }
         
     }];
     
