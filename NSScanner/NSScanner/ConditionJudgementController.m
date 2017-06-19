@@ -21,7 +21,7 @@
     NSCharacterSet *numbers;
 
     
-    // 准备NSCharacterSet，判断已有字符串中是否有小数点
+    // 准备要过滤的字符串集合NSCharacterSet，即numbers。判断已有字符串中是否有小数点
     NSRange         pointRange = [textField.text rangeOfString:@"."];
     if ( (pointRange.length > 0) && (pointRange.location < range.location  || pointRange.location > range.location + range.length) ){
         numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
