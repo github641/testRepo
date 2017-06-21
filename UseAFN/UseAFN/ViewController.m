@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <AFNetworking/AFNetworking.h>
+#import "UseExample.h"
 
 @interface ViewController ()
 
@@ -18,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [UseExample lanyi];
     
     
 }

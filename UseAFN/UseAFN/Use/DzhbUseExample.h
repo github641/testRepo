@@ -1,5 +1,5 @@
 //
-//  UseExample.h
+//  DzhbUseExample.h
 //  UseAFN
 //
 //  Created by alldk on 2017/6/21.
@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
+@interface DzhbUseExample : NSObject
 
-
-@interface UseExample : NSObject
-+ (void)lanyi;
 @end

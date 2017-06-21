@@ -6,7 +6,7 @@
 //  Copyright © 2017年 alldk. All rights reserved.
 //
 
-#import "UseExample.h"
+#import "LanyiUseExample.h"
 #import <AFNetworking/AFNetworking.h>
 
 /* lzy注170621：
@@ -14,7 +14,7 @@
  */
 typedef void (^MyCallback)(id obj);
 
-@implementation UseExample
+@implementation LanyiUseExample
 #pragma mark - ================== 蓝时期 ==================
     
 + (void)lanyi{
