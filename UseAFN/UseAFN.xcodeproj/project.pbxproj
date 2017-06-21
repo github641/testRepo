@@ -13,6 +13,7 @@
 		6C9EAE641EFA58900008D7A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C9EAE631EFA58900008D7A4 /* Assets.xcassets */; };
 		6C9EAE671EFA58900008D7A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C9EAE651EFA58900008D7A4 /* LaunchScreen.storyboard */; };
 		6C9EAE6A1EFA58900008D7A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C9EAE691EFA58900008D7A4 /* main.m */; };
+		6CC706BA1EFA67E0003895CC /* UseExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CC706B91EFA67E0003895CC /* UseExample.m */; };
 		E861E04BDCD398C2C9E4B8CC /* libPods-UseAFN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2353C1EED1463F878CD8A7C2 /* libPods-UseAFN.a */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,8 @@
 		6C9EAE661EFA58900008D7A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6C9EAE681EFA58900008D7A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C9EAE691EFA58900008D7A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6CC706B81EFA67E0003895CC /* UseExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseExample.h; sourceTree = "<group>"; };
+		6CC706B91EFA67E0003895CC /* UseExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseExample.m; sourceTree = "<group>"; };
 		9BC5E5A2C348B69B53C46BAC /* Pods-UseAFN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UseAFN.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UseAFN/Pods-UseAFN.debug.xcconfig"; sourceTree = "<group>"; };
 		EF7ED92562922780A05FDFB6 /* Pods-UseAFN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UseAFN.release.xcconfig"; path = "Pods/Target Support Files/Pods-UseAFN/Pods-UseAFN.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,6 +68,7 @@
 		6C9EAE591EFA58900008D7A4 /* UseAFN */ = {
 			isa = PBXGroup;
 			children = (
+				6CC706B71EFA67BE003895CC /* Use */,
 				6C9EAE5A1EFA58900008D7A4 /* AppDelegate.h */,
 				6C9EAE5B1EFA58900008D7A4 /* AppDelegate.m */,
 				6C9EAE5D1EFA58900008D7A4 /* ViewController.h */,
@@ -76,6 +80,15 @@
 				6C9EAE691EFA58900008D7A4 /* main.m */,
 			);
 			path = UseAFN;
+			sourceTree = "<group>";
+		};
+		6CC706B71EFA67BE003895CC /* Use */ = {
+			isa = PBXGroup;
+			children = (
+				6CC706B81EFA67E0003895CC /* UseExample.h */,
+				6CC706B91EFA67E0003895CC /* UseExample.m */,
+			);
+			path = Use;
 			sourceTree = "<group>";
 		};
 		73A623E0053FFFC5458EC229 /* Pods */ = {
@@ -216,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CC706BA1EFA67E0003895CC /* UseExample.m in Sources */,
 				6C9EAE5F1EFA58900008D7A4 /* ViewController.m in Sources */,
 				6C9EAE6A1EFA58900008D7A4 /* main.m in Sources */,
 				6C9EAE5C1EFA58900008D7A4 /* AppDelegate.m in Sources */,
