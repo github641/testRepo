@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import <AFNetworking/AFNetworking.h>
-#import "UseExample.h"
+#import "LanyiUseExample.h"
 
 @interface ViewController ()
 
@@ -19,8 +19,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [UseExample lanyi];
+    [LanyiUseExample lanyi];
     
+    
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[[NSURL alloc] initWithString:@"hostname"]];
+    
+    [manager GET:@"relative_url"
+      parameters:nil progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             NSLog(@"%@" ,responseObject);
+         }
+         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+        
+    }];
     
 }
 
