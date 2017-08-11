@@ -251,6 +251,7 @@
 				6C5027BA1F0644A100707E1A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
