@@ -5,7 +5,16 @@
 //  Created by 霍文轩 on 16/1/29.
 //  Copyright © 2016年 霍文轩. All rights reserved.
 //
-
+/* lzy注170815：
+ 
+ 原文：iOS实现墙纸的运动视差效果
+ http://www.jianshu.com/p/27d3fa227cfa
+ 
+ 其他：UIMotionEffect和Home页背景视差效果
+ http://www.cocoachina.com/ios/20150121/10967.html
+ 
+ 
+ */
 #import "ViewController.h"
 
 @interface ViewController ()
