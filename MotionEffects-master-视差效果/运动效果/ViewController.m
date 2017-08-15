@@ -6,6 +6,9 @@
 //  Copyright © 2016年 霍文轩. All rights reserved.
 //
 /* lzy注170815：
+ 在iOS组件alert上看到了这个api。
+ CustomIOSAlertView这个类库。
+ 
  
  原文：iOS实现墙纸的运动视差效果
  http://www.jianshu.com/p/27d3fa227cfa
@@ -24,6 +27,26 @@
 @end
 
 @implementation ViewController
+/* lzy注170815：
+ UIMotionEffectGroup的使用。
+ */
+- (void)ABC{
+//    UIInterpolatingMotionEffect *horizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+//    
+//    horizontalEffect.minimumRelativeValue = @(-kDKMotionEffectExtent);
+//    horizontalEffect.maximumRelativeValue = @( kDKMotionEffectExtent);
+//    
+//    UIInterpolatingMotionEffect *verticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+//    
+//    verticalEffect.minimumRelativeValue = @(-kDKMotionEffectExtent);
+//    verticalEffect.maximumRelativeValue = @( kDKMotionEffectExtent);
+//    
+//    UIMotionEffectGroup *motionEffectGroup = [[UIMotionEffectGroup alloc] init];
+//    
+//    motionEffectGroup.motionEffects = @[horizontalEffect, verticalEffect];
+//    
+//    [dialogView addMotionEffect:motionEffectGroup];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
