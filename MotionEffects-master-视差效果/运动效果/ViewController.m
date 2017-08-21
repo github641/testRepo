@@ -67,7 +67,6 @@
     fairyEffY.minimumRelativeValue = @(-50);
     [self.fairy addMotionEffect:fairyEffY];
     
-    
     // 设置背景的运动效果 ===== BEGIN =====
     UIInterpolatingMotionEffect * backEffX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];// type表示沿水平方向运行效果
     backEffX.maximumRelativeValue = @(-100);
