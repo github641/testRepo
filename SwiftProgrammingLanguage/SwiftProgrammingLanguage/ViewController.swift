@@ -426,34 +426,152 @@ class ViewController: UIViewController {
         // MARK: - 函数与闭包
         
         // MARK: 函数的声明和调用
+        /*lzy170830注:
+         使用 func 来声明一个函数，使用名字和参数来调用函数。使用 -> 来指定函数返回值的类型。
+         */
+        func greetA(person: String, day: String) -> String{
+            
+            return "Hello \(person), today is \(day)."
+        }
         greetA(person: "John", day: "Wednesday")
+        
+        /*lzy170830注:
+         默认情况下，函数使用它们的参数名称作为它们参数的标签，在参数名称前可以自定义参数标签，或者使用 _ 表示不使用参数标签。
+         */
+        func greetB(_ person:String,on day:String) -> String {
+            return "Hello \(person), today is \(day)."
+        }
         
         greetB("John", on: "wednesday")
         
         // MARK: 函数返回值为元组
+        /*lzy170830注:
+         使用元组来让一个函数返回多个值。该元组的元素可以用名称或数字来表示。
+         */
+        func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
+            var min = scores[0]
+            var max = scores[0]
+            var sum = 0
+            
+            for score in scores {
+                
+                if score  > max {
+                    max = score
+                } else if score < min {
+                    min = score
+                }
+                
+                sum += score
+            }
+            
+            return (min, max, sum)
+        }
         
         let statistics = calculateStatistics(scores: [111,22,33,3,784,66])
         print(statistics.sum)
         print(statistics.2)// 取下标为2的元素，就是sum
         
         // MARK: 函数可以有可变个数的参数
+        /*lzy170830注:
+         函数可以带有可变个数的参数，这些参数在函数内表现为数组的形式
+         */
+        
+        func sumOf(numbers: Int...) -> Int {
+            
+            var sum = 0
+            for number in numbers {
+                sum += number
+            }
+            
+            return sum
+        }
+        
         print(sumOf())
         print(sumOf(numbers: 1, 2, 3, 4, 5, 6, 7, 8))
+        
+        /*lzy170830注:
+         练习：写一个计算参数平均值的函数。
+         */
+        func calculateAverage(nums: [Int]) -> Int {
+            var sum : Int = 0
+            for num in nums{
+                sum += num
+            }
+            return (sum / nums.count)
+            
+        }
+        
+        func calculateAverageDouble(nums: [Double]) -> Double {
+            var sum : Double = 0
+            for num in nums{
+                sum += num
+            }
+            
+            return (sum / Double(nums.count))
+            
+        }
+        
         
         print(calculateAverage(nums: [1, 2, 3, 4]))
         
         print(calculateAverageDouble(nums: [1.1, 1.2, 1.3, 1.4]))
         
         // MARK: 函数可以嵌套
+        
+        /*lzy170830注:
+         函数可以嵌套。被嵌套的函数可以访问外侧函数的变量，你可以使用嵌套函数来重构一个太长或者太复杂的函数。
+         */
+        func returnFifteen() -> Int{
+            var y = 10
+            func add(){
+                y += 5
+            }
+            add()
+            return y
+        }
         print(returnFifteen())
         
         // MARK: 函数可以作为另一个函数的返回值
+        
+        /*lzy170830注:
+         函数是第一等类型，这意味着函数可以作为另一个函数的返回值。
+         */
+        func makeIncrementer() -> ( (Int) -> Int ) {
+            
+            func addOne(number: Int) -> Int {
+                return 1 + number
+            }
+            
+            return addOne
+        }
+        
+        func lessThanTen(number: Int) -> Bool{
+            return number < 10
+        }
+        
         let increment = makeIncrementer()
         print(increment(9))
         
         // MARK: 函数可以作为参数传入另一个函数
+        
+        /*lzy170830注:
+         函数也可以当做参数传入另一个函数。
+         */
+        func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool{
+            
+            for item in list {
+                
+                if condition(item){
+                    return true
+                }
+                
+            }
+            return false
+        }
+        
+        
         let arrayForClosure = [2, 44, 6, 09]
-       let funcR1 = hasAnyMatches(list: arrayForClosure, condition: lessThanTen)
+        let funcR1 = hasAnyMatches(list: arrayForClosure, condition: lessThanTen)
         print(funcR1)
         
         // MARK: 函数是一种特殊的闭包
@@ -461,7 +579,7 @@ class ViewController: UIViewController {
          函数实际上是一种特殊的闭包:它是一段能之后被调取的代码。闭包中的代码能访问闭包所建作用域中能得到的变量和函数，即使闭包是在一个不同的作用域被执行的 - 你已经在嵌套函数例子中所看到。
          你可以使用 {} 来创建 一个匿名闭包。使用 in 将参数和返回值类型声明与闭包函数体进行分离。
          */
-      let funcR2 =  arrayForClosure.map { (number: Int) -> Int in
+        let funcR2 =  arrayForClosure.map { (number: Int) -> Int in
             let result = 3 * number
             return result
         }
@@ -492,7 +610,7 @@ class ViewController: UIViewController {
         
         print(funcR3)
         
-
+        
         /*lzy170830注:
          有很多种创建更简洁的闭包的方法。
          如果一个闭包的类型已知，比如作为一个回调函数，你可以忽略参数的类型和返回值。
@@ -530,7 +648,7 @@ class ViewController: UIViewController {
         print(testCircle.area())
         print(testCircle.simpleDescription())
         
-
+        
         let triangle = EquilateralTriangle(sideLength: 3.1, name: "a triangle")
         print(triangle.perimeter)
         triangle.perimeter = 9.9
@@ -545,135 +663,186 @@ class ViewController: UIViewController {
         
         /*lzy170831注:
          处理变量的可选值时，你可以在操作(比如方法、属性和子脚本)之前加 ? 。如果 ? 之前的值是 nil ， ? 后面 的东西都会被忽略，并且整个表达式返回 nil 。否则， ? 之后的东西都会被运行。在这两种情况下，整个表达式 的值也是一个可选值。
-
+         
          */
         
         let optionalSquare: Square? = Square(sideLength: 2.5, name: "option square")
         let sideLength = optionalSquare?.sideLength
-    }
-
-
-    
-    
-    /*lzy170830注:
-     函数也可以当做参数传入另一个函数。
-     */
-    func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool{
-    
-        for item in list {
+        
+        
+        // MARK: - 枚举和结构体
+        
+        // MARK: 枚举
+        // lzy170901注：枚举似乎可以写在类中，也可以写在类外。这样的话，类将是枚举是否可以被发现被使用的范围
+        /*lzy170901注:因为需要写一个枚举
+         使用 enum 来创建一个枚举。就像类和其他所有命名类型一样，枚举可以包含方法。
+         */
+        enum Rank: Int {
+            case Ace = 1
+            case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
+            case Jack, Queen, King
             
-            if condition(item){
-                return true
+            func simpleDescription() -> String{
+                switch self {
+                case .Ace:
+                    return "ace"
+                    
+                case .Jack:
+                    return "jack"
+                    
+                case .King:
+                    return "king"
+                    
+                default:
+                    return String(self.rawValue)
+                }
+            }
+        }
+        
+        
+        func compareRank(rank1: Rank , rank2: Rank) -> Rank{
+            return rank1.rawValue > rank2.rawValue ? rank1 : rank2
+        }
+        
+        
+        let ace = Rank.Ace
+        print(ace.rawValue)
+        
+        /*lzy170901注:
+         练习: 写一个函数，通过比较它们的原始值来比较两个 Rank 值。
+         */
+        
+        let rank1 = Rank.Ten
+        let rank2 = Rank.Queen
+        
+        print(compareRank(rank1: rank1, rank2: rank2))
+        
+        /*lzy170901注:
+         默认情况下，Swift 按照从 0 开始每次加 1 的方式为原始值进行赋值，不过你可以通过显式赋值进行改变。
+         在 上面的例子中， Ace 被显式赋值为 1，并且剩下的原始值会按照顺序赋值。
+         你也可以使用字符串或者浮点数作为 枚举的原始值。
+         使用 rawValue 属性来访问一个枚举成员的原始值。
+         */
+        
+        /*lzy170901注:
+         使用 init?(rawValue:) 初始化构造器在原始值和枚举值之间进行转换。
+         */
+        
+        if let convertedRank = Rank(rawValue: 4) {
+            let fourDescription = convertedRank.simpleDescription()
+            print(fourDescription)
+        }
+        
+        /*lzy170901注:
+         枚举的成员值是实际值，并不是原始值的另一种表达方法。实际上，如果没有比较有意义的原始值，你就不需要提供原始值。
+         
+         */
+        
+        enum Suit {
+            case Spades, Hearts, Diamonds, Clubs
+            func simpleDescription() -> String {
+                switch self {
+                case .Spades:
+                    return "spades"
+                case .Hearts:
+                    return "hearts"
+                    
+                case .Diamonds:
+                    return "diamonds"
+                case .Clubs:
+                    return "clubs"
+                    
+                }
             }
             
-        }
-        return false
-    }
-    func lessThanTen(number: Int) -> Bool{
-        return number < 10
-    }
-    
-    /*lzy170830注:
-     函数是第一等类型，这意味着函数可以作为另一个函数的返回值。
-     */
-    func makeIncrementer() -> ( (Int) -> Int ) {
-        
-        func addOne(number: Int) -> Int {
-            return 1 + number
-        }
-        
-        return addOne
-    }
-    
-    /*lzy170830注:
-     函数可以嵌套。被嵌套的函数可以访问外侧函数的变量，你可以使用嵌套函数来重构一个太长或者太复杂的函数。
-     */
-    func returnFifteen() -> Int{
-        var y = 10
-        func add(){
-            y += 5
-        }
-        add()
-        return y
-    }
-    
-    /*lzy170830注:
-     练习：写一个计算参数平均值的函数。
-     */
-    func calculateAverage(nums: [Int]) -> Int {
-        var sum : Int = 0
-        for num in nums{
-            sum += num
-        }
-        return (sum / nums.count)
-        
-    }
-    
-    func calculateAverageDouble(nums: [Double]) -> Double {
-        var sum : Double = 0
-        for num in nums{
-            sum += num
-        }
-        
-        return (sum / Double(nums.count))
-        
-    }
-    
-    /*lzy170830注:
-     函数可以带有可变个数的参数，这些参数在函数内表现为数组的形式
-     */
-    
-    func sumOf(numbers: Int...) -> Int {
-        
-        var sum = 0
-        for number in numbers {
-            sum += number
-        }
-        
-        return sum
-    }
-    
-    /*lzy170830注:
-     使用元组来让一个函数返回多个值。该元组的元素可以用名称或数字来表示。
-     */
-    func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
-        var min = scores[0]
-        var max = scores[0]
-        var sum = 0
-        
-        for score in scores {
-            
-            if score  > max {
-                max = score
-            } else if score < min {
-                min = score
+            /*lzy170901注:
+             练习: 给 Suit 添加一个 color() 方法，对 spades 和 clubs 返回“black”，对 hearts 和 diamonds 返回“red”。
+             */
+            func color() -> String{
+                
+                switch self {
+                case .Spades:
+                    return "black"
+                case .Clubs:
+                    return "black"
+                case .Hearts:
+                    return "red"
+                case .Diamonds:
+                    return "red"
+                    
+                }
             }
-            
-            sum += score
         }
         
-        return (min, max, sum)
-    }
-    
-    /*lzy170830注:
-     默认情况下，函数使用它们的参数名称作为它们参数的标签，在参数名称前可以自定义参数标签，或者使用 _ 表示不使用参数标签。
-     */
-    func greetB(_ person:String,on day:String) -> String {
-        return "Hello \(person), today is \(day)."
-    }
-    
-    /*lzy170830注:
-     使用 func 来声明一个函数，使用名字和参数来调用函数。使用 -> 来指定函数返回值的类型。
-     */
-    func greetA(person: String, day: String) -> String{
+        /*lzy170901注:
+         注意，有两种方式可以引用 Hearts 成员:给 hearts 常量赋值时，枚举成员 Suit.Hearts 需要用全名来引用，因为常量没有显式指定类型。
+         在 switch 里，枚举成员使用缩写 .Hearts 来引用，因为 self 的值已经知道是一个suit 。已知变量类型的情况下你可以使用缩写。
+         */
+        let hearts = Suit.Hearts
+        print(hearts.simpleDescription())
         
-        return "Hello \(person), today is \(day)."
+        print(Suit.Hearts.color())
+        
+        
+        /*lzy170901注:
+         一个枚举成员的实例可以有实例值。相同枚举成员的实例可以有不同的值。创建实例的时候传入值即可。实例值
+         和原始值是不同的:枚举成员的原始值对于所有实例都是相同的，而且你是在定义枚举的时候设置原始值。
+         */
+        
+        /*lzy170901注:
+         例如，考虑从服务器获取日出和日落的时间。服务器会返回正常结果或者错误信息。
+         练习: 给 ServerResponse 和 switch 添加第三种情况。
+         注意日升和日落时间是如何从 ServerResponse 中提取到并与 switch 的 case 相匹配的。
+         */
+        
+        enum ServerResponse {
+            case Result(String, String)
+            case Failure(String)
+            case CannotConnectToServerCode(String)
+        }
+        
+        let success = ServerResponse.Result("6:00 am", "8:09 pm")
+        let failure = ServerResponse.Failure("Out of cheese.")
+        let code = ServerResponse.CannotConnectToServerCode("-1086")
+        
+        switch success {
+            
+        case let .Result(sunrise, sunset):
+            let serverResponse = "Sunrise is at \(sunrise) and sunset is at \(sunset)."
+            
+        case let .Failure(message):
+            print("Failure... \(message)")
+            
+        case let .CannotConnectToServerCode(code):
+            print("Cannot Connect To Server Code:\(code)")
+        }
+        
+        // MARK: 结构体
+        
+        /*lzy170901注:
+         使用 struct 来创建一个结构体。结构体和类有很多相同的地方，比如方法和构造器。它们之间最大的一个区别就是结构体是传值，类是传引用。
+         
+         */
+        // TODO:         练习: 给 Card 添加一个方法，创建一副完整的扑克牌并把每张牌的 rank 和 suit 对应起来。
+
+        
+        struct Card {
+            
+            var rank: Rank
+            var suit: Suit
+            func simpleDescription() -> String {
+                return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
+            }
+        }
+        
+        let threeOfSpades = Card(rank: .Three, suit: .Spades)
+        print(threeOfSpades.simpleDescription())
+        
+        
     }
     
     
-    
-    
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
