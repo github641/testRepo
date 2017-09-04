@@ -8,6 +8,92 @@
 
 import UIKit
 
+/*lzy170904注:
+ 1、使用 protocol 来声明一个协议。
+ */
+protocol ExampleProtocol {
+    var simpleDescription: String { get }
+    mutating func adjust()
+}
+
+/*lzy170904注:
+ 练习: 给 Double 类型写一个扩展，添加 absoluteValue 功能。
+ */
+extension Double {
+    
+    func absoluteValue() -> Double {
+        var a :Double = 0.0
+        if self >= 0 {
+            a = self
+        } else if self < 0{
+            a = -self
+        }
+        return a
+    }
+}
+
+/*lzy170904注:
+ 2.2使用 extension 来为现有的类型添加功能，比如新的方法和计算属性。你可以使用扩展在别处修改定义，甚至是 从外部库或者框架引入的一个类型，使得这个类型遵循某个协议。
+ */
+extension Int: ExampleProtocol {
+    var simpleDescription: String {
+        return "The number \(self)"
+    }
+    
+    mutating func adjust() {
+        self += 42
+    }
+}
+
+
+/*lzy170904注:
+ 2.1类、枚举和结构体都可以实现协议。
+ 
+ 注意声明 SimpleStructure 时候 mutating 关键字用来标记一个会修改结构体的方法。 SimpleClass 的声明不需要 标记任何方法，因为类中的方法通常可以修改类属性(类的性质)。
+ */
+class SimpleClass: ExampleProtocol {
+    var simpleDescription: String = "A very simple class."
+    var anotherProperty: Int = 69105
+    func adjust() {
+        simpleDescription += "Now 100% adjusted."
+    }
+}
+struct SimpleStructure: ExampleProtocol {
+    var simpleDescription: String = "A simple structure."
+    mutating func adjust() {
+        simpleDescription += "(adjusted)"
+    }
+}
+/*lzy170904注:
+ 练习：写一个实现这个协议的枚举。
+ 
+ //作者：guoshengboy
+ //链接：http://www.jianshu.com/p/abb731c4a91d
+ //來源：简书
+ //著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+ */
+enum SimpleEnum: ExampleProtocol {
+    
+    case Buy, Sell
+    var simpleDescription: String {
+        switch self {
+        case .Buy: return "We're buying something"
+        case .Sell: return "We're selling something"
+        }
+    }
+    
+    // lzy170904注：left side of mutating operator isn’t mutable:’simpleDescription’ is a get-only property
+    //    mutating func adjust() {
+    //        simpleDescription += "(adjusted)"
+    //    }
+    mutating func adjust() {
+        print("left side of mutating operator isn’t mutable:’simpleDescription’ is a get-only property")
+    }
+}
+
+
+
+
 /*lzy170831注:
  
  如果你不需要计算属性，但是仍然需要在设置一个新值之前或者之后运行代码，使用 willSet 和 didSet 。
@@ -839,9 +925,198 @@ class ViewController: UIViewController {
         print(threeOfSpades.simpleDescription())
         
         
+        // MARK: - 协议和扩展
+        
+// lzy170904注：Protocol cannot be nested inside another declaration
+//        protocol ExampleProtocol {
+//            var simpleDescription: String { get }
+//            mutating func adjust()
+//        }
+        /*lzy170904注:
+         使用 protocol 来声明一个协议。
+         类、枚举、结构体都可以实现协议。
+         
+         */
+        var a = SimpleClass()
+        print(a.simpleDescription)
+        a.adjust()
+        print(a.simpleDescription)
+        
+        
+        var b = SimpleStructure()
+        print(b.simpleDescription)
+        b.adjust()
+        print(b.simpleDescription)
+        
+        var c = SimpleEnum.Buy
+        print(c.adjust())
+        
+        // lzy170904注：使用 extension 来为现有的类型添加功能，比如新的方法和计算属性。你可以使用扩展在别处修改定义，甚至是 从外部库或者框架引入的一个类型，使得这个类型遵循某个协议。
+        print(7.simpleDescription)
+        // lzy170904注： 练习: 给 Double 类型写一个扩展，添加 absoluteValue 功能。
+        print((-0.3).absoluteValue())
+        
+        /*lzy170904注:
+         你可以像使用其他命名类型一样使用协议名——例如，创建一个有不同类型但是都实现一个协议的对象集合。当你处理类型的是协议的值，协议外定义的方法不可用。
+         */
+        let protocolValue: ExampleProtocol = a
+        print(protocolValue.simpleDescription)
+//        print(protocolValue.anotherProperty)// 去掉注释可以看到错误value of type ‘ExampleProtocol’ has no member ‘anotherProperty’
+        
+        // MARK: - 错误处理
+        /*lzy170904注:
+         使用 『采用Error协议的类型』来表示错误。
+         */
+        enum PrinterError: Error {
+            case OutOfPaper
+            case NoToner
+            case OnFire
+        }
+        /*lzy170904注:
+         使用throws 来表示一个可以抛出错误的函数。
+         使用throw 来抛出一个错误。
+         如果在函数中抛出了一个错误，这个函数会立即返回，并且调用该函数的代码会进行错误处理。
+         */
+        
+        func send(job: Int, toPrinter printerName: String) throws -> String {
+            if printerName == "Never Has Toner" {
+                throw PrinterError.NoToner
+            }
+            return "Job sent"
+        }
+        
+        // MARK: do-catch
+        /*lzy170904注:
+         有多种方式可以用来进行错误处理。一种方式是使用 do-catch 。
+         在 do 代码块中，使用 try 来标记可以抛出错误 的代码。
+         在 catch 代码块中，除非你另外命名，否则错误会自动命名为 error 。
+         */
+        
+        do {
+            let printerResponse = try send(job: 1040, toPrinter: "Bi sheng")
+            print(printerResponse)
+        }catch {
+            print(error)
+        }
+        
+        /*lzy170904注:
+         练习: 将 printer name 改为 "Never Has Toner" 使 send(job:toPrinter:) 函数抛出错误。
+         */
+        do {
+            let printerResponse = try send(job: 110, toPrinter: "Never Has Toner")
+            print(printerResponse)
+        }catch {
+            print(error)
+        }
+        
+        /*lzy170904注:
+         可以使用多个 catch 块来处理特定的错误。参照 switch 中的 case 风格来写 catch 。
+         */
+        
+        do {
+            let printerResponse = try send(job: 100, toPrinter: "Gutenberg")
+            print(printerResponse)
+        }catch PrinterError.OnFire {
+            print("I'll just put this over here, with the rest of the fire.")
+        }catch let printerError as PrinterError {
+            print("Printer error: \(printerError)")
+        }catch {
+            print(error)
+        }
+        /*lzy170904注:这里是翻译有问题。看英文的就好。要使得触发以上三个不同catch代码执行，需要在原函数中根据商定的判断标准，分别进行throw。
+         Add code to throw an error inside the do block. What kind of error do you need to throw so that the error is handled by the first catch block? What about the second and third blocks?
+
+         练习: 在 do 代码块中添加抛出错误的代码。你需要抛出哪种错误来使第一个 catch 块进行接收?怎么使第二 个和第三个 catch 进行接收呢?
+         */
+
+        // MARK: try?
+        /*lzy170904注:
+         另一种处理错误的方式使用 try? 将结果转换为可选的。如果函数抛出错误，该错误会被抛弃并且结果为 nil 。否则的话，结果会是一个包含函数返回值的可选值。
+         
+         Optional("Job sent")
+         nil
+         */
+        let pSuccess = try? send(job: 1884, toPrinter: "Mergenthaler")
+        let pFailure = try? send(job: 1885, toPrinter: "Never Has Toner")
+        print(pSuccess)
+        print(pFailure)
+        
+        /*lzy170904注:
+         使用 defer 代码块来表示在函数返回前，函数中最后执行的代码。无论函数是否会抛出错误，这段代码都将执行。
+         使用 defer ，可以把函数调用之初就要执行的代码和函数调用结束时的扫尾代码写在一起，虽然这两者的执 行时机截然不同。
+         */
+        
+        var fridgeIsOpen = false
+        let fridgeContent = ["milk", "eggs", "leftovers"]
+        
+        func fridgeContains(_ food: String) ->Bool {
+            fridgeIsOpen = true
+            defer {
+                fridgeIsOpen = false
+            }
+            
+            let result = fridgeContent.contains(food)
+            return result
+        }
+        
+        
+        
+        print(fridgeContains("banner"))
+        print(fridgeContains("milk"))
+        print(fridgeIsOpen)
+        
+        // MARK: - 泛型
+        /*lzy170904注:
+         在尖括号里写一个名字来创建一个泛型函数或者类型。
+         */
+        func repeatItem<Item>(repeating item: Item, numberOfTimes: Int) -> [Item] {
+            var result = [Item]()
+            
+            for _ in 0..<numberOfTimes {
+                result.append(item)
+            }
+            
+            return result
+        }
+        
+        print(repeatItem(repeating: "knock", numberOfTimes: 4))
+        
+        /*lzy170904注:
+         你也可以创建泛型函数、方法、类、枚举、结构体。
+         */
+        
+        // 重新实现Swift标准库中的可选类型
+        enum OptionalValue<Wrapped> {
+            case None
+            case Some(Wrapped)
+        }
+        
+        var possibleInteger: OptionalValue<Int> = OptionalValue.None
+        possibleInteger = OptionalValue.Some(100)
+        
+        /*lzy170904注:
+         在类型名后面使用 where 来指定对类型的需求，
+         比如，限定类型实现某一个协议，限定两个类型是相同的，或者 限定某个类必须有一个特定的父类。
+         练习: 修改 anyCommonElements(_:_:) 函数,
+         来创建一个函数，返回一个数组，内容是两个序列的共有元素。
+         <T: Equatable> 和 <T> ... where T: Equatable> 是等价的。
+         */
+
+        func anyCommonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> Bool
+            where T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {
+                for lhsItem in lhs {
+                    for rhsItem in rhs {
+                        if lhsItem == rhsItem {
+                            return true
+                        } }
+                }
+                return false
+        }
+        anyCommonElements([1, 2, 3], [3])
+        
     }
     
-    
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
