@@ -2,1127 +2,295 @@
 //  ViewController.swift
 //  SwiftProgrammingLanguage
 //
-//  Created by alldk on 2017/8/28.
+//  Created by alldk on 2017/9/5.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
-
+/*lzy170905注:
+ 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：Swift教程。
+ 
+ Swift 包含了 C 和 Objective-C 上所有基础数据类型，Int表示整型值;Double和Float表示浮点型 值;  Bool 是布尔型值; String是文本型数据。 Swift 还提供了三个基本的集合类型，Array，Set 和 Dictionary。
+ 
+ 就像 C 语言一样，Swift 使用变量来进行存储并通过变量名来关联值。在 Swift 中，广泛的使用着值不可变的 变量，它们就是常量，而且比 C 语言的常量更强大。
+ 
+ Swift 还增加了 Objective-C 中没有的高阶数据类型比如元组(Tuple)。元组可以让你 创建或者传递一组数据，比如作为函数的返回值时，你可以用一个元组可以返回多个值。
+ 
+ Swift 还增加了可选(Optional)类型，用于处理值缺失的情况。可选表示 “那儿有一个值，并且它等于 x ” 或者 “那儿没有值” 。可选有点像在 Objective-C 中使用nil，但是它可以用在任何类型上，不仅仅是 类。可选类型比 Objective-C 中的nil指针更加安全也更具表现力，它是 Swift 许多强大特性的重要组成部分。
+ 
+ Swift 是一门类型安全的语言，这意味着 Swift 可以让你清楚地知道值的类型。尽早发现并修正错误。
+ 
+ */
 import UIKit
 
-/*lzy170904注:
- 1、使用 protocol 来声明一个协议。
- */
-protocol ExampleProtocol {
-    var simpleDescription: String { get }
-    mutating func adjust()
-}
-
-/*lzy170904注:
- 练习: 给 Double 类型写一个扩展，添加 absoluteValue 功能。
- */
-extension Double {
-    
-    func absoluteValue() -> Double {
-        var a :Double = 0.0
-        if self >= 0 {
-            a = self
-        } else if self < 0{
-            a = -self
-        }
-        return a
-    }
-}
-
-/*lzy170904注:
- 2.2使用 extension 来为现有的类型添加功能，比如新的方法和计算属性。你可以使用扩展在别处修改定义，甚至是 从外部库或者框架引入的一个类型，使得这个类型遵循某个协议。
- */
-extension Int: ExampleProtocol {
-    var simpleDescription: String {
-        return "The number \(self)"
-    }
-    
-    mutating func adjust() {
-        self += 42
-    }
-}
-
-
-/*lzy170904注:
- 2.1类、枚举和结构体都可以实现协议。
- 
- 注意声明 SimpleStructure 时候 mutating 关键字用来标记一个会修改结构体的方法。 SimpleClass 的声明不需要 标记任何方法，因为类中的方法通常可以修改类属性(类的性质)。
- */
-class SimpleClass: ExampleProtocol {
-    var simpleDescription: String = "A very simple class."
-    var anotherProperty: Int = 69105
-    func adjust() {
-        simpleDescription += "Now 100% adjusted."
-    }
-}
-struct SimpleStructure: ExampleProtocol {
-    var simpleDescription: String = "A simple structure."
-    mutating func adjust() {
-        simpleDescription += "(adjusted)"
-    }
-}
-/*lzy170904注:
- 练习：写一个实现这个协议的枚举。
- 
- //作者：guoshengboy
- //链接：http://www.jianshu.com/p/abb731c4a91d
- //來源：简书
- //著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
- */
-enum SimpleEnum: ExampleProtocol {
-    
-    case Buy, Sell
-    var simpleDescription: String {
-        switch self {
-        case .Buy: return "We're buying something"
-        case .Sell: return "We're selling something"
-        }
-    }
-    
-    // lzy170904注：left side of mutating operator isn’t mutable:’simpleDescription’ is a get-only property
-    //    mutating func adjust() {
-    //        simpleDescription += "(adjusted)"
-    //    }
-    mutating func adjust() {
-        print("left side of mutating operator isn’t mutable:’simpleDescription’ is a get-only property")
-    }
-}
-
-
-
-
-/*lzy170831注:
- 
- 如果你不需要计算属性，但是仍然需要在设置一个新值之前或者之后运行代码，使用 willSet 和 didSet 。
- 比如，下面的类确保三角形的边长总是和正方形的边长相同。
- */
-
-class TriangleAndSquare {
-    var triangle: EquilateralTriangle {
-        willSet {
-            square.sideLength = newValue.sideLength
-        }
-    }
-    
-    var square: Square {
-        
-        willSet {
-            triangle.sideLength = newValue.sideLength
-        }
-    }
-    
-    init (size: Double, name: String){
-        
-        square = Square (sideLength: size, name: name)
-        triangle = EquilateralTriangle(sideLength: size, name: name)
-    }
-}
-
-
-/*lzy170831注:
- 除了储存简单的属性之外，属性可以有 getter 和 setter 。
- 
- 在 perimeter 的 setter 中，新值的名字是 newValue 。你可以在 set 之后显式的设置一个名字。 注意 EquilateralTriangle 类的构造器执行了三步:
- 1. 设置子类声明的属性值
- 2. 调用父类的构造器
- 3. 改变父类定义的属性值。其他的工作比如调用方法、getters 和 setters 也可以在这个阶段完成。
- */
-
-class EquilateralTriangle: NamedShape {
-    
-    var sideLength : Double = 0.0
-    
-    init (sideLength: Double, name: String){
-        
-        self.sideLength = sideLength
-        super.init(name: name)
-        numberOfSides = 3
-    }
-    // lzy170831注：周长
-    var perimeter : Double {
-        get {
-            return 3.0 * sideLength
-        }
-        set {
-            sideLength = newValue / 3.0
-        }
-    }
-    
-    override func simpleDescription() -> String {
-        return "An equilateral triagle with sides of length \(sideLength)."
-    }
-}
-
-
-/*lzy170831注:
- 练习: 创建 NamedShape 的另一个子类 Circle ，构造器接收两个参数，一个是半径一个是名称，在子类 Circle 中实现 area() 和 simpleDescription() 方法。
- */
-
-class Circle: NamedShape {
-    var radius : Double
-    
-    init(radius : Double, name: String){
-        self.radius = radius
-        super.init(name: name)
-        
-    }
-    
-    func area() -> Double{
-        
-        return 3.14 * radius * radius
-    }
-    
-    override func simpleDescription() -> String {
-        return "A circle with radius \(radius)."
-    }
-}
-
-
-
-/*lzy170831注:
- 子类的定义方法是在它们的类名后面加上父类的名字，用冒号分割。创建类的时候并不需要一个标准的根类，所
- 以你可以忽略父类。
- 子类如果要重写父类的方法的话，需要用 override 标记——如果没有添加 override 就重写父类方法的话编译器 会报错。编译器同样会检测 override 标记的方法是否确实在父类中。
- */
-class Square: NamedShape {
-    
-    var sideLength: Double
-    
-    init (sideLength: Double, name: String) {
-        
-        self.sideLength = sideLength
-        super.init(name: name)
-        numberOfSides = 4
-        
-    }
-    
-    func area() -> Double{
-        
-        return sideLength * sideLength
-    }
-    
-    override func simpleDescription() -> String {
-        return "A square with sides of length \(sideLength)."
-    }
-    
-}
-
-
-/*lzy170831注:
- 使用 init 来创建一个构造器。
- 如果你需要在删除对象之前进行一些清理工作，使用 deinit 创建一个析构函数。
- 
- 
- 注意 self 被用来区别实例变量。当你创建实例的时候，像传入函数参数一样给类传入构造器的参数。每个属性都 需要赋值——无论是通过声明(就像 numberOfSides )还是通过构造器(就像 name )。
- 
- */
-class NamedShape {
-    var numberOfSides: Int = 0
-    var name : String
-    
-    init (name: String) {
-        self.name = name
-    }
-    
-    func simpleDescription() -> String {
-        return "A shape with \(numberOfSides) sides."
-    }
-}
-
-
-/*lzy170831注:
- 使用 class 和类名来创建一个类。类中属性的声明和常量、变量声明一样，唯一的区别就是它们的上下文是 类。同样，方法和函数声明也一样。
- 练习: 使用 let 添加一个常量属性，再添加一个接收一个参数的方法。
- 要创建一个类的实例，在类名后面加上括号。使用点语法来访问实例的属性和方法。
- 
- 这个版本的 Shape 类缺少了一些重要的东西:一个构造函数来初始化类实例。使用 init 来创建一个构造器。
- */
-class Shape {
-    var numberOfSides = 0
-    let constant = 9
-    func simpleDescription() -> String {
-        return "A shape with \(numberOfSides) sides."
-        
-    }
-    
-    func hasParamFunc(constantVar : Int) -> String {
-        return "This is \(constantVar)."
-    }
-}
-
 class ViewController: UIViewController {
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // MARK: - 常量、变量、类型自动推断
-        // lzy170829注：在屏幕上打印“Hello, world”
-        /*lzy170829注:
-         这行代码就是一个完整的程 序。你不需要为了输入输出或者字符串处理导入一个单独的库。全局作用域中的代码会被自动当做程序的入口 点，所以你也不需要 main() 函数。你同样不需要在每个语句结尾写上分号。
-         */
-        print("hello swift")
-        
-        /*lzy170829注:
-         使用 let 来声明常量，使用 var 来声明变量。
-         
-         
-         一个常量的值，在编译的时候，并不需要有明确的值，但是你只能 为它赋值一次。也就是说你可以用常量来表示这样一个值:你只需要决定一次，但是需要使用很多次。
-         
-         常量或者变量的类型必须和你赋给它们的值一样。
-         
-         然而，你不用明确地声明类型，声明的同时赋值的话，编译器 会自动推断类型。
-         
-         在上面的例子中，编译器推断出 myVariable 是一个整数(integer)因为它的初始值是整数。
-         */
-        var myVaridalbe = 43
-        
-        myVaridalbe = 55
-        
-        let myConstant = 44
-        
-        let implicitInteger = 80
-        
-        let implicitDouble = 90.0
-        
-        // MARK: - 显式指定类型、类型转换
-        
-        /*lzy170829注:
-         如果初始值没有提供足够的信息(或者没有初始值)，那你需要在变量后面声明类型，用冒号分割。
-         显式指定类型.
-         值永远不会被隐式转换为其他类型。如果你需要把一个值转换成其他类型，请显式转换。
-         */
-        
-        let explicitDouble: Double = 99
-        
-        let aFloat: Float = 4
-        
-        /*lzy170829注:
-         删除最后一行中的 String ，错误提示是什么?
-         Binary operator ‘+’ cannot be applied to operands（n. [计] 操作数；[计] 操作对象；[计] 运算对象（operand的复数形式）） of type ‘String’ and ‘Int’
-         */
-        let label = "The width is"
-        let width = 94
-        let widthLabel = label + String(width)
-        
-        
-        /*lzy170829注:
-         有一种更简单的把值转换成字符串的方法:把值写到括号中，并且在括号之前写一个反斜杠。例如:
-         */
-        
-        let apples = 3
-        let oranges = 5
-        let appleSummary = "I have \(apples) apples."
-        let fruitSummary = "I have \(apples + oranges) pieces of fruit."
-        
-        /*lzy170829注:
-         练习: 使用 \() 来把一个浮点计算转换成字符串，并加上某人的名字，和他打个招呼。
-         */
-        let eyes = 3
-        let greet = "Hello, \(eyes) eyes Json"
-        
-        // MARK: - 数组和字典
-        /*lzy170829注:
-         使用方括号 [] 来创建数组和字典，并使用下标或者键(key)来访问元素。最后一个元素后面允许有个逗号。
-         */
-        
-        var shoppingList = ["catfish", "water", "tulips", "blue paint"]
-        
-        shoppingList[1] = "bottle of water"
-        
-        var occupations = [
-            "Malcolm" : "Captain",
-            "Kaylee" : "Mechanic",
-            ]
-        
-        occupations["Jayne"] = "Public Relations"
-        
-        /*lzy170829注:
-         要创建一个空数组或者字典，使用初始化语法。
-         */
-        let emptyArray = [String]()
-        let emptyDictionary = [String : Float]()
-        
-        /*lzy170829注:
-         如果类型信息可以被推断出来，你可以用 [] 和 [:] 来创建空数组和空字典——就像你声明变量或者给函数传参 数的时候一样。
-         */
-        shoppingList = []
-        occupations = [:]
-        
-        // MARK: - 控制流
-        
-        /*lzy170829注:
-         使用 if 和 switch 来进行条件操作，使用 for-in 、 for 、 while 和 repeat-while 来进行循环。包裹条件和循环变量的括号可以省略，但是语句体的大括号是必须的。
-         */
-        
-        let individualScores = [75, 22, 103, 87, 12]
-        var teamScore = 0
-        for score in individualScores {
-            if score > 50 {
-                // lzy170829注：+= 这个运算符，两边都要有空格
-                teamScore += 3
-            } else {
-                teamScore += 1
-            }
-        }
-        
-        print(teamScore)
-        
-        /*lzy170829注:
-         在 if 语句中，条件必须是一个布尔表达式——这意味着像 if score { ... } 这样的代码将报错，而不会隐形地 与 0 做对比。
-         */
-        
-        // MARK: 可选值
-        
-        /*lzy170829注:
-         你可以一起使用 if 和 let 来处理值缺失的情况。这些值可由可选值来代表。一个可选的值是一个具体的值或者 是 nil 以表示值缺失。在类型后面加一个问号来标记这个变量的值是可选的。
-         */
-        
-        var optionalString : String? = "Hello"
-        
-        print(optionalString == nil)
-        
-        var optionalName: String? = "John Appleseed"
-        
-        var greeting = "Hello!"
-        /*lzy170829注:
-         把optionalName改成 nil ，greeting会是什么?添加一个else语句，当optionalName是nil时给 greeting 赋一个不同的值。
-         
-         如果变量的可选值是 nil ，条件会判断为 false，大括号中的代码会被跳过。如果不是 nil，会将值解包并赋给 let后面的常量，这样代码块中就可以使用这个值了。
-         
-         */
-        optionalName = nil
-        
-        if let name = optionalName {
-            greeting = "Hello \(name)"
-        }else{
-            greeting = "Hello friend!"
-        }
-        print(greeting)
-        
-        
-        /*lzy170829注:
-         另一种处理可选值的方法是通过使用 ?? 操作符来提供一个默认值。如果可选值缺失的话，可以使用默认值来代替。
-         */
-        
-        let nickName : String? = nil
-        let fullName : String = "John Appleseed"
-        let informalGreeting = "Hi \(nickName ?? fullName)"
-        
-        print(informalGreeting)
-        
-        // MARK: switch
-        
-        /*lzy170829注:
-         switch 支持任意类型的数据以及各种比较操作——不仅仅是整数以及测试相等。
-         
-         注意 let 在上述例子的等式中是如何使用的，它将匹配等式的值赋给常量 x 。
-         
-         删除 default 语句，看看会有什么错误?
-         
-         switch must be exhaustive(详尽的、穷举的),consider adding a default clause（语句，条款）
-         
-         运行 switch 中匹配到的子句之后，程序会退出 switch 语句，并不会继续向下运行，所以不需要在每个子句结尾 写 break 。
-         */
-        
-        let vegetable = "red pepper"
-        switch vegetable {
-        case "celery" :
-            print("Add some raisins and make ants on a log.")
-            
-        case "cucumber", "watercress" :
-            print("That would make a good tea sandwich.")
-            
-        case let x where x.hasSuffix("pepper"):
-            print("Is it a spicy \(x)?")
-            
-        default:
-            print("Everything tastes good in soup.")
-            
-        }
-        
-        
-        // MARK: for-in
-        /*lzy170829注:
-         你可以使用 for-in 来遍历字典，需要两个变量来表示每个键值对。字典是一个无序的集合，所以他们的键和值以 任意顺序迭代结束。
-         */
-        
-        let interestingNumbers = [
-            "Prime" : [2, 3, 5, 7, 11, 13],
-            "Fibonacci" : [1, 1, 2, 3, 5, 8],
-            "Square" : [1, 4, 9, 16, 25],
-            
-            ]
-        
-        
-        /*lzy170829注:这个题不理解
-         练习: 添加另一个变量来记录最大数字的种类(kind)，同时仍然记录这个最大数字的值。
-         
-         */
-        
-        
-        
-        var largest = 0
-        // TODO: Immutable value 'kind' was never used;consider replacing with '_' or removing it
-        for (kind, numbers) in interestingNumbers{
-            for n in numbers{
-                
-                if n > largest {
-                    largest = n
-                }
-                
-            }
-            
-        }
-        print(largest)
-        
-        // MARK: while
-        
-        /*lzy170829注:
-         使用 while 来重复运行一段代码直到不满足条件。循环条件也可以在结尾，保证能至少循环一次。
-         */
-        
-        var n = 2
-        while n < 100 {
-            n = n * 2
-        }
-        print(n)
-        
-        var m = 2
-        repeat {
-            
-            m = m * 2
-            
-        } while m < 100
-        print(m)
-        
-        /*lzy170829注:
-         你可以在循环中使用 ..< 来表示范围。
-         */
-        var total = 0
-        for i in 0 ..< 4{
-            total += i
-        }
-        print(total)
-        
-        // MARK: - 函数与闭包
-        
-        // MARK: 函数的声明和调用
-        /*lzy170830注:
-         使用 func 来声明一个函数，使用名字和参数来调用函数。使用 -> 来指定函数返回值的类型。
-         */
-        func greetA(person: String, day: String) -> String{
-            
-            return "Hello \(person), today is \(day)."
-        }
-        greetA(person: "John", day: "Wednesday")
-        
-        /*lzy170830注:
-         默认情况下，函数使用它们的参数名称作为它们参数的标签，在参数名称前可以自定义参数标签，或者使用 _ 表示不使用参数标签。
-         */
-        func greetB(_ person:String,on day:String) -> String {
-            return "Hello \(person), today is \(day)."
-        }
-        
-        greetB("John", on: "wednesday")
-        
-        // MARK: 函数返回值为元组
-        /*lzy170830注:
-         使用元组来让一个函数返回多个值。该元组的元素可以用名称或数字来表示。
-         */
-        func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
-            var min = scores[0]
-            var max = scores[0]
-            var sum = 0
-            
-            for score in scores {
-                
-                if score  > max {
-                    max = score
-                } else if score < min {
-                    min = score
-                }
-                
-                sum += score
-            }
-            
-            return (min, max, sum)
-        }
-        
-        let statistics = calculateStatistics(scores: [111,22,33,3,784,66])
-        print(statistics.sum)
-        print(statistics.2)// 取下标为2的元素，就是sum
-        
-        // MARK: 函数可以有可变个数的参数
-        /*lzy170830注:
-         函数可以带有可变个数的参数，这些参数在函数内表现为数组的形式
-         */
-        
-        func sumOf(numbers: Int...) -> Int {
-            
-            var sum = 0
-            for number in numbers {
-                sum += number
-            }
-            
-            return sum
-        }
-        
-        print(sumOf())
-        print(sumOf(numbers: 1, 2, 3, 4, 5, 6, 7, 8))
-        
-        /*lzy170830注:
-         练习：写一个计算参数平均值的函数。
-         */
-        func calculateAverage(nums: [Int]) -> Int {
-            var sum : Int = 0
-            for num in nums{
-                sum += num
-            }
-            return (sum / nums.count)
-            
-        }
-        
-        func calculateAverageDouble(nums: [Double]) -> Double {
-            var sum : Double = 0
-            for num in nums{
-                sum += num
-            }
-            
-            return (sum / Double(nums.count))
-            
-        }
-        
-        
-        print(calculateAverage(nums: [1, 2, 3, 4]))
-        
-        print(calculateAverageDouble(nums: [1.1, 1.2, 1.3, 1.4]))
-        
-        // MARK: 函数可以嵌套
-        
-        /*lzy170830注:
-         函数可以嵌套。被嵌套的函数可以访问外侧函数的变量，你可以使用嵌套函数来重构一个太长或者太复杂的函数。
-         */
-        func returnFifteen() -> Int{
-            var y = 10
-            func add(){
-                y += 5
-            }
-            add()
-            return y
-        }
-        print(returnFifteen())
-        
-        // MARK: 函数可以作为另一个函数的返回值
-        
-        /*lzy170830注:
-         函数是第一等类型，这意味着函数可以作为另一个函数的返回值。
-         */
-        func makeIncrementer() -> ( (Int) -> Int ) {
-            
-            func addOne(number: Int) -> Int {
-                return 1 + number
-            }
-            
-            return addOne
-        }
-        
-        func lessThanTen(number: Int) -> Bool{
-            return number < 10
-        }
-        
-        let increment = makeIncrementer()
-        print(increment(9))
-        
-        // MARK: 函数可以作为参数传入另一个函数
-        
-        /*lzy170830注:
-         函数也可以当做参数传入另一个函数。
-         */
-        func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool{
-            
-            for item in list {
-                
-                if condition(item){
-                    return true
-                }
-                
-            }
-            return false
-        }
-        
-        
-        let arrayForClosure = [2, 44, 6, 09]
-        let funcR1 = hasAnyMatches(list: arrayForClosure, condition: lessThanTen)
-        print(funcR1)
-        
-        // MARK: 函数是一种特殊的闭包
-        /*lzy170830注:
-         函数实际上是一种特殊的闭包:它是一段能之后被调取的代码。闭包中的代码能访问闭包所建作用域中能得到的变量和函数，即使闭包是在一个不同的作用域被执行的 - 你已经在嵌套函数例子中所看到。
-         你可以使用 {} 来创建 一个匿名闭包。使用 in 将参数和返回值类型声明与闭包函数体进行分离。
-         */
-        let funcR2 =  arrayForClosure.map { (number: Int) -> Int in
-            let result = 3 * number
-            return result
-        }
-        
-        print(funcR2)
-        
-        /*lzy170830注:
-         练习: 重写闭包，对所有奇数返回 0。
-         */
-        let funcR3 = arrayForClosure.map {
-            /*lzy170830注:
-             (number : Int) -> Int 是匿名闭包声明
-             
-             in 分割了 匿名闭包声明 和 匿名闭包函数体
-             */
-            (number : Int) -> Int in
-            
-            var res : Int
-            if  number % 2 == 0{
-                res = number
-            }else {
-                res = 0
-            }
-            
-            return res
-            
-        }
-        
-        print(funcR3)
-        
-        
-        /*lzy170830注:
-         有很多种创建更简洁的闭包的方法。
-         如果一个闭包的类型已知，比如作为一个回调函数，你可以忽略参数的类型和返回值。
-         单个语句闭包会把它语句的值当做结果返回。
-         */
-        let mappedNumbers = arrayForClosure.map({ number in 3 * number})
-        print(mappedNumbers)
-        
-        /*lzy170830注:
-         你可以通过参数位置而不是参数名字来引用参数——这个方法在非常短的闭包中非常有用。
-         当一个闭包作为最后一个参数传给一个函数的时候，它可以直接跟在括号后面。
-         当一个闭包是传给函数的唯一参数，你可以完全忽略括号。
-         */
-        
-        let sortedNumbers = arrayForClosure.sorted{ $0 > $1}
-        print(sortedNumbers)
-        
-        // lzy170830注：以上两个例子闭包都是作为参数传入的；mappedNumbers和sortedNumbers是map函数和sorted函数自身的返回值
-        
-        // MARK: - 对象和类
-        
-        /*lzy170831注:
-         要创建一个类的实例，在类名后面加上括号。使用点语法来访问实例的属性和方法。
-         */
-        let shape = Shape()
-        shape.numberOfSides = 9
-        let shapeDescription = shape.simpleDescription()
-        print(shapeDescription)
-        
-        let test = Square(sideLength: 5.2, name: "my test square")
-        print(test.area())
-        print(test.simpleDescription())
-        
-        let testCircle = Circle(radius: 9, name: "my test circle")
-        print(testCircle.area())
-        print(testCircle.simpleDescription())
-        
-        
-        let triangle = EquilateralTriangle(sideLength: 3.1, name: "a triangle")
-        print(triangle.perimeter)
-        triangle.perimeter = 9.9
-        print(triangle.sideLength)
-        
-        let triangleAndSquare = TriangleAndSquare(size: 10, name: "another test shape")
-        print(triangleAndSquare.square.sideLength)
-        print(triangleAndSquare.triangle.sideLength)
-        
-        triangleAndSquare.square = Square(sideLength: 50, name: "larger square")
-        print(triangleAndSquare.triangle.sideLength)
-        
-        /*lzy170831注:
-         处理变量的可选值时，你可以在操作(比如方法、属性和子脚本)之前加 ? 。如果 ? 之前的值是 nil ， ? 后面 的东西都会被忽略，并且整个表达式返回 nil 。否则， ? 之后的东西都会被运行。在这两种情况下，整个表达式 的值也是一个可选值。
-         
-         */
-        
-        let optionalSquare: Square? = Square(sideLength: 2.5, name: "option square")
-        let sideLength = optionalSquare?.sideLength
-        
-        
-        // MARK: - 枚举和结构体
-        
-        // MARK: 枚举
-        // lzy170901注：枚举似乎可以写在类中，也可以写在类外。这样的话，类将是枚举是否可以被发现被使用的范围
-        /*lzy170901注:因为需要写一个枚举
-         使用 enum 来创建一个枚举。就像类和其他所有命名类型一样，枚举可以包含方法。
-         */
-        enum Rank: Int {
-            case Ace = 1
-            case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
-            case Jack, Queen, King
-            
-            func simpleDescription() -> String{
-                switch self {
-                case .Ace:
-                    return "ace"
-                    
-                case .Jack:
-                    return "jack"
-                    
-                case .King:
-                    return "king"
-                    
-                default:
-                    return String(self.rawValue)
-                }
-            }
-        }
-        
-        
-        func compareRank(rank1: Rank , rank2: Rank) -> Rank{
-            return rank1.rawValue > rank2.rawValue ? rank1 : rank2
-        }
-        
-        
-        let ace = Rank.Ace
-        print(ace.rawValue)
-        
-        /*lzy170901注:
-         练习: 写一个函数，通过比较它们的原始值来比较两个 Rank 值。
-         */
-        
-        let rank1 = Rank.Ten
-        let rank2 = Rank.Queen
-        
-        print(compareRank(rank1: rank1, rank2: rank2))
-        
-        /*lzy170901注:
-         默认情况下，Swift 按照从 0 开始每次加 1 的方式为原始值进行赋值，不过你可以通过显式赋值进行改变。
-         在 上面的例子中， Ace 被显式赋值为 1，并且剩下的原始值会按照顺序赋值。
-         你也可以使用字符串或者浮点数作为 枚举的原始值。
-         使用 rawValue 属性来访问一个枚举成员的原始值。
-         */
-        
-        /*lzy170901注:
-         使用 init?(rawValue:) 初始化构造器在原始值和枚举值之间进行转换。
-         */
-        
-        if let convertedRank = Rank(rawValue: 4) {
-            let fourDescription = convertedRank.simpleDescription()
-            print(fourDescription)
-        }
-        
-        /*lzy170901注:
-         枚举的成员值是实际值，并不是原始值的另一种表达方法。实际上，如果没有比较有意义的原始值，你就不需要提供原始值。
-         
-         */
-        
-        enum Suit {
-            case Spades, Hearts, Diamonds, Clubs
-            func simpleDescription() -> String {
-                switch self {
-                case .Spades:
-                    return "spades"
-                case .Hearts:
-                    return "hearts"
-                    
-                case .Diamonds:
-                    return "diamonds"
-                case .Clubs:
-                    return "clubs"
-                    
-                }
-            }
-            
-            /*lzy170901注:
-             练习: 给 Suit 添加一个 color() 方法，对 spades 和 clubs 返回“black”，对 hearts 和 diamonds 返回“red”。
-             */
-            func color() -> String{
-                
-                switch self {
-                case .Spades:
-                    return "black"
-                case .Clubs:
-                    return "black"
-                case .Hearts:
-                    return "red"
-                case .Diamonds:
-                    return "red"
-                    
-                }
-            }
-        }
-        
-        /*lzy170901注:
-         注意，有两种方式可以引用 Hearts 成员:给 hearts 常量赋值时，枚举成员 Suit.Hearts 需要用全名来引用，因为常量没有显式指定类型。
-         在 switch 里，枚举成员使用缩写 .Hearts 来引用，因为 self 的值已经知道是一个suit 。已知变量类型的情况下你可以使用缩写。
-         */
-        let hearts = Suit.Hearts
-        print(hearts.simpleDescription())
-        
-        print(Suit.Hearts.color())
-        
-        
-        /*lzy170901注:
-         一个枚举成员的实例可以有实例值。相同枚举成员的实例可以有不同的值。创建实例的时候传入值即可。实例值
-         和原始值是不同的:枚举成员的原始值对于所有实例都是相同的，而且你是在定义枚举的时候设置原始值。
-         */
-        
-        /*lzy170901注:
-         例如，考虑从服务器获取日出和日落的时间。服务器会返回正常结果或者错误信息。
-         练习: 给 ServerResponse 和 switch 添加第三种情况。
-         注意日升和日落时间是如何从 ServerResponse 中提取到并与 switch 的 case 相匹配的。
-         */
-        
-        enum ServerResponse {
-            case Result(String, String)
-            case Failure(String)
-            case CannotConnectToServerCode(String)
-        }
-        
-        let success = ServerResponse.Result("6:00 am", "8:09 pm")
-        let failure = ServerResponse.Failure("Out of cheese.")
-        let code = ServerResponse.CannotConnectToServerCode("-1086")
-        
-        switch success {
-            
-        case let .Result(sunrise, sunset):
-            let serverResponse = "Sunrise is at \(sunrise) and sunset is at \(sunset)."
-            
-        case let .Failure(message):
-            print("Failure... \(message)")
-            
-        case let .CannotConnectToServerCode(code):
-            print("Cannot Connect To Server Code:\(code)")
-        }
-        
-        // MARK: 结构体
-        
-        /*lzy170901注:
-         使用 struct 来创建一个结构体。结构体和类有很多相同的地方，比如方法和构造器。它们之间最大的一个区别就是结构体是传值，类是传引用。
-         
-         */
-        // TODO:         练习: 给 Card 添加一个方法，创建一副完整的扑克牌并把每张牌的 rank 和 suit 对应起来。
 
+        // MARK: - 常量和变量
         
-        struct Card {
-            
-            var rank: Rank
-            var suit: Suit
-            func simpleDescription() -> String {
-                return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
-            }
-        }
-        
-        let threeOfSpades = Card(rank: .Three, suit: .Spades)
-        print(threeOfSpades.simpleDescription())
-        
-        
-        // MARK: - 协议和扩展
-        
-// lzy170904注：Protocol cannot be nested inside another declaration
-//        protocol ExampleProtocol {
-//            var simpleDescription: String { get }
-//            mutating func adjust()
-//        }
-        /*lzy170904注:
-         使用 protocol 来声明一个协议。
-         类、枚举、结构体都可以实现协议。
+        /*lzy170905注:
+         常量和变量把一个名字(比如 maximumNumberOfLoginAttempts 或者 welcomeMessage )和一个指定类型的 值(比如数字 10 或者字符串 "Hello" )关联起来
+         
+         常量的值一旦设定就不能改变，而变量的值可以随意更 改。
          
          */
-        var a = SimpleClass()
-        print(a.simpleDescription)
-        a.adjust()
-        print(a.simpleDescription)
         
-        
-        var b = SimpleStructure()
-        print(b.simpleDescription)
-        b.adjust()
-        print(b.simpleDescription)
-        
-        var c = SimpleEnum.Buy
-        print(c.adjust())
-        
-        // lzy170904注：使用 extension 来为现有的类型添加功能，比如新的方法和计算属性。你可以使用扩展在别处修改定义，甚至是 从外部库或者框架引入的一个类型，使得这个类型遵循某个协议。
-        print(7.simpleDescription)
-        // lzy170904注： 练习: 给 Double 类型写一个扩展，添加 absoluteValue 功能。
-        print((-0.3).absoluteValue())
-        
-        /*lzy170904注:
-         你可以像使用其他命名类型一样使用协议名——例如，创建一个有不同类型但是都实现一个协议的对象集合。当你处理类型的是协议的值，协议外定义的方法不可用。
-         */
-        let protocolValue: ExampleProtocol = a
-        print(protocolValue.simpleDescription)
-//        print(protocolValue.anotherProperty)// 去掉注释可以看到错误value of type ‘ExampleProtocol’ has no member ‘anotherProperty’
-        
-        // MARK: - 错误处理
-        /*lzy170904注:
-         使用 『采用Error协议的类型』来表示错误。
-         */
-        enum PrinterError: Error {
-            case OutOfPaper
-            case NoToner
-            case OnFire
-        }
-        /*lzy170904注:
-         使用throws 来表示一个可以抛出错误的函数。
-         使用throw 来抛出一个错误。
-         如果在函数中抛出了一个错误，这个函数会立即返回，并且调用该函数的代码会进行错误处理。
-         */
-        
-        func send(job: Int, toPrinter printerName: String) throws -> String {
-            if printerName == "Never Has Toner" {
-                throw PrinterError.NoToner
-            }
-            return "Job sent"
-        }
-        
-        // MARK: do-catch
-        /*lzy170904注:
-         有多种方式可以用来进行错误处理。一种方式是使用 do-catch 。
-         在 do 代码块中，使用 try 来标记可以抛出错误 的代码。
-         在 catch 代码块中，除非你另外命名，否则错误会自动命名为 error 。
-         */
-        
-        do {
-            let printerResponse = try send(job: 1040, toPrinter: "Bi sheng")
-            print(printerResponse)
-        }catch {
-            print(error)
-        }
-        
-        /*lzy170904注:
-         练习: 将 printer name 改为 "Never Has Toner" 使 send(job:toPrinter:) 函数抛出错误。
-         */
-        do {
-            let printerResponse = try send(job: 110, toPrinter: "Never Has Toner")
-            print(printerResponse)
-        }catch {
-            print(error)
-        }
-        
-        /*lzy170904注:
-         可以使用多个 catch 块来处理特定的错误。参照 switch 中的 case 风格来写 catch 。
-         */
-        
-        do {
-            let printerResponse = try send(job: 100, toPrinter: "Gutenberg")
-            print(printerResponse)
-        }catch PrinterError.OnFire {
-            print("I'll just put this over here, with the rest of the fire.")
-        }catch let printerError as PrinterError {
-            print("Printer error: \(printerError)")
-        }catch {
-            print(error)
-        }
-        /*lzy170904注:这里是翻译有问题。看英文的就好。要使得触发以上三个不同catch代码执行，需要在原函数中根据商定的判断标准，分别进行throw。
-         Add code to throw an error inside the do block. What kind of error do you need to throw so that the error is handled by the first catch block? What about the second and third blocks?
-
-         练习: 在 do 代码块中添加抛出错误的代码。你需要抛出哪种错误来使第一个 catch 块进行接收?怎么使第二 个和第三个 catch 进行接收呢?
-         */
-
-        // MARK: try?
-        /*lzy170904注:
-         另一种处理错误的方式使用 try? 将结果转换为可选的。如果函数抛出错误，该错误会被抛弃并且结果为 nil 。否则的话，结果会是一个包含函数返回值的可选值。
+        // MARK: 声明常量和变量
+        /*lzy170905注:
+         常量和变量必须在使用前声明，用 let 来声明常量，用 var 来声明变量。
+         只将需要改变的值声明为变量
          
-         Optional("Job sent")
-         nil
+         “声明一个名字是 maximumNumberOfLoginAttempts 的新常量，并给它一个值 10 。"
+         许的最大尝试登录次数被声明为一个常量，因为这个值不会改变。
          */
-        let pSuccess = try? send(job: 1884, toPrinter: "Mergenthaler")
-        let pFailure = try? send(job: 1885, toPrinter: "Never Has Toner")
-        print(pSuccess)
-        print(pFailure)
+        let maximumNumberOfLoginAttempts = 10
+        // 在一行中声明多个常量或者多个变量，用逗号隔开:
         
-        /*lzy170904注:
-         使用 defer 代码块来表示在函数返回前，函数中最后执行的代码。无论函数是否会抛出错误，这段代码都将执行。
-         使用 defer ，可以把函数调用之初就要执行的代码和函数调用结束时的扫尾代码写在一起，虽然这两者的执 行时机截然不同。
-         */
+        var x = 0.0, y = 0.0, z = 0.0
         
-        var fridgeIsOpen = false
-        let fridgeContent = ["milk", "eggs", "leftovers"]
+        // MARK: 类型标注
         
-        func fridgeContains(_ food: String) ->Bool {
-            fridgeIsOpen = true
-            defer {
-                fridgeIsOpen = false
-            }
-            
-            let result = fridgeContent.contains(food)
-            return result
-        }
-        
-        
-        
-        print(fridgeContains("banner"))
-        print(fridgeContains("milk"))
-        print(fridgeIsOpen)
-        
-        // MARK: - 泛型
-        /*lzy170904注:
-         在尖括号里写一个名字来创建一个泛型函数或者类型。
-         */
-        func repeatItem<Item>(repeating item: Item, numberOfTimes: Int) -> [Item] {
-            var result = [Item]()
-            
-            for _ in 0..<numberOfTimes {
-                result.append(item)
-            }
-            
-            return result
-        }
-        
-        print(repeatItem(repeating: "knock", numberOfTimes: 4))
-        
-        /*lzy170904注:
-         你也可以创建泛型函数、方法、类、枚举、结构体。
+        /*lzy170905注:
+         1、类型标注(type annotation)，说明常量或者变量中要存储的值的类型。
+         在常量或者变量名后面加上一个冒号和空格，然后加上类型名称
+         
+         2、声明中的冒号代表着“是...类型”，所以这行代码可以被理解为: “声明一个类型为 String ，名字为 welcomeMessage 的变量。”
+         3、“类型为 String ”的意思是“可以存储任意 String 类型的值。”
+         
+         一般来说你很少需要写类型标注。如果你在声明常量或者变量的时候赋了一个初始值，Swift可以推断出这个常 量或者变量的类型。看onevcat在微博和大家讨论，似乎国内更多的还是显示声明类型，而不是让swift去做类型推断，来提高swift的编译效率。onevcat并不建议这么做。
+         
          */
         
-        // 重新实现Swift标准库中的可选类型
-        enum OptionalValue<Wrapped> {
-            case None
-            case Some(Wrapped)
-        }
+        var welcomMessage: String
         
-        var possibleInteger: OptionalValue<Int> = OptionalValue.None
-        possibleInteger = OptionalValue.Some(100)
+        // 在一行中定义多个同样类型的变量，用逗号分割，并在最后一个变量名之后添加类型标注:
+        var red, green, blue: Double
         
-        /*lzy170904注:
-         在类型名后面使用 where 来指定对类型的需求，
-         比如，限定类型实现某一个协议，限定两个类型是相同的，或者 限定某个类必须有一个特定的父类。
-         练习: 修改 anyCommonElements(_:_:) 函数,
-         来创建一个函数，返回一个数组，内容是两个序列的共有元素。
-         <T: Equatable> 和 <T> ... where T: Equatable> 是等价的。
-         */
 
-        func anyCommonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> Bool
-            where T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {
-                for lhsItem in lhs {
-                    for rhsItem in rhs {
-                        if lhsItem == rhsItem {
-                            return true
-                        } }
-                }
-                return false
-        }
-        anyCommonElements([1, 2, 3], [3])
+        // MARK: 常量和变量的命名
         
-    }
+        // 你可以用任何你喜欢的字符作为常量和变量名，包括 Unicode 字符:
+        
+        let π = 3.1415926
+        let 你好 = "你好世界"
+        let ？？ = "dogcow"
+        
+        /*lzy170905注:
+         常量与变量名不能包含数学符号，箭头，保留的(或者非法的)Unicode 码位，连线与制表符。也不能以数字开 头，但是可以在常量与变量名的其他地方包含数字。
+         一旦你将常量或者变量声明为确定的类型，你就不能使用相同的名字再次进行声明，或者改变其存储的值的类型。
+         同时，你也不能将常量与变量进行互转。
+         
+         注意: 如果你需要使用与Swift保留关键字相同的名称作为常量或者变量名，你可以使用反引号(`)将关键字包围的方 式将其作为名字使用。无论如何，你应当避免使用关键字作为常量或变量名，除非你别无选择。
+         */
+        
+        // 可以更改现有的变量值为其他同类型的值
+        var friendlyWelcome = "Hello!"
+        friendlyWelcome = "Bonjour!"
+        // 量的值一旦被确定就不能更改了。尝试这样做会导致编译时报错:cannot assign to value:’languageName’ is a ‘let’ constant
+        let languageName = "Swift"
+//        languageName = "Swift++"
+        
+        // MARK: 输出常量和变量
+//        print(<#T##items: Any...##Any#>)
+//        print(<#T##items: Any...##Any#>, to: &<#T##TextOutputStream#>)
+//        print(<#T##items: Any...##Any#>, separator: <#T##String#>, terminator: <#T##String#>)
+//        print(<#T##items: Any...##Any#>, separator: <#T##String#>, terminator: <#T##String#>, to: &<#T##TextOutputStream#>)
+        
+        /*lzy170905注:
+         print(_:separator:terminator:) 是一个用来输出一个或多个值到适当输出区的全局函数。
+         如果你用 Xcode， print(_:separator:terminator:) 将会输出内容到“console”面板上。
+         separator 和 terminator 参数具有默认值，因此你调用这个函数的时候可以忽略它们。
+         默认情况下，该函数通过添加换行符来结束当前行。如果不想换行，可以传递一个空字符串给 terminator 参数
+         例如， print(someValue, terminator:"") 。
+         
+         Swift 用字符串插值(string interpolation)的方式把常量名或者变量名当做占位符加入到长字符串中，Swift 会用当前常量或变量的值替换这些占位符。将常量或变量名放入圆括号中，并在开括号前使用反斜杠将其转义:
+
+         */
+        
+        print("abcd efgh \(friendlyWelcome)")
+        
+        
+        // MARK: - 注释
+        /*lzy170905注:
+         代码中的非执行文本
+         Swift 的编译器将会在编译代码时自动忽略掉注释部分。
+         
+         单行注释以双正斜杠( // )作为起始标记
+         多行注释，其起始标记为单个正斜杠后跟随一个星号( /* )，终止标记为一个星号后跟随单个正斜 杠(*/)
+         
+         与 C 语言多行注释不同，Swift 的多行注释可以嵌套在其它的多行注释之中。
+         通过运用嵌套多行注释，你可以快速方便的注释掉一大段代码，即使这段代码之中已经含有了多行注释块。
+         */
+        // e.g. 嵌套多行注释示例
+        /* 这是第一个多行注释的开头
+         /* 这是第二个被嵌套的多行注释 */ 这是第一个多行注释的结尾 */
+        
+        
+        // MARK: - 分号
+        /*lzy170905注:
+         与其他大部分编程语言不同，Swift 并不强制要求你在每条语句的结尾处使用分号( ; )，当然，你也可以按照 你自己的习惯添加分号。
+         有一种情况下必须要用分号，即你打算在同一行内写多条独立的语句:
+         */
+        let cat = "?"; print(cat)
+        
+        // MARK: - 整数
+        /*lzy170905注:
+         整数就是没有小数部分的数字，比如 42 和 -23 。
+         整数可以是 有符号 (正、负、零)或者 无符号 (正、零)。
+         Swift 提供了8，16，32和64位的有符号和无符号整数类型。这些整数类型和 C 语言的命名方式很像，比如8位无 符号整数类型是 UInt8 ，32位有符号整数类型是 Int32 。就像 Swift 的其他类型一样，整数类型采用大写命名法。
+
+         */
+        
+        // MARK: 整数范围
+        // 你可以访问不同整数类型的 min 和 max 属性来获取对应类型的最小值和最大值:
+        let minValue = UInt8.min  // minValue 为 0，是 UInt8 类型
+        let maxVlue = UInt8.max  // maxValue 为 255，是 UInt8 类型
+        
+        // MARK: Int
+        /*lzy170905注:
+         一般来说，你不需要专门指定整数的长度。Swift 提供了一个特殊的整数类型   ，长度与当前平台的原生字长 相同:
+         • 在32位平台上，Int和 Int32  长度相同。 
+         • 在64位平台上，Int和 Int64 长度相同。
+         
+         除非你需要特定长度的整数，一般来说使用 Int 就够了。可以提高代码一致性和可复用性。
+         */
+        
+        // MARK: UInt
+        /*lzy170905注:
+         特殊的无符号类型 UInt,长度与当前平台的原生字长相同:
+          在32位平台上， UInt 和 UInt32 长度相同。
+         在64位平台上， UInt 和 UInt64 长度相同。
+         尽量不要使用 UInt ，除非你真的需要存储一个和当前平台原生字长相同的无符号整数。除了这种情况，最好使 用 Int ，即使你要存储的值已知是非负的。统一使用 Int 可以提高代码的可复用性，避免不同类型数字之间的 转换，并且匹配数字的类型推断
+         */
+        
+        // MARK: - 浮点数
+        
+        /*lzy170905注:
+         浮点数是有小数部分的数字，比如 3.14159 ，0.1 和 -273.15。
+         浮点类型比整数类型表示的范围更大，可以存储比 Int 类型更大或者更小的数字。
+         Swift 提供了两种有符号浮点数类型:
+         Double表示64位浮点数。当你需要存储很大或者很高精度的浮点数时请使用此类型。
+         Float表示32位浮点数。精度要求不高的话可以使用此类型。
+         
+         Double 精确度很高，至少有15位数字，而 Float 只有6位数字。选择哪个类型取决于你的代码需要处理的值的范围，在两种类型都匹配的情况下，将优先选择 Double。
+         */
+        
+        // MARK: - 类型安全和类型推断
+        
+        /*lzy170905注:
+         Swift 是一个类型安全(type safe)的语言。类型安全的语言可以让你清楚地知道代码要处理的值的类型。如果
+         你的代码需要一个 String ，你绝对不可能不小心传进去一个 Int 。
+         
+         由于 Swift 是类型安全的，所以它会在编译你的代码时进行类型检查(type checks)，并把不匹配的类型标记 为错误。这可以让你在开发的时候尽早发现并修复错误。
+         
+         编译器可以在编译代码的时候自动推断出表达式的类型。原理很简单，只要检查你赋的值即可。
+         
+        当你在声明常量或者变量的时候赋给它们一个字面 量(literal value 或 literal)即可触发类型推断。
+         */
+        
+        let meaningOfLife = 42
+        // meaningOfLife 会被推测为 Int 类型
+        
+        // 注意：当推断浮点数的类型时，Swift 总是会选择Double而不是Float。
+        let pi = 3.14159
+        // pi 会被推测为 Double 类型
+        
+        // 如果表达式中同时出现了整数和浮点数，会被推断为Double类型:
+        let anotherPi = 3 + 0.14159
+        // anotherPi 会被推测为 Double 类型
+        
+        // MARK: - 数值型字面量
+        let decimalInteger = 17
+        let binaryInteger = 0b10001 // 二进制的17
+        let octalInteger = 0o21 // 八进制的17
+        let hexadecimalInteger = 0x11 // 十六进制的17
+        
+        /*lzy170905注:
+         1.25e2 表示 1.25 × 10^2，等于 125.0 。
+         1.25e-2 表示 1.25 × 10^-2，等于 0.0125
+         
+         数值类字面量可以包括额外的格式来增强可读性。整数和浮点数都可以添加额外的零并且包含下划线，并不会影响字面量:
+         */
+        let paddedDouble = 000123.456
+        let oneMillion = 1_000_000
+        let justOverOneMillion = 1_000_000.000_000_1
+        
+        
+        // MARK: - 数值型类型转换
+        
+        /*lzy170905注:apple真是强力灌输 最佳实践
+         通常来讲，即使代码中的整数常量和变量已知非负，也请使用 Int 类型。总是使用默认的整数类型可以保证你的 整数常量和变量可以直接被复用并且可以匹配整数类字面量的类型推断。
+         
+         只有在必要的时候才使用其他整数类型，比如要处理外部的长度明确的数据或者为了优化性能、内存占用等等。
+         使用显式指定长度的类型可以及时发现值溢出并且可以暗示正在处理特殊数据。
+         */
+        
+        // MARK: 整数转换
+        /*lzy170905注:
+         不同整数类型的变量和常量可以存储不同范围的数字。 Int8 类型的常量或者变量可以存储的数字范围是 -128 ~ 1 27 ，而 UInt8 类型的常量或者变量能存储的数字范围是 0 ~ 255 。如果数字超出了常量或者变量可存储的范 围，编译的时候会报错:
+         */
+        
+//        let cannotBeNegative: UInt8 = -1
+        // UInt8 类型不能存储负数，所以会报错 Negative integer ‘-1’ overflows when stored into unsigned type ‘Uint8’
     
+//        let tooBig: Int8 = Int8.max + 1
+        // Int8 类型不能存储超过最大值的数，所以会报错 Arithmetic operation ‘127 + 1’ (on type ‘Int8’) results in an overflow
+        
+        /*lzy170905注:
+         由于每种整数类型都可以存储不同范围的值，所以你必须根据不同情况选择性使用数值型类型转换。这种选择性
+         使用的方式，可以预防隐式转换的错误并让你的代码中的类型转换意图变得清晰。
 
+         要将一种数字类型转换成另一种，你要用当前值来初始化一个期望类型的新数字，这个数字的类型就是你的目标 类型。在下面的例子中，常量 twoThousand 是 UInt16 类型，然而常量 one 是 UInt8 类型。它们不能直接相 加，因为它们类型不同。所以要调用 UInt16(one) 来创建一个新的 UInt16 数字并用 one 的值来初始化，然后使用 这个新数字来计算:
+         */
+        
+        let twoThousand: UInt16 = 2_000
+        let one: UInt8 = 1
+        let twoThousandAndOne = twoThousand + UInt16(one)
+        
+        /*lzy170905注:
+         现在两个数字的类型都是 UInt16 ，可以进行相加。目标常量 twoThousandAndOne 的类型被推断为 UInt1 6 ，因为它是两个 UInt16 值的和。
+         
+         omeType(ofInitialValue) 是调用 Swift 构造器并传入一个初始值的默认方法。在语言内部， UInt16 有一个 构造器，可以接受一个 UInt8 类型的值，所以这个构造器可以用现有的 UInt8 来创建一个新的 UInt16 。注 意，你并不能传入任意类型的值，只能传入 UInt16 内部有对应构造器的值。不过你可以扩展现有的类型来让它 可以接收其他类型的值(包括自定义类型)
+         */
+
+        // MARK: 整数和浮点数转换
+        
+        /*lzy170905注:
+         整数和浮点数的转换必须显式指定类型:
+         整数类型可以用 Double 或者 Float 类型来初始化:当用这种方式来初始化一个新的整数值时，浮点值会被截断,也就是说 4.75 会变成 4 ， -3.9 会变成 -3 。
+         */
+        
+        let three = 3
+        let pointOneFourOneFiveNine = 0.14159
+        let pi = Double(three) + pointOneFourOneFiveNine
+        // pi 等于 3.14159，所以被推测为 Double 类型。如果不进行转换，两者无法相加。
+        
+        let integerPi = Int(pi)
+        // integerPi 等于 3，所以被推测为 Int 类型
+        
+        /*lzy170905注:
+         注意:
+         结合数字类常量和变量不同于结合数字类字面量。字面量 3 可以直接和字面量 0.14159 相加，因为数字字面量 本身没有明确的类型。它们的类型只在编译器需要求值的时候被推测。
+         */
+        
+        // MARK: - 类型别名
+
+        /*lzy170905注:
+         类型别名(type aliases)就是给现有类型定义另一个名字。你可以使用 typealias 关键字来定义类型别名。
+         当你想要给现有类型起一个更有意义的名字时，类型别名非常有用。假设你正在处理特定长度的外部资源的数
+         据。
+         
+         */
+        typealias AudioSample = UInt16
+        // 定义了一个类型别名之后，你可以在任何使用原始名的地方使用别名:
+        var maxAmplitudeFound = AudioSample.min // maxAmplitudeFound 现在是 0
+//        本例中， AudioSample 被定义为 UInt16 的一个别名。因为它是别名， AudioSample.min 实际上是 UInt16.mi n ，所以会给 maxAmplitudeFound 赋一个初值 0 。
+
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
 }
-
