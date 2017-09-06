@@ -22,10 +22,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // MARK: - 常量和变量
         
         /*lzy170905注:
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
         // 在一行中定义多个同样类型的变量，用逗号分割，并在最后一个变量名之后添加类型标注:
         var red, green, blue: Double
         
-
+        
         // MARK: 常量和变量的命名
         
         // 你可以用任何你喜欢的字符作为常量和变量名，包括 Unicode 字符:
@@ -88,13 +88,13 @@ class ViewController: UIViewController {
         friendlyWelcome = "Bonjour!"
         // 量的值一旦被确定就不能更改了。尝试这样做会导致编译时报错:cannot assign to value:’languageName’ is a ‘let’ constant
         let languageName = "Swift"
-//        languageName = "Swift++"
+        //        languageName = "Swift++"
         
         // MARK: 输出常量和变量
-//        print(<#T##items: Any...##Any#>)
-//        print(<#T##items: Any...##Any#>, to: &<#T##TextOutputStream#>)
-//        print(<#T##items: Any...##Any#>, separator: <#T##String#>, terminator: <#T##String#>)
-//        print(<#T##items: Any...##Any#>, separator: <#T##String#>, terminator: <#T##String#>, to: &<#T##TextOutputStream#>)
+        //        print(<#T##items: Any...##Any#>)
+        //        print(<#T##items: Any...##Any#>, to: &<#T##TextOutputStream#>)
+        //        print(<#T##items: Any...##Any#>, separator: <#T##String#>, terminator: <#T##String#>)
+        //        print(<#T##items: Any...##Any#>, separator: <#T##String#>, terminator: <#T##String#>, to: &<#T##TextOutputStream#>)
         
         /*lzy170905注:
          print(_:separator:terminator:) 是一个用来输出一个或多个值到适当输出区的全局函数。
@@ -104,7 +104,7 @@ class ViewController: UIViewController {
          例如， print(someValue, terminator:"") 。
          
          Swift 用字符串插值(string interpolation)的方式把常量名或者变量名当做占位符加入到长字符串中，Swift 会用当前常量或变量的值替换这些占位符。将常量或变量名放入圆括号中，并在开括号前使用反斜杠将其转义:
-
+         
          */
         
         print("abcd efgh \(friendlyWelcome)")
@@ -138,7 +138,7 @@ class ViewController: UIViewController {
          整数就是没有小数部分的数字，比如 42 和 -23 。
          整数可以是 有符号 (正、负、零)或者 无符号 (正、零)。
          Swift 提供了8，16，32和64位的有符号和无符号整数类型。这些整数类型和 C 语言的命名方式很像，比如8位无 符号整数类型是 UInt8 ，32位有符号整数类型是 Int32 。就像 Swift 的其他类型一样，整数类型采用大写命名法。
-
+         
          */
         
         // MARK: 整数范围
@@ -149,7 +149,7 @@ class ViewController: UIViewController {
         // MARK: Int
         /*lzy170905注:
          一般来说，你不需要专门指定整数的长度。Swift 提供了一个特殊的整数类型   ，长度与当前平台的原生字长 相同:
-         • 在32位平台上，Int和 Int32  长度相同。 
+         • 在32位平台上，Int和 Int32  长度相同。
          • 在64位平台上，Int和 Int64 长度相同。
          
          除非你需要特定长度的整数，一般来说使用 Int 就够了。可以提高代码一致性和可复用性。
@@ -158,7 +158,7 @@ class ViewController: UIViewController {
         // MARK: UInt
         /*lzy170905注:
          特殊的无符号类型 UInt,长度与当前平台的原生字长相同:
-          在32位平台上， UInt 和 UInt32 长度相同。
+         在32位平台上， UInt 和 UInt32 长度相同。
          在64位平台上， UInt 和 UInt64 长度相同。
          尽量不要使用 UInt ，除非你真的需要存储一个和当前平台原生字长相同的无符号整数。除了这种情况，最好使 用 Int ，即使你要存储的值已知是非负的。统一使用 Int 可以提高代码的可复用性，避免不同类型数字之间的 转换，并且匹配数字的类型推断
          */
@@ -185,7 +185,7 @@ class ViewController: UIViewController {
          
          编译器可以在编译代码的时候自动推断出表达式的类型。原理很简单，只要检查你赋的值即可。
          
-        当你在声明常量或者变量的时候赋给它们一个字面 量(literal value 或 literal)即可触发类型推断。
+         当你在声明常量或者变量的时候赋给它们一个字面 量(literal value 或 literal)即可触发类型推断。
          */
         
         let meaningOfLife = 42
@@ -230,16 +230,16 @@ class ViewController: UIViewController {
          不同整数类型的变量和常量可以存储不同范围的数字。 Int8 类型的常量或者变量可以存储的数字范围是 -128 ~ 1 27 ，而 UInt8 类型的常量或者变量能存储的数字范围是 0 ~ 255 。如果数字超出了常量或者变量可存储的范 围，编译的时候会报错:
          */
         
-//        let cannotBeNegative: UInt8 = -1
+        //        let cannotBeNegative: UInt8 = -1
         // UInt8 类型不能存储负数，所以会报错 Negative integer ‘-1’ overflows when stored into unsigned type ‘Uint8’
-    
-//        let tooBig: Int8 = Int8.max + 1
+        
+        //        let tooBig: Int8 = Int8.max + 1
         // Int8 类型不能存储超过最大值的数，所以会报错 Arithmetic operation ‘127 + 1’ (on type ‘Int8’) results in an overflow
         
         /*lzy170905注:
          由于每种整数类型都可以存储不同范围的值，所以你必须根据不同情况选择性使用数值型类型转换。这种选择性
          使用的方式，可以预防隐式转换的错误并让你的代码中的类型转换意图变得清晰。
-
+         
          要将一种数字类型转换成另一种，你要用当前值来初始化一个期望类型的新数字，这个数字的类型就是你的目标 类型。在下面的例子中，常量 twoThousand 是 UInt16 类型，然而常量 one 是 UInt8 类型。它们不能直接相 加，因为它们类型不同。所以要调用 UInt16(one) 来创建一个新的 UInt16 数字并用 one 的值来初始化，然后使用 这个新数字来计算:
          */
         
@@ -252,7 +252,7 @@ class ViewController: UIViewController {
          
          omeType(ofInitialValue) 是调用 Swift 构造器并传入一个初始值的默认方法。在语言内部， UInt16 有一个 构造器，可以接受一个 UInt8 类型的值，所以这个构造器可以用现有的 UInt8 来创建一个新的 UInt16 。注 意，你并不能传入任意类型的值，只能传入 UInt16 内部有对应构造器的值。不过你可以扩展现有的类型来让它 可以接收其他类型的值(包括自定义类型)
          */
-
+        
         // MARK: 整数和浮点数转换
         
         /*lzy170905注:
@@ -262,7 +262,7 @@ class ViewController: UIViewController {
         
         let three = 3
         let pointOneFourOneFiveNine = 0.14159
-        let pi = Double(three) + pointOneFourOneFiveNine
+        let Pi = Double(three) + pointOneFourOneFiveNine
         // pi 等于 3.14159，所以被推测为 Double 类型。如果不进行转换，两者无法相加。
         
         let integerPi = Int(pi)
@@ -274,7 +274,7 @@ class ViewController: UIViewController {
          */
         
         // MARK: - 类型别名
-
+        
         /*lzy170905注:
          类型别名(type aliases)就是给现有类型定义另一个名字。你可以使用 typealias 关键字来定义类型别名。
          当你想要给现有类型起一个更有意义的名字时，类型别名非常有用。假设你正在处理特定长度的外部资源的数
@@ -284,10 +284,253 @@ class ViewController: UIViewController {
         typealias AudioSample = UInt16
         // 定义了一个类型别名之后，你可以在任何使用原始名的地方使用别名:
         var maxAmplitudeFound = AudioSample.min // maxAmplitudeFound 现在是 0
-//        本例中， AudioSample 被定义为 UInt16 的一个别名。因为它是别名， AudioSample.min 实际上是 UInt16.mi n ，所以会给 maxAmplitudeFound 赋一个初值 0 。
+        //        本例中， AudioSample 被定义为 UInt16 的一个别名。因为它是别名， AudioSample.min 实际上是 UInt16.mi n ，所以会给 maxAmplitudeFound 赋一个初值 0 。
+        
+        
+        // MARK: - 布尔值
+        /*lzy170906注:
+         Swift 有一个基本的布尔(Boolean)类型，叫做 Bool 。布尔值指逻辑上的值，因为它们只能是真或者假。Swift 有两个布尔常量，true 和 false:
+         
+         初始化常量或者变量的时候如果所赋的值类型已知，就可以触发类型推断
+         */
+        let orangesAreOrange = true
+        let turnipsAreDelicious = false
+        
+        
+        if turnipsAreDelicious {
+            print("Mmm, tasty turnips!")
+        } else {
+            print("Eww, turnips are horrible.")
+        }
+        // 输出 "Eww, turnips are horrible."
+        
+        /*lzy170906注:
+         如果你在需要使用 Bool 类型的地方使用了非布尔值，Swift 的类型安全机制会报错.
+         和 Swift 中的其他类型安全的例子一样，这个方法可以避免错误并保证这块代码的意图总是清晰的。
+         */
+        
+        let i = 1
+        //        if i {
+        // 这个例子不会通过编译，会报错Int is not convertible to ‘Bool’
+        //        }
+        
+        if i == 1 {
+            // 这个例子会编译成功
+        }
+        
+        // MARK: - 元组
+        /*lzy170906注:
+         
+         元组(tuples)把多个值组合成一个复合值。
+         组内的值可以是任意类型，并不要求是相同类型。
+         
+         */
+        
+        let http404Error = (404, "Not Found")
+        // http404Error 的类型是 (Int, String)，值是 (404, "Not Found")
+        /*lzy170906注:
+         这个例子中，(404, "Not Found") 是一个描述 HTTP 状态码(HTTP status code)的元组。HTTP 状态码是 当你请求网页的时候 web 服务器返回的一个特殊值。如果你请求的网页不存在就会返回一个 404 Not Found 状 态码。
+         
+         (404, "Not Found") 元组把一个Int值和一个String值组合起来表示 HTTP 状态码的两个部分:一个数字和一个人类可读的描述。这个元组可以被描述为“一个类型为(Int, String)的元组”。
+         
+         你可以把任意顺序的类型组合成一个元组，这个元组可以包含所有类型。只要你想，你可以创建一个类型为 (Int, Int, Int)或者(String, Bool)或者其他任何你想要的组合的元组。
+         */
+        
+        // 你可以将一个元组的内容分解(decompose)成单独的常量和变量，然后你就可以正常使用它们了:
+        
+        let (statusCode, statusMessage) = http404Error
+        print("statusCode:The status code is \(statusCode)")// 输出 "The status code is 404"
+        print("statusMessage:The status message \(statusMessage)")// 输出 "The status message is Not Found"
+        
+        // 如果你只需要一部分元组值，分解的时候可以把要忽略的部分用下划线( _ )标记
+        
+        let (justTheStatusCode, _) = http404Error
+        print("justTheStatusCode:The status code is \(justTheStatusCode)")
+        
+        // 此外，你还可以通过下标来访问元组中的单个元素，下标从零开始:
+        print("access from index:The status code is \(http404Error.0)")
+        print("access from index:The status message is \(http404Error.1)")
+        
+        // 你可以在定义元组的时候给单个元素命名:
+        let http200Status = (statusCode: 200, description: "OK")
+        // 给元组中的元素命名后，你可以通过名字来获取这些元素的值:
+        print("access with element name:The status code is \(http200Status.statusCode)")
+        print("access with element name:The status code is \(http200Status.description)")
+        
+        /*lzy170906注:
+         作为函数返回值时，元组非常有用。
+         一个用来获取网页的函数可能会返回一个 (Int, String) 元组来描述是否 获取成功。
+         和只能返回一个类型的值比较起来，一个包含两个不同类型值的元组可以让函数的返回信息更有用。
+         
+         注意:
+         元组在临时组织值的时候很有用，但是并不适合创建复杂的数据结构。
+         如果你的数据结构并不是临时使用，请使用类或者结构体而不是元组。请参考类和结构体。
+         */
+        
+        // MARK: - 可选类型
+        /*lzy170906注:
+         使用可选类型(optionals)来处理值可能缺失的情况。
+         可选类型表示:
+         • 有值，等于 x
+         或者
+         • 没有值
+         
+         
+         注意:
+         C 和 Objective-C 中并没有可选类型这个概念。
+         最接近的是 Objective-C 中的一个特性，一个方法要不返回一个对象要不返回 nil ， nil 表示“缺少一个合法的对象”。
+         然而，这只对对象起作用——对于结构体，基本的 C 类型或者枚举类型不起作用。对于这些类型，Objective-C 方法一般会返回一个特殊值(比如 NSNotFound )来暗示值缺失。这种方法假设方法的调用者知道并记得对特殊值进行判断。
+         然而，Swift 的可选类型可以让你暗示任意类型的值缺失，并不需要一个特殊值。
+         
+         
+         Swift 的 Int 类型有一种构造器，作用是将一个 String 值转换成一个 Int 值。然而，并 不是所有的字符串都可以转换成一个整数。字符串 "123" 可以被转换成数字 123 ，但是字符串 "hello, wor ld" 不行。
+         
+         */
+        
+        let possibleNumber = "123"
+        let convertedNumber = Int(possibleNumber)
+        // convertedNumber 被推测为类型 "Int?"， 或者类型 "optional Int"
+        
+        /*lzy170906注:
+         因为该构造器可能会失败，所以它返回一个可选类型(optional) Int ，而不是一个 Int 。一个可选的 Int 被写作 Int? 而不是 Int 。问号暗示包含的值是可选类型，也就是说可能包含 Int 值也可能不包含值。(不能包含其他任何值比如 Bool 值或者 String 值。只能是 Int 或者什么都没有。)
+         */
+        
+        // MARK: 可选类型：nil
+        // 你可以给可选变量赋值为 nil 来表示它没有值:
+        var serverResCode: Int? = 404
+        // serverResponseCode 包含一个可选的 Int 值 404
+        serverResCode = nil
+        // serverResponseCode 现在不包含值
+        
+        /*lzy170906注:
+         nil 不能用于非可选的常量和变量。如果你的代码中有常量或者变量需要处理值缺失的情况，请把它们声明成对应的可选类型。
+         */
+        
+        //        如果你声明一个可选常量或者变量但是没有赋值，它们会自动被设置为 nil :
+        var surveyAnswer: String?
+        print("可选类型：nil的值是\(surveyAnswer)")// String interpolation(插入、插值) produces a debug description for an optional value;did you mean to make this explicit?
+        
+        /*lzy170906注:
+         注意:
+         Swift 的 nil 和 Objective-C 中的 nil 并不一样。在 Objective-C 中， nil 是一个指向不存在对象的指 针。在 Swift 中， nil 不是指针——它是一个确定的值，用来表示值缺失。任何类型的可选状态都可以被设置为 nil ，不只是对象类型。
+         */
+        
+        // MARK: 可选类型：if语句以及强制解析
+        /*lzy170906注:
+         你可以使用 if 语句和 nil 比较来判断一个可选值是否包含值。你可以使用“相等”(==)或“不 等”( != )来执行比较。
+         如果可选类型有值，它将不等于 nil :
+         */
+        
+        if convertedNumber != nil {
+            print("convertedNumber contains some integer value.")
+            // 输出 "convertedNumber contains some integer value."
+        }
+        
+        
+        /*lzy170906注:
+         可选值的强制解析(forced unwrapping):
+         当你确定可选类型确实包含值之后，你可以在可选的名字后面加一个感叹号( ! )来获取值。这个惊叹号表示“我知道这个可选有值，请使用它。”
+         
+         注意:
+         使用 ! 来获取一个不存在的可选值会导致运行时错误。使用 ! 来强制解析值之前，一定要确定可选包含一 个非 nil 的值。
+         */
+        
+        if convertedNumber != nil {
+            print("可选值的强制解析(forced unwrapping):convertedNumber has an integer value of \(convertedNumber!).")
+        }
+        
+        // MARK: 可选类型: 可选绑定
+        
+        /*lzy170906注:
+         使用可选绑定(optional binding)来判断可选类型是否包含值，如果包含就把值赋给一个临时常量或者变量。
+         可选绑定可以用在 if 和 while 语句中，这条语句不仅可以用来判断可选类型中是否有值，同时可以将 可选类型中的值赋给一个常量或者变量
+         */
+        // 格式
+//        if let constantName = someOptional {
+//            statements
+//        }
+        
+        if let actualNumber = Int (possibleNumber) {
+            print("\'\(possibleNumber)\' has an integer value of \(actualNumber)")
+        }else {
+            print("\'\(possibleNumber)\' could not be converted to an integer")
+        }
+        /*lzy170906注:
+         
+         // 输出 "'123' has an integer value of 123"
 
+         “如果 Int(possibleNumber) 返回的可选 Int 包含一个值，创建一个叫做 actualNumber 的新常量并将可选 包含的值赋给它。”
+         如果转换成功， actualNumber 常量可以在 if 语句的第一个分支中使用。它已经被可选类型 包含的 值初始化 过，所以不需要再使用 ! 后缀来获取它的值。在这个例子中，actualNumber 只被用来输出转换结果。
+         你可以在可选绑定中使用常量和变量。如果你想在if语句的第一个分支中操作 actualNumber 的值，你可以改 成 if var actualNumber ，这样可选类型包含的值就会被赋给一个变量而非常量。
+         */
+        
+        
+        /*lzy170906注:
+         你可以包含多个可选绑定或多个布尔条件在一个 if 语句中，只要使用逗号分开就行。
+         只要有任意一个可选绑定 的值为nil，或者任意一个布尔条件为false，则整个if条件判断为false，这时你就需要使用嵌套 if 条件语句来处理，如下所示:
+         */
+        if let firstNumber = Int("4"), let secondNumber = Int("42"), firstNumber < secondNumber && secondNumber < 100 {
+            
+            print("可选绑定与多个布尔条件写在一行：\(firstNumber) < \(secondNumber) < 100")
+        }
+        
+        if let firstNumber = Int("4"){
+            if let secondNumber = Int("42"){
+                if firstNumber < secondNumber && secondNumber < 100 {
+                    print("可选绑定、布尔条件嵌套：\(firstNumber) < \(secondNumber) < 100")
+   
+                }
+            }
+        }
+        
+        // MARK: 可选类型：隐式解析可选类型
+     
+        /*lzy170906注:
+
+         如上所述，可选类型暗示了常量或者变量可以“没有值”。可选可以通过 if 语句来判断是否有值，如果有值的 话可以通过可选绑定来解析值。
+         
+         隐式解析可选类型(implicitly unwrapped optionals):
+         第一次被赋值之后，可以确定一个可选类型总会有值
+
+         有时候在程序架构中，第一次被赋值之后，可以确定一个可选类型总会有值。在这种情况下，每次都要判断和解析可选值是非常低效的，因为可以确定它总会有值。
+         这种类型的可选状态被定义为隐式解析可选类型(implicitly unwrapped optionals)。把想要用作可选的类型 的后面的问号( String? )改成感叹号( String! )来声明一个隐式解析可选类型。
+         
+         当可选类型被第一次赋值之后就可以确定之后一直有值的时候，隐式解析可选类型非常有用。隐式解析可选类型 主要被用在 Swift 中类的构造过程中。
+         
+         一个隐式解析可选类型其实就是一个普通的可选类型，但是可以被当做非可选类型来使用，并不需要每次都使用 解析来获取可选值。下面的例子展示了可选类型 String 和隐式解析可选类型 String 之间的区别:
+         */
+        
+        let possibleString: String? = "An optional string"
+        let forcedString: String = possibleString! // 需要感叹号来获取值 Value of optinal type ‘String?’ not unwrapped; did you mean to use ‘!’ or ‘?’
+        print("var forcedString:\(forcedString)")
+        
+        let assumedString: String! = "An implicitly unwrapped optional string."
+        let implicitString: String = assumedString // 不需要感叹号
+        /*lzy170906注:
+         你可以把隐式解析可选类型当做一个可以自动解析的可选类型。你要做的只是声明的时候把感叹号放到类型的结
+         尾，而不是每次取值的可选名字的结尾。
+         注意:
+         如果你在隐式解析可选类型没有值的时候尝试取值，会触发运行时错误。和你在没有值的普通可选类型后面加一个惊叹号一样。
+         */
+        
+        // 你仍然可以把隐式解析可选类型当做普通可选类型来判断它是否包含值:
+        if assumedString != nil {
+            print(assumedString)
+        }// 输出 "An implicitly unwrapped optional string."
+        
+        // 你也可以在可选绑定中使用隐式解析可选类型来检查并解析它的值:
+        if let definiteString = assumedString {
+            print(definiteString)
+        }// 输出 "An implicitly unwrapped optional string."
+        
+        /*lzy170906注:
+         注意:
+         如果一个变量之后可能变成 nil 的话请不要使用隐式解析可选类型。如果你需要在变量的生命周期中判断是否 是 nil 的话，请使用普通可选类型。
+         */
+        
+        // MARK: - 错误处理
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
