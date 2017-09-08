@@ -468,11 +468,14 @@ class ViewController01: UIViewController {
          练习: 添加另一个变量来记录最大数字的种类(kind)，同时仍然记录这个最大数字的值。
          
          */
-        
+        /*lzy170906注:理解了。
+         kind 和 numbers都是随意命名的。可以用任意的a,b之的替代。
+         */
         
         
         var largest = 0
         // TODO: Immutable value 'kind' was never used;consider replacing with '_' or removing it
+
         for (kind, numbers) in interestingNumbers{
             for n in numbers{
                 
@@ -529,9 +532,17 @@ class ViewController01: UIViewController {
         /*lzy170830注:
          默认情况下，函数使用它们的参数名称作为它们参数的标签，在参数名称前可以自定义参数标签，或者使用 _ 表示不使用参数标签。
          */
+        /*lzy170906注:
+         参数名前没有标签，默认使用参数名组成方法的一部分
+         参数名前有标签，使用标签。
+         使用 _ ，在参数名前使用它，则『参数名称不作为函数的参数标签』
+         _ 和 自定义参数标签不可同时存在。
+         */
         func greetB(_ person:String,on day:String) -> String {
             return "Hello \(person), today is \(day)."
         }
+        
+
         
         greetB("John", on: "wednesday")
         
