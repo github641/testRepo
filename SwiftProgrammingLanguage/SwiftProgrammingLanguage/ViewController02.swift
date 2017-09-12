@@ -6,7 +6,49 @@
 //  Copyright © 2017年 alldk. All rights reserved.
 //
 /*lzy170905注:
- 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：Swift教程。
+ 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：Swift教程 中的『基础部分(The Basics)』、『基本运算符(Basic Operators)』：
+ 
+ 基础部分(The Basics)：
+ •常量和变量 (页 0)
+ • 声明常量和变量 (页 0)
+ • 类型标注 (页 0)
+ • 常量和变量的命名 (页 0)
+ • 输出常量和变量 (页 0)
+ • 注释 (页 0)
+ • 分号 (页 0)
+ • 整数 (页 0)
+ • 整数范围 (页 0)
+ • Int (页 0)
+ • UInt (页 0)
+ • 浮点数 (页 0)
+ • 类型安全和类型推断 (页 0)
+ • 数值型字面量 (页 0)
+ • 数值型类型转换 (页 0)
+ • 整数转换 (页 0)
+ • 数整数和浮点数转换 (页 0)
+ • 类型别名 (页 0)
+ • 布尔值 (页 0)
+ • 元组 (页 0)
+ • 可选 (页 0)
+ • nil (页 0)
+ • if 语句以及强制解析 (页 0)
+ • 可选绑定 (页 0)
+ • 隐式解析可选类型 (页 0)
+ • 错误处理 (页 0)
+ • 断言
+ 
+ 基本运算符(Basic Operators)
+ • 术语 (页 0)
+ • 赋值运算符 (页 0)
+ • 算术运算符 (页 0)
+ • 组合赋值运算符 (页 0)
+ • 比较运算符 (页 64)
+ • 三目运算符 (页 0)
+ • 空合运算符 (页 0)
+ • 区间运算符 (页 0)
+ • 逻辑运算符 (页 0)
+ 
+ 
  
  Swift 包含了 C 和 Objective-C 上所有基础数据类型，Int表示整型值;Double和Float表示浮点型 值;  Bool 是布尔型值; String是文本型数据。 Swift 还提供了三个基本的集合类型，Array，Set 和 Dictionary。
  
