@@ -452,8 +452,329 @@ class ViewController: UIViewController {
         // 打印 "someInts is of type [Int] with 0 items."
         
         /*lzy170912:
-         通过构造函数的类型， someInts 的值类型被推断为 [Int]
+         通过构造函数的类型， someInts 的值类型被推断为 [Int]。
+         或者，如果代码上下文中已经提供了类型信息，例如一个函数参数或者一个已经定义好类型的常量或者变量，我们可以使用空数组语句创建一个空数组，它的写法很简单: [] (一对空方括号):
          */
+        
+        someInts.append(3)
+        // someInts 现在包含一个Int值
+        someInts = []
+        // someInts 现在是空数组，但是仍然是[Int]类型的
+
+        // MARK:  ====创建一个带有默认值的数组====
+        /*lzy170913:
+         Swift 中的Array类型还提供一个可以创建特定大小并且所有数据都被默认的构造方法。
+         我们可以把准备加入到新数组的数据项(count)和适当类型的初始值（repeating）传入数组构造函数：
+         
+         */
+        var threeDoubles = Array(repeatElement(0.0, count: 3))
+        // threeDoubles 是一种[Double]数组，等价于[0.0, 0.0, 0.0]
+        print(threeDoubles)
+        
+        // MARK:  ====通过两个数组相加创建一个数组====
+        /*lzy170913:
+         可以通过使用加法操作符(+)来组合两种已存在的相同类型数组。新数组的数据类型会被从两个数组的数据类型中推断处来：
+         
+         */
+        var anotherThreeDoubles = Array(repeatElement(2.5, count: 3))
+        // anotherThreeDoubles 被推断为[Double] 等价与[2.5, 2.5, 2.5]
+        var sixDoubles = threeDoubles + anotherThreeDoubles
+        // sixDoubles 被推断为 [Double],等价于[0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
+        
+        // MARK:  ====用数组字面量构造数组====
+        /*lzy170913:
+         可以使用数组字面量来进行数组构造，这是一种用一个或者多个数值构造数组的简单方法。数组字面量是一系列由都好分割，并由方括号包好的数值：
+         [value1, value 2, value 3]。
+         下面这个例子创建了一个叫做 shoppingList 并且存储String的数组：
+         */
+        var shoppingList: [String] = ["Eggs", "Milk"]
+        // 被构造并拥有两个初始项
+        
+        /*lzy170913注:
+         shoppingList 变量被声明为 『字符串值类型的数组』，记作[String]。因为这个数组被规定只有String一种数据结构。
+        所以只有String类型可以在其中被存取。
+         在这里，shoppingList数组由两个String值（"Eggs", "Milk"）构造，并且由数组字面量定义。
+         
+         注意：
+         shoppingList数组被声明为变量（var 关键字创建）而不是常量（let 创建）是因为以后可能有更多的数据项被传入其中。
+         
+         在这个例子中，字面量仅仅包含两个String值。匹配了该数组的变量声明（只能包含String的数组），所以这个字面量的分配过程可以作为用两个初始项来构造shoppingList的一种方式。
+         由于 Swift 的类型推断机制，当我们用字面量构造只拥有相同类型值数组的时候，我们不必把数组的类型定义清 楚。 shoppingList 的构造也可以这样写:
+         */
+        var shoppingList2 = ["Eggs", "Milk"]
+//        因为所有数组字面量中的值都是相同的类型。Swift可以推断出[String]是shoppingList中变量的正确类型。
+        
+        // MARK:  ====访问和修改数组====
+        /*lzy170913:
+         通过数组的方法和属性来访问和修改数组，或者使用下标语法。
+         */
+        
+        // lzy170913注：使用数组的只读属性 count 来获取数组中的数据项数量：
+        print("The shopping list contains \(shoppingList.count) items.")
+        // 2 items
+        
+        // lzy170913注：使用布尔属性 isEmpty 作为一个缩写形式去检查 count 属性是否为0：
+        if shoppingList.isEmpty {
+            print("The shopping list is empty.")
+        } else {
+            print("The shopping list is not empty.")
+        }
+        // 打印 not empty
+        
+        // lzy170913注：使用appendd(_:)方法在数组后面添加新的数据项
+        
+        shoppingList.append("Flour")
+        // shoppingList现在有3个数据项
+        
+        // lzy170913注：使用加法赋值运算符(+=)，直接在数组后面添加一个或多个拥有相同类型的数据项：
+        
+        shoppingList += ["Baking Powder"]
+        // shopping list现在有 4项了
+        
+        shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
+        // shopping list现在有7项
+        
+        // lzy170913注：使用 下标语法 来获取数组中的数据项，把我们需要的数据项的索引值，直接放在数组名称的方括号中：
+        var firstItem = shoppingList[0]
+        // 第一项是 Eggs
+        /*lzy170913注:
+         注意：数组第一项的索引值是0而不是1，Swift中的数组的索引总是从零开始的。
+         */
+        
+        // lzy170913注：使用 下标 来改变某个已有索引值对应的数据值：
+        shoppingList[0] = "Six eggs"
+        // 现在数组第一项是 "Six eggs" 而不是 Eggs了。
+        
+        // lzy170913注：使用 下标 一次改变一系列数据值，即使新数据和原来数据的数量是不一样的。下面的例子把 "Chocolate Spread" ， "Cheese" ，和 "Butter" 替换为 "Bananas" 和 "Apples" :
+        shoppingList[4...6] = ["Bananas", "Apples"]
+        // shopping list 现在已经有6项了
+        
+        // 不可以用下标访问的形式，在数组尾部添加新项。
+        
+        // lzy170913注：调用数组的 insert(_:at:)方法来在某个具体索引值之前添加数据项：
+        
+        /*这次 insert(_:at:) 方法调用把值为 "Maple Syrup" 的新数据项插入列表的最开始位置，并且使用 0 作为索引 值。
+         */
+        shoppingList.insert("Maple Syrup", at: 0)
+        // shopping list 现在有 7项， 这里insert的是第一项
+        
+        // lzy170913注：使用 remove(at:) 方法来移除数组中的某一项。这个方法把数组在特定索引值中存储的数据项移 除并且返回这个被移除的数据项(我们不需要的时候就可以无视它):
+        
+        let mapleSyrup = shoppingList.remove(at: 0)
+        // 索引值为0的数据项被移除
+        // shoppingList 现在只有6项，而且不包括 Maple Syrup
+        // mapleSyrup 常量的值等于被移除数据项的值 "Maple Syrup"
+        /*注意: 如果我们试着对索引越界的数据进行检索或者设置新值的操作，会引发一个运行期错误。
+         我们可以使用索引值和 数组的 count 属性进行比较来在使用某个索引之前先检验是否有效。
+         除了当 count 等于 0 时(说明这是个空数 组)，最大索引值一直是 count - 1 ，因为数组都是零起索引。
+         */
+        
+//        数据项被移除后数组中的空出项会被自动填补，所以现在索引值为 0 的数据项的值再次等于 "Six eggs" :
+       firstItem = shoppingList[0]
+        // firstItem 现在等于 "Six eggs"
+        
+//        如果我们只想把数组中的最后一项移除，可以使用 removeLast() 方法而不是 remove(at:) 方法来避免我们需要获 取数组的 count 属性。就像后者一样，前者也会返回被移除的数据项:
+        let apples = shoppingList.removeLast()
+        // 数组的最后一项被移除了
+        // shoppingList 现在只有5项，不包括 Apples // apples 常量的值现在等于 "Apples" 字符串
+        
+        // MARK:  ====数组的遍历====
+        /*lzy170913:
+         使用for-in循环来遍历所有数组中的数据项:
+         */
+        
+        for item in shoppingList {
+            print(item)
+        }
+        
+        /*lzy170913注:
+         如果我们同时需要每个数据项的值和索引值，可以使用 enumerated() 方法来进行数组遍历。 enumerated() 返回 一个由每一个数据项索引值和数据值组成的元组。我们可以把这个元组分解成临时常量或者变量来进行遍历:
+         更多关于 for-in 循环的介绍请参见for 循环 (页 0)。
+         */
+        
+        for (index, value) in shoppingList.enumerated() {
+           print("Item \(String(index + 1)):\(value)")
+        }
+        
+        // MARK: 集合(Sets)
+        
+        /*lzy170913注:
+          集合(Set)用来存储 相同类型 并且 没有确定顺序的值。当 集合元素顺序不重要时或者希望确保每个元素只出现一次 时可以使用 集合而不是数组。
+         
+         注意:
+         Swift的 Set 类型被桥接到 Foundation 中的 NSSet 类。
+         关于使用 Foundation 和 Cocoa 中 Set 的知识，参见 Using Swift with Cocoa and Obejective-C(Swift 3.0.1) 中使用 Cocoa 数据类型部分。
+         
+          集合类型的哈希值 一个类型为了存储在 集合中，该类型必须是可哈希化的————也就是说，该类型必须提供一个方法来计算它的哈希 值。一个哈希值是 Int 类型的，相等的对象哈希值必须相同，比如 a==b ,因此必须 a.hashValue == b.hashValue。
+         
+         Swift 的所有基本类型(比如 String , Int , Double 和 Bool )默认都是可哈希化的，可以作为 集合的值的类型或者字典的键的类型。没有关联值的枚举成员值(在枚举有讲述)默认也是可哈希化的。
+         注意: 你可以使用你自定义的类型作为 集合的值的类型或者是字典的键的类型，但你需要使你的自定义类型符合 Swift 标准库中的 Hashable 协议。符合 Hashable 协议的类型需要提供一个类型为 Int 的可读属性 hashValue 。由类型的 hashValue 属性返回的值不需要在同一程序的不同执行周期或者不同程序之间保持相同。
+
+         因为 Hashable 协议符合 Equatable 协议，所以遵循该协议的类型也必须提供一个"是否相等"运算符( == )的实现。这个 Equatable 协议要求任何符合 == 实现的实例间都是一种相等的关系。也就是说，对于 a,b,c 三个值来 说， == 的实现必须满足下面三种情况:
+         • a == a (自反性)
+         • a == b 意味着 b == a (对称性)
+         • a == b && b == c 意味着 a == c (传递性)
+         关于遵循协议的更多信息，请看协议
+         */
+        
+        // MARK:  ====集合类型语法====
+        /*lzy170913:
+         Swift 中的 Set类型被写为 Set<Element>，这里的Element表示Set中允许存储的类型。
+         和数组不同，集合没有等价的简化形式。
+         */
+        
+        // MARK:  ====创建和构造一个空的集合====
+        /*lzy170913:
+         通过构造器语法 创建一个特定类型的空集合：
+         */
+        var letters = Set<Character>()
+        print("letters is of type Set<Character> with \(letters.count) items.")
+        // 0 items
+        
+        
+        /*lzy170913注:
+         通过构造器，这里的letters 变量的类型被推断为 Set<Character>。
+         如果上下文提供了类型信息，比如作为函数的参数或者已知类型的变量或常量，我们可以通过一个空的数组字面量创建一个空的 Set :
+         */
+        letters.insert("a")
+        // 含有了一个 Character类型的值
+        letters = []
+        // 现在变为了一个空的Set，但是它仍然是Set<Character>类型
+        
+        // MARK:  ====用数组字面量创建集合====
+        /*lzy170913:
+
+         用数组字面量创建集合
+         你可以使用数组字面量来构造集合，并且可以使用简化形式写一个或者多个值作为集合元素。
+         下面的例子创建一个称之为 favoriteGenres 的 集合来存储 String 类型的值:
+         */
+         var favoriteGenres: Set<String> = ["Rock", "Classical", "Hip hop"] // favoriteGenres 被构造成含有三个初始值的集合
+         /*
+         
+         这个 favoriteGenres 变量被声明为“一个 String 值的 集合”，写为 Set<String> 。由于这个特定的 集合含有指 定 String 类型的值，所以它只允许存储 String 类型值。这里的 favoriteGenres 变量有三个 String 类型的初始 值( "Rock" ， "Classical" 和 "Hip hop" )，并以数组字面量的方式出现。
+         注意:
+         favoriteGenres 被声明为一个变量(拥有 var 标示符)而不是一个常量(拥有 let 标示符),因为它里面的元素将
+         会在下面的例子中被增加或者移除。
+         
+         一个 Set 类型不能从数组字面量中被单独推断出来，因此 Set 类型必须显式声明。
+         
+         然而，由于 Swift 的类型推断功能，如果你想使用一个数组字面量构造一个 Set 并且该数组字面量中的所有元素类型相同，那么你无须写出Set 的具体类型。
+         
+         favoriteGenres 的构造形式可以采用简化的方式代替:
+         由于数组字面量中的所有元素类型相同，Swift 可以推断出 Set<String> 作为 favoriteGenres 变量的正确类型。
+         */
+         var favoriteGenres2: Set = ["Rock", "Classical", "Hip hop"]
+        
+        // MARK:  ====访问和修改一个集合====
+        /*lzy170913:
+         你可以通过 Set 的属性和方法来访问和修改一个 Set 。
+         为了找出一个 Set 中元素的数量，可以使用其只读属性 count :
+
+         */
+        
+        print("I have \(favoriteGenres.count) favorite music genres.") // 打印 "I have 3 favorite music genres."
+        
+         // 使用布尔属性 isEmpty 作为一个缩写形式去检查 count 属性是否为 0 :
+        
+         if favoriteGenres.isEmpty {
+            print("As far as music goes, I'm not picky.")
+         } else {
+            print("I have particular music preferences.")
+         }
+         // 打印 "I have particular music preferences."
+        
+        
+        // 你可以通过调用 Set 的 insert(_:) 方法来添加一个新元素:
+        
+        favoriteGenres.insert("Jazz")         // favoriteGenres 现在包含4个元素
+        
+        /*
+         你可以通过调用 Set 的 remove(_:) 方法去删除一个元素，如果该值是该 Set 的一个元素则删除该元素并且返回 被删除的元素值，否则如果该 Set 不包含该值，则返回 nil 。
+         另外， Set 中的所有元素可以通过它的 removeAll() 方法删除。
+         */
+         if let removedGenre = favoriteGenres.remove("Rock") {
+            print("\(removedGenre)? I'm over it.")
+         } else {
+            print("I never much cared for that.")
+         }
+         // 打印 "Rock? I'm over it."
+        
+        // 使用 contains(_:) 方法去检查 Set 中是否包含一个特定的值:
+        if favoriteGenres.contains("Funk") {
+            print("I get up on the good foot.")
+        } else {
+            print("It's too funky in here.")
+        }
+        // 打印 "It's too funky in here."
+        
+        // 遍历一个集合 : 你可以在一个 for-in 循环中遍历一个 Set 中的所有值。
+        
+        for genre in favoriteGenres {
+            print("\(genre)")
+        }
+        // Classical
+        // Jazz
+        // Hip hop
+        /*
+         Swift 的 Set 类型没有确定的顺序，为了按照特定顺序来遍历一个 Set 中的值可以使用 sorted() 方法，它将返
+         回一个有序数组，这个数组的元素排列顺序由操作符'<'对元素进行比较的结果来确定.
+
+         */
+        for genre in favoriteGenres.sorted() {
+            print("(genre)")
+        }
+        // prints "Classical"
+        // prints "Hip hop"
+        // prints "Jazz
+        
+        /*
+         集合操作.jpg
+         
+         你可以高效地完成 Set 的一些基本操作，比如把两个 集合组合到一起，判断两个 集合共有元素，或者判断两个集合是否全包含，部分包含或者不相交。
+         基本集合操作
+         下面的插图描述了两个 集合- a 和 b -以及通过阴影部分的区域显示 集合各种操作的结果。
+         • 使用 intersection(_:) 方法根据两个 集合中都包含的值创建的一个新的 集合。 // lzy170913注：交集
+         • 使用 symmetricDifference(_:) 方法根据在一个集合中但不在两个集合中的值创建一个新的 集合。// lzy170913注：差集：相对的补集
+         
+         • 使用 union(_:) 方法根据两个集合的值创建一个新的集合。// lzy170913注：合集
+         • 使用 subtracting(_:) 方法根据不在该集合中的值创建一个新的集合。// 补集
+         
+         */
+        let oddDigits: Set = [1, 3, 5, 7, 9]
+        let evenDigits: Set = [0, 2, 4, 6, 8]
+        let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
+        oddDigits.union(evenDigits).sorted()
+        // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        oddDigits.intersection(evenDigits).sorted()
+        // []
+        oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
+        // [1, 9]
+        oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
+        // [1, 2, 9]
+
+        /*
+          集合成员关系和相等.jpg
+         下面的插图描述了三个集合- a , b 和 c ,以及通过重叠区域表述集合间共享的元素。集合 a 是 集合 b 的父集合，因为 a 包含了 b 中所有的元素，相反的，集合 b 是 集合 a 的子集合，因为属于 b 的元素也被 a 包含。
+         集合b 和集合 c 彼此不关联，因为它们之间没有共同的元素。
+         • 使用“是否相等”运算符( == )来判断两个集合是否包含全部相同的值。
+         • 使用 isSubset(of:) 方法来判断一个集合中的值是否也被包含在另外一个集合中。
+         • 使用 isSuperset(of:) 方法来判断一个集合中包含另一个集合中所有的值。
+         • 使用 isStrictSubset(of:) 或者 isStrictSuperset(of:) 方法来判断一个集合是否是另外一个集合的子集合或者父集合并且两个集合并不相等。
+         • 使用 isDisjoint(with:) 方法来判断两个集合是否不含有相同的值(是否没有交集)。
+
+
+         */
+        let houseAnimals: Set = ["🐶", "🐱"]
+        let farmAnimals: Set = ["🐮", "🐔", "🐑", "🐶", "🐱"]
+        let cityAnimals: Set = ["🐦", "🐭"]
+        houseAnimals.isSubset(of: farmAnimals)
+        // true
+        farmAnimals.isSuperset(of: houseAnimals)
+        // true
+        farmAnimals.isDisjoint(with: cityAnimals)
+        // true
+        
     }
     
 }
+    
