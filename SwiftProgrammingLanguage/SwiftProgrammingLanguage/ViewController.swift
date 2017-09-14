@@ -2,42 +2,23 @@
 //  ViewController.swift
 //  SwiftProgrammingLanguage
 //
-//  Created by admin on 2017/9/8.
+//  Created by admin on 2017/9/14.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
 /*lzy170908注:
  这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
- 『字符串和字符(Strings and Characters)』、『 合类型 (Collection Types)』
  
- 字符串和字符(Strings and Characters)：
- • 字符串字面量 (页 0)
- • 初始化空字符串 (页 0)
- • 字符串可变性 (页 0)
- • 字符串是值类型 (页 0)
- • 使用字符 (页 0)
- • 连接字符串和字符 (页 0)
- • 字符串插值 (页 0)
- • Unicode (页 0)
- • 计算字符数量 (页 0)
- • 访问和修改字符串 (页 0)
- • 比较字符串 (页 0)
- • 字符串的 Unicode 表示形式 (页 0)
+ 控制流(Control Flow)
  
- 
- 集合类型 (Collection Types)：
- 
- • 集合的可变性 (页 0)
- • 数组 (页 0)
- • 集合 (页 0)
- • 集合操作 (页 0)
- • 字典 (页 0)
- 
+ • For-In 循环 (页 0)
+ • While 循环 (页 0)
+ • 条件语句 (页 0)
+ • 控制转移语句(Control Transfer Statements) (页 0)
+ • 提前退出 (页 0)
+ • 检测 API 可用性 (页 0)
  
  
  */
-
-
-
 
 import UIKit
 
@@ -46,907 +27,587 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*lzy170911注:
+        
+        /*lzy170914注:
          
+         Swift 还提供了 for-in 循环，用来更简单地遍历数组(array)，字典(dictionary)，区间(range)，字符串(string)和其他序列类型。
+         Swift 的 switch 语句比 C 语言中更加强大。在 C 语言中，如果某个 case 不小心漏写了 break ，这个 case 就会贯穿至下一个 case，Swift 无需写 break ，所以不会发生这种贯穿的情况。case 还可以匹配很多不同的模式，包括间隔匹配(interval match)，元组(tuple)和转换到特定类型。 switch 语句的 case 中匹配的值可以绑定成临时常量或变量，在case体内使用，也可以用 where 来描述更复杂的匹配条件。
          
-         字符串是例如 "hello, world" ， "albatross" 这样的有序的 Character (字符)类型的值的集合。通过 String 类型来表示。 一个 String 的内容可以用许多方式读取，包括作为一个 Character 值的集合。
-         Swift 的 String 和 Character 类型提供了快速和兼容 Unicode 的方式供你的代码使用。创建和操作字符串的语法与 C 语言中字符串操作相似，轻量并且易读。 字符串连接操作只需要简单地通过 + 符号将两个字符串相连即可。与 Swift 中其他值一样，能否更改字符串的值，取决于其被定义为常量还是变量。你也可以在字符串内插程中使用字符串插入常量、变量、字面量表达成更长的字符串，这样可以很容易的创建自定义的字符串值，进行展示、存储以及打印。
-         尽管语法简易，但 String 类型是一种快速、现代化的字符串实现。 每一个字符串都是由编码无关的 Unicode 字符组成，并支持访问字符的多种 Unicode 表示形式(representations)。
-         注意:
-         Swift 的 String 类型与 Foundation NSString 类进行了无缝桥接。Foundation 也可以对 String 进行扩展，暴露在 NSString 中定义的方法。 这意味着，如果你在 String 中调用这些 NSString 的方法，将不用进行 转换。
-         更多关于在 Foundation 和 Cocoa 中使用 String 的信息请查看 Using Swift with Cocoa and Objective-C (Swift 3.0.1)。
-         
-         
-         
-         // MARK: 字符串字面量
-         
-         字符串字面量是由双引号 ( "" ) 包裹着的具有固定顺序的文本字符。
-         
-         您可以在您的代码中包含一段预定义的字符串值作为字符串字面量。
-         
-         字符串字面量可以用于为常量和变量提供初始值:
-         
-         let someString = "Some string literal value"
-         注意 someString 常量通过字符串字面量进行初始化，Swift 会推断该常量为 String 类型。
-         注意: 更多关于在字符串字面量中使用特殊字符的信息，请查看 字符串字面量的特殊字符 (页 0) 。
-         
-         // MARK: 初始化空字符串
-         
-         要创建一个空字符串作为初始值，可以将空的字符串字面量赋值给变量，也可以初始化一个新的 String 实例:
-         
-         // 两个字符串均为空并且等价
-         
-         可以通过检查其Bool类型的isEmpty 属性来判断该字符串是否为空：
-         
-         
-         
-         
-         // MARK: 字符串可变性
-         
-         将特定的字符串赋值给一个变量，来修改变量中其中代表的数据
-         赋值给一个常量，来保证字符串不会被改变
-         
-         在 Objective-C 和 Cocoa 中，您需要通过选择两个不同的类( NSString 和 NSMutableString )来指定字符串是 否可以被修改。
          */
-        
-        var emptyString = "" // 空字符串字面量
-        var anotherEmptyString = String() // 初始化方法
-        
-        if emptyString.isEmpty {
+        // MARK:  ====For-In 循环====
+        /*lzy170914:
+         你可以使用 for-in 循环来遍历一个集合中的所有元素，例如数字范围、数组中的元素或者字符串中的字符。
+         */
+        //         下面的例子用来输出乘 5 乘法表前面一部分内容:
+        for index in 1 ... 5{
             
-            print("Nothing to see here")
+            print("\(index) times 5 is \(index * 5).")
         }
+        // 1 times 5 is 5
+        // 2 times 5 is 10
+        // 3 times 5 is 15
+        // 4 times 5 is 20
+        // 5 times 5 is 25
         
-        // 打印输出："Nothing to see here"
-        
-        var variableString = "Horse"
-        variableString += " and carriage"
-        
-        // variableString 现在为 "Horse and carriage"
-        
-        let constantString = "Highlander"
-        //        constantString += " and another Highlander"// 这会报告一个编译错误 (compile-time error) - 常量字符串不可以被修改。 Left side of mutating operator isno’t mutable: ‘constantString’ is a ‘let’ constant
-        
-        // MARK: ====字符串是值类型====
-        
-        /*lzy170911注:
+        /*
+         例子中用来进行遍历的元素是使用闭区间操作符( ... )表示的从 1 到 5 的数字区间。
+         index 被赋值为闭区间中的第一个数字( 1 )，然后循环中的语句被执行一次。
+         在本例中，这个循环只包含一个语句，用来输出当前 index 值所对应的乘 5 乘法表的结果。
+         该语句执行后， index 的值被更新为闭区间中的第二个数字( 2 )，之后 print(_:separator:terminator:) 函数会再执行一次。整个过程会进行到闭区间结尾为止。
+         上面的例子中， index 是一个每次循环遍历开始时被自动赋值的常量。这种情况下， index 在使用前不需要声明，只需要将它包含在循环的声明中，就可以对其进行隐式声明，而无需使用 let 关键字声明。
          
-         Swift 的 String 类型 是 值类型。如果您创建了新的字符串，那么当其进行常量、变量赋值操作，或在函数/方法中传递时，会进行值拷贝。
-         
-         任何情况下，都会对已有字符串值创建新副本，并对该新副本进行传递或赋值操 作。 值类型在 结构体和枚举是值类型 (页 0) 中进行了详细描述。
-         Swift 默认字符串拷贝的方式保证了在函数/方法中传递的是字符串的值。 很明显无论该值来自于哪里，都是您 独自拥有的。 您可以确信传递的字符串不会被修改，除非你自己去修改它。
-         在实际编译时，Swift 编译器会优化字符串的使用，使实际的复制只发生在绝对必要的情况下，这意味着您将字 符串作为值类型的同时可以获得极高的性能。
-         
+         如果你不需要区间序列内每一项的值，你可以使用下划线( _ )替代变量名来忽略这个值:
          */
         
-        // MARK: ====使用字符====
-        /*lzy170911:
-         可以通过for-in 循环来遍历字符串中的characters 属性来获取每一个字符的值：
-         for-in
-         循环在 For 循环 (页 0) 中进行了详细描述。
-         
-         通过标明一个Character类型并用字符字面量进行赋值，可以建立一个独立的字符常量或变量：
-         
-         
-         字符串可以通过传递一个值类型为 Character 的数组作为自变量来初始化：
-         */
-        for character in "Dog!?".characters {
-            print(character)
+        let base = 3
+        let power = 10
+        var answer = 1
+        for _ in 1 ... power {
+            answer *= base
         }
+        print("\(base) to the power of \(power) is \(answer).")// 输出 「3 to the power（幂） of 10 is 59049」
         
-        let exclamationMark: Character = "!"
-        
-        let catCharacters: [Character] = ["C", "a", "t", "!", "?"]
-        let catString = String(catCharacters)
-        print(catString)
-        
-        // MARK: ====连接字符串和字符====
-        /*lzy170911:
-         字符串可以通过加法运算符（+）相加在一个（或称『连接』）创建一个新的字符串：
+        /*
          
-         通过加法赋值运算符（+=）将一个字符添加到一个已经存在的字符串变量上：
-         
-         使用append()方法将一个字符附加到一个字符串变量的尾部：
-         
-         注意：不能将一个字符串或字符添加到一个已经存在的 字符变量 上，因为字符变量只能包含一个字符。
+         这个例子计算 base 这个数的 power 次幂(本例中，是 3 的 10 次幂)，从 1 ( 3 的 0 次幂)开始做 3 的乘 法， 进行 10 次，使用 1 到 10 的闭区间循环。这个计算并不需要知道每一次循环中计数器具体的值，只需要执 行了正确的循环次数即可。下划线符号 _ (替代循环中的变量)能够忽略当前值，并且不提供循环遍历时对值的访问。
          */
         
-        let string1 = "hello"
-        let string2 = " there"
-        var welcome = string1 + string2
-        print(welcome)
         
-        var instruction = "look over"
-        instruction += string2
-        print(instruction)
+        //        使用 for-in 遍历一个数组所有元素:
         
-        welcome.append(exclamationMark)
-        print(welcome)// welcome 现在等于 "hello there!"
+        let names = ["Anna", "Alex", "Brian", "jack"]
         
-        // MARK: ====字符串插值====
-        /*lzy170911:
-         字符串插值是一种构建新字符串的方式，可以在其中包含常量、变量、字面量和表达式。插入的字符串字面量的每一项都在以 反斜线为前缀 的圆括号中：
-         */
-        let multiplier = 3
-        let message = "\(multiplier) times 2.5 is \(Double(multiplier) * 2.5)"
-        print(message)
-        
-        /*lzy170911注:
-         在上面的例子中， multiplier 作为 \(multiplier) 被插入到一个字符串常量量中。 当创建字符串执行插值计算 时此占位符会被替换为 multiplier 实际的值。
-         
-         multiplier 的值也作为字符串中后面表达式的一部分。 该表达式计算 Double(multiplier) * 2.5 的值并将结果 ( 7.5 ) 插入到字符串中。 在这个例子中，表达式写为 \(Double(multiplier) * 2.5) 并包含在字符串字面量中。
-         
-         注意:
-         插值字符串中写在括号中的表达式不能包含 非转义反斜杠 ( \ )，并且不能包含回车或换行符。不过，插值字符串可以包含其他字面量。
-         */
-        
-        // MARK: ====Unicode====
-        /*lzy170911:
-         
-         Unicode是一个国际标准，用于文本的编码和表示。 它使您可以用标准格式表示来自任意语言几乎所有的字 符，并能够对文本文件或网页这样的外部资源中的字符进行读写操作。 Swift 的 String 和 Character 类型是完 全兼容 Unicode 标准的。
-         这一节没有代码，是概念和理论扩展，有以下主题：
-         
-         Unicode 标量：
-         Swift 的 String 类型是基于 Unicode 标量 建立的。 Unicode 标量是对应字符或者修饰符的唯一的21位数 字
-         
-         字符串字面量的特殊字符：
-         转义字符 \0 (空字符)、 \\ (反斜线)、 \t (水平制表符)、 \n (换行符)、 \r (回车符)、 \" (双引 号)、 \' (单引号)。
-         • Unicode 标量，写成 \u{n} (u为小写)，其中 n 为任意一到八位十六进制数且可用的 Unicode 位码。
-         
-         
-         可扩展的字形群：
-         可扩展的字符群 是一个灵活的方法，用许多复杂的脚本字符表示单一的 Character 值。
-         可拓展的字符群 可以使包围记号(例如 COMBINING ENCLOSING CIRCLE 或者 U+20DD )的标量包围其他 Unicode 标 量，作为一个单一的 Character 值；
-         地域性指示符号的 Unicode 标量可以组合成一个单一的 Character 值
-         */
-        
-        let eAcute: Character = "\u{E9}" // é
-        let combinedEAcute: Character = "\u{65}\u{301}" // e 后面加上 ? // eAcute 是 é, combinedEAcute 是 é
-        print(eAcute)
-        print(combinedEAcute)
-        
-        // MARK: ====计算字符数量====
-        /*lzy170911:
-         如果想要获得一个字符串中 Character 值的数量，可以使用字符串的 characters 属性的 count 属性：
-         */
-        
-        let unusualMenagerie = "Koala ?, Snail ?, Penguin ?, Dromedary ?"
-        print("unusualMenagerie has \(unusualMenagerie.characters.count) characters")// 40个，算了空格
-        
-        /*lzy170911注:
-         注意在 Swift 中，使用可拓展的字符群 作为Character值来连接或改变字符串时，并不一定会更改字符串的字符数量。
-         
-         Swift 中的字符在一个字符串中并不一定占用相同的内存空间数量。
-         
-         另外需要注意的是通过Character属性返回的字符数量并不总是与包含相同字符的NSString的length 属性相同。（NSString的length属性是利用 UTF-16 表示的十六位代码单元数字，而不是 Unicode 可扩展的字符群集)
-         
-         */
-        
-        // MARK: ====访问和修改字符串====
-        /*lzy170911:
-         每一个 String值都有一个关联的索引(index)类型，String.Index，它对应着字符串中的每一个Character 的位置。
-         
-         前面提到，不同的字符可能占用不同的内存空间，所以要知道Character的确切位置，就必须从String开头遍历每一个Unicode标量直到结尾。因此，Swift的字符串不能使用（integer）做索引。
-         
-         使用startIndex 属性可以获取一个String 的第一个Character的索引。
-         使用endIndex属性可以获取最后一个 Character 的后一个位置的索引。因此，endIndex属性不能作为一个字符串的有效下标。如果String 是空串，startIndex 和 endIndex  是相等的。
-         
-         通过调用 String 的 index(before:) 或 index(after:)方法，可以立即得到前面或者后面的索引。还可以通过index(_offsetBy:)来获取对应偏移量的索引。
-         这种方式可以避免多次调用 index(before:) 或 index(after:) 方法。
-         
-         使用下面的下标语法来访问 String 特定索引的 Character。
-         
-         注意:
-         您可以使用 startIndex 和 endIndex 属性或者 index(before:) 、 index(after:) 和 index(_:offsetB y:) 方法在任意一个确认的并遵循 Collection 协议的类型里面，如上文所示是使用在 String 中，您也可 以使用在 Array 、 Dictionary 和 Set 中。
-         */
-        
-        let greeting = "Guten tag!"
-        greeting[greeting.startIndex]
-        
-        greeting[greeting.index(before: greeting.endIndex)]
-        
-        greeting[greeting.index(after: greeting.startIndex)]
-        
-        let index = greeting.index(greeting.startIndex, offsetBy: 7)
-        greeting[index]
-        
-        // 试图获取越界索引对应的 Character ，将引发一个运行时错误。
-        
-        //       var endIdx = greeting.endIndex
-        //        print(greeting.index(after: endIdx))// fatal error: cannot increment beyond endIndex
-        
-        /*lzy170911注:
-         使用 characters 属性的 indices(指数、索引、指标) 属性会创建一个包含全部索引的范围(Range)，用来在一个字符串中访问单 个字符。
-         
-         */
-        
-        for index in greeting.characters.indices {
-            /*lzy170911注:
-             G
-             u
-             t
-             e
-             n
-             
-             t
-             a
-             g
-             !
-             */
-            print("\(greeting[index]) ")
-            print("\(greeting[index]) ", terminator: "")
-            
+        for name in names {
+            print("Hi, \(name)!")
         }
-        // 打印输出 "G u t e n T a g ! "
+        // Hello, Anna!
+        // Hello, Alex!
+        // Hello, Brian!
+        // Hello, Jack!
+        /*
+         你也可以通过遍历一个字典来访问它的键值对。
+         遍历字典时，字典的每项元素会以 (key, value) 元组的形式返回，你可以在 for-in 循环中使用显式的常量名称来解读 (key, value) 元组。下面的例子中，字典的键(key)解 读为常量 animalName ，字典的值会被解读为常量 legCount :
+         */
+        let numberOfLegs = ["spider" : 8, "ant" : 6, "cat" : 4]
+        for (animalName, legCount) in numberOfLegs{
+            print("\(animalName)s has \(legCount) legs")
+        }
+        // ants have 6 legs
+        // cats have 4 legs
+        // spiders have 8 legs
         
-        // MARK: ====插入和删除====
-        /*lzy170912:
-         调用 insert(_:at:) 方法可以在一个字符串的指定索引插入一个字符，调用 insert(contentsOf:at:) 方法可以在一个字符串的指定索引插入一个段字符串。
+        
+        /*
+         字典元素的遍历顺序和插入顺序可能不同，字典的内容在内部是无序的，所以遍历元素时不能保证顺序。
+         关于数组和字典，详情参见集合类型。
          */
         
-        welcome = "hello"
-        welcome.insert("!", at: welcome.endIndex)
-        // welcome 变量现在等于『hello!』
         
-        welcome.insert(contentsOf: " there".characters, at: welcome.index(before: welcome.endIndex))
-        // welcome 变量现在等于 "hello there!"
-        
-        /*lzy170912注:
-         调用 remove(at:)方法可以在一个字符串的指定索引删除一个字符，调用 removeSubrange(_:)可以在一个字符串的指定索引删除一个子字符串。
+        // MARK:  ====While 循环====
+        /*lzy170914:
+         while 循环会一直运行一段语句直到条件变成 false 。这类循环适合使用在第一次迭代前，迭代次数未知的情况
+         下。Swift 提供两种 while 循环形式:
+         • while循环，每次在循环开始时计算条件是否符合;
+         • repeat-while循环，每次在循环结束时计算条件是否符合。
          */
         
-        welcome.remove(at: welcome.index(before: welcome.endIndex))
-        // welcome现在等于"hello there"
-        let range = welcome.index(welcome.endIndex, offsetBy: -6) ..< welcome.endIndex
-        welcome.removeSubrange(range)
-        // welcome现在等于 "hello"
+        /*
+         while 循环从计算一个条件开始。如果条件为 true ，会重复运行一段语句，直到条件变为 false 。下面是 while 循环的一般格式:
+         while condition {
+         statements
+         }
+         下面的例子来玩一个叫做蛇和梯子(也叫做滑道和梯子)的小游戏:
+         游戏的规则如下:
+         • 游戏盘面包括 25 个方格，游戏目标是达到或者超过第 25 个方格;
+         • 每一轮，你通过掷一个六面体骰子来确定你移动方块的步数，移动的路线由上图中横向的虚线所示;
+         • 如果在某轮结束，你移动到了梯子的底部，可以顺着梯子爬上去;
+         • 如果在某轮结束，你移动到了蛇的头部，你会顺着蛇的身体滑下去。
+         */
         
-        /*lzy170912注:
-         注意：
-         可以使用 insert(_:at:)  insert(contentsOf:at:) remove(at:) 和 removeSubrange(_:)方法在任意一个确认的并遵循RangeReplaceableCollection 协议的类型里面，如上文所示，是使用在String中，也可以使用在Array Dictionary 和 Set中。
+        
+        /*游戏盘面可以使用一个 Int 数组来表达。数组的长度由一个 finalSquare 常量储存，用来初始化数组和检测最终 胜利条件。游戏盘面由 26 个 Int 0 值初始化，而不是 25 个(由 0 到 25 ，一共 26 个):
+         */
+        let finalSquare = 25
+        var board = [Int](repeatElement(0, count: finalSquare + 1))
+        
+        /*
+         一些方格被设置成特定的值来表示有蛇或者梯子。梯子底部的方格是一个正值，使你可以向上移动，蛇头处的方
+         格是一个负值，会让你向下移动:
+         */
+        // lzy170914注：这里的语句使用分号分割，一般Swift是不用分号，之前文档说过，要是你需要在一行中写多条语句，需要分号隔开；另外注释也说到 正号 只是为了代码美观。
+        board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
+        board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
+        /*
+         3 号方格是梯子的底部，会让你向上移动到 11 号方格，我们使用 board[03] 等于 +08 (来表示 11 和 3 之间的 差值)。使用一元正运算符( +i )是为了和一元负运算符( -i )对称，为了让盘面代码整齐，小于 10 的数字都使用 0 补齐(这些风格上的调整都不是必须的，只是为了让代码看起来更加整洁)。
          
+         玩家由左下角空白处编号为 0 的方格开始游戏。玩家第一次掷骰子后才会进入游戏盘面:
+         dice(骰子
          */
-        
-        // MARK: 比较字符串
-        /*lzy170912注:
-         Swift 提供了三种方式来比较文本值:字符串字符相等、前缀相等和后缀相等。
-         */
-        // MARK: ====字符串/字符相等====
-        /*lzy170912:
-         字符串/字符可以用等于操作符( == )和不等于操作符( != )
-         quotation  报价、引用、引证
-         */
-        
-        let quotation = "We're a lot alike, you and I."
-        let sameQuotation = "We're a lot alike, you and I."
-        
-        if quotation == sameQuotation {
-            print("These two strings are considered equal")
-        }// 打印输出 "These two strings are considered equal"
-        
-        /*lzy170912注:
-         如果两个字符串(或者两个字符)的可扩展的字形群 是标准相等的，那就认为它们是相等的。在这个情况 下，即使可扩展的字形群 是有不同的 Unicode 标量构成的，只要它们有同样的语言意义和外观，就认为它们标 准相等。
-         例如， LATIN SMALL LETTER E WITH ACUTE ( U+00E9 )就是标准相等于 LATIN SMALL LETTER E ( U+0065 )后面加上 C OMBINING ACUTE ACCENT ( U+0301 )。这两个字符群 都是表示字符 é 的有效方式，所以它们被认为是标准相等 的:
-         */
-        
-        // "Voulez-vous un café?" 使用 LATIN SMALL LETTER E WITH ACUTE
-        let eAcuteQuestion = "Voulez-vous un caf\u{E9}?"
-        // "Voulez-vous un café?" 使用 LATIN SMALL LETTER E and COMBINING ACUTE ACCENT
-        let combinedEAcuteQuestion = "Voulez-vous un caf\u{65}\u{301}?"
-        
-        if eAcuteQuestion == combinedEAcuteQuestion {
-            print("These two strings are considered equal")
-        }
-        // 打印输出 "These two strings are considered equal"
-        
-        /*lzy170912注:
-         相反，英语中的 LATIN CAPITAL LETTER A ( U+0041 ，或者 A )不等于俄语中的 CYRILLIC CAPITAL LETTER A ( 0 ，或者 A )。两个字符看着是一样的，但却有不同的语言意义:
-         */
-        
-        let latinCapitalLetterA: Character = "\u{41}"
-        let cyrillicCapitalLetterA: Character = "\u{0410}"
-        if latinCapitalLetterA != cyrillicCapitalLetterA {
-            print("These two characters are not equivalent")
-        }
-        // 打印 "These two characters are not equivalent"
-        // lzy170912注：注意:在 Swift 中，字符串和字符并不区分地域(not locale-sensitive)。
-        
-        
-        // MARK: ====前缀/后缀相等====
-        /*lzy170912:
-         通过调用字符串的 hasPrefix(_:) / hasSuffix(_:) 方法来检查字符串是否拥有特定前缀/后缀，两个方法均接收一 个 String 类型的参数，并返回一个布尔值。
-         下面的例子以一个字符串数组表示莎士比亚话剧《罗密欧与朱丽叶》中前两场的场景位置:
-         */
-        
-        let romeoAndJuliet = [
-            "Act 1 Scene 1: Verona, A public place",
-            "Act 1 Scene 2: Capulet's mansion",
-            "Act 1 Scene 3: A room in Capulet's mansion",
-            "Act 1 Scene 4: A street outside Capulet's mansion",
-            "Act 1 Scene 5: The Great Hall in Capulet's mansion",
-            "Act 2 Scene 1: Outside Capulet's mansion",
-            "Act 2 Scene 2: Capulet's orchard",
-            "Act 2 Scene 3: Outside Friar Lawrence's cell",
-            "Act 2 Scene 4: A street in Verona",
-            "Act 2 Scene 5: Capulet's mansion",
-            "Act 2 Scene 6: Friar Lawrence's cell"
-        ]
-        // 您可以调用 hasPrefix(_:) 方法来计算话剧中第一幕的场景数:
-        
-        var act1SceneCount = 0
-        for scene in romeoAndJuliet {
-            if scene.hasPrefix("Act 1 ") {
-                act1SceneCount += 1
-            } }
-        print("There are \(act1SceneCount) scenes in Act 1") // 打印输出 "There are 5 scenes in Act 1"
-        
-        // 相似地，您可以用 hasSuffix(_:) 方法来计算发生在不同地方的场景数:
-        var mansionCount = 0
-        var cellCount = 0
-        for scene in romeoAndJuliet {
-            if scene.hasSuffix("Capulet's mansion") {
-                mansionCount += 1
-            } else if scene.hasSuffix("Friar Lawrence's cell") {
-                cellCount += 1
+        var square = 0
+        var diceRoll = 0
+        while square < finalSquare {
+            // 掷骰子
+            diceRoll += 1
+            if diceRoll == 7 {diceRoll = 1}// 根据点数移动
+                
+                square += diceRoll
+                
+                if square < board.count {
+                    // 如果玩家还在棋盘上，顺着梯子爬上去或者顺着蛇滑下去
+                    square += board[square]
+                }
             }
-        }
-        print("\(mansionCount) mansion scenes; \(cellCount) cell scenes") // 打印输出 "6 mansion scenes; 2 cell scenes"
-        /*lzy170912注:
-         注意:
-         hasPrefix(_:) 和 hasSuffix(_:) 方法都是在每个字符串中逐字符比较其可扩展的字符群 是否标准相等，详细
-         描述在字符串/字符相等 (页 0)。
-         */
-        
-        
-        // MARK: 字符串的 Unicode 表示形式
-        
-        /*lzy170912注:
-         UTF-8 表示:您可以通过遍历 String 的 utf8 属性来访问它的 UTF-8 表示.其为 String.UTF8View 类型的属性
-         
-         UTF-16 表示:您可以通过遍历 String 的 utf16 属性来访问它的 UTF-16 表示.其为 String.UTF16View 类型的属性
-         
-         Unicode 标量表示:
-         */
-        
-        
-        // MARK: - ------- 集合类型 (Collection Types)-------
-        
-        
-        /*lzy170912注:
-         Swift 语言提供 Arrays 、 Sets 和 Dictionaries 三种基本的 合类型用来存储 合数据。数组(Arrays)是有序
-         数据的 。集合(Sets)是无序无重复数据的 。字典(Dictionaries)是无序的键值对的 。
-         
-         Swift 语言中的 Arrays 、 Sets 和 Dictionaries 中存储的数据值类型必须明确。这意味着我们不能把不正确的数 据类型插入其中。同时这也说明我们完全可以对取回值的类型非常自信。
-         
-         Swift 的 Arrays 、 Sets 和 Dictionaries 类型被实现为泛型集合。更多关于泛型类型和 合，参见 泛型章 节。
-         */
-        
-        // MARK: 集合的可变性
-        /*lzy170912:
-         如果创建一个 Arrays 、 Sets 或 Dictionaries 并且把它分配成一个变量，这个 集合将会是可变的。这意味着我们 可以在创建之后添加更多或移除已存在的数据项，或者改变 合中的数据项。如果我们把 Arrays 、 Sets 或 ionaries 分配成常量，那么它就是不可变的，它的大小和内容都不能被改变。
-         
-         
-         注意:
-         在我们不需要改变 集合的时候创建不可变 集合是很好的实践。如此 Swift 编译器可以优化我们创建的集合。
-         
-         */
-        
-        // MARK: 数组(Arrays)
-        /*lzy170912:
-         数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组的不同位置中。
-         注意: Swift 的 Array 类型被桥接到 Foundation 中的 NSArray 类。 更多关于在 Foundation 和 Cocoa 中使用 array 的信息，参见 Using Swift with Cocoa and Obejective-C(Swift 3.0.1) 中使用 Cocoa 数据类型部分。
-         */
-        
-        // MARK: ====数组的简单语法====
-        /*lzy170912:
-         
-         写 Swift 数组应该遵循像 Array<Element> 这样的形式，其中 Element 是这个数组中唯一允许存在的数据类 型。我们也可以使用像 [Element] 这样的简单语法。尽管两种形式在功能上是一样的，但是推荐较短的那种，而 且在本文中都会使用这种形式来使用数组。
-         
-         */
-        
-        // MARK:  ====创建一个空数组====
-        // lzy170912注：我们可以使用构造语法来创建一个由特定数据类型构成的空数组:
-        
-        var someInts = [Int]()
-        print("someInts is of type [Int] with \(someInts.count) items.")
-        // 打印 "someInts is of type [Int] with 0 items."
-        
-        /*lzy170912:
-         通过构造函数的类型， someInts 的值类型被推断为 [Int]。
-         或者，如果代码上下文中已经提供了类型信息，例如一个函数参数或者一个已经定义好类型的常量或者变量，我们可以使用空数组语句创建一个空数组，它的写法很简单: [] (一对空方括号):
-         */
-        
-        someInts.append(3)
-        // someInts 现在包含一个Int值
-        someInts = []
-        // someInts 现在是空数组，但是仍然是[Int]类型的
-        
-        // MARK:  ====创建一个带有默认值的数组====
-        /*lzy170913:
-         Swift 中的Array类型还提供一个可以创建特定大小并且所有数据都被默认的构造方法。
-         我们可以把准备加入到新数组的数据项(count)和适当类型的初始值（repeating）传入数组构造函数：
-         
-         */
-        var threeDoubles = Array(repeatElement(0.0, count: 3))
-        // threeDoubles 是一种[Double]数组，等价于[0.0, 0.0, 0.0]
-        print(threeDoubles)
-        
-        // MARK:  ====通过两个数组相加创建一个数组====
-        /*lzy170913:
-         可以通过使用加法操作符(+)来组合两种已存在的相同类型数组。新数组的数据类型会被从两个数组的数据类型中推断处来：
-         
-         */
-        var anotherThreeDoubles = Array(repeatElement(2.5, count: 3))
-        // anotherThreeDoubles 被推断为[Double] 等价与[2.5, 2.5, 2.5]
-        var sixDoubles = threeDoubles + anotherThreeDoubles
-        // sixDoubles 被推断为 [Double],等价于[0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
-        
-        // MARK:  ====用数组字面量构造数组====
-        /*lzy170913:
-         可以使用数组字面量来进行数组构造，这是一种用一个或者多个数值构造数组的简单方法。数组字面量是一系列由都好分割，并由方括号包好的数值：
-         [value1, value 2, value 3]。
-         下面这个例子创建了一个叫做 shoppingList 并且存储String的数组：
-         */
-        var shoppingList: [String] = ["Eggs", "Milk"]
-        // 被构造并拥有两个初始项
-        
-        /*lzy170913注:
-         shoppingList 变量被声明为 『字符串值类型的数组』，记作[String]。因为这个数组被规定只有String一种数据结构。
-         所以只有String类型可以在其中被存取。
-         在这里，shoppingList数组由两个String值（"Eggs", "Milk"）构造，并且由数组字面量定义。
-         
-         注意：
-         shoppingList数组被声明为变量（var 关键字创建）而不是常量（let 创建）是因为以后可能有更多的数据项被传入其中。
-         
-         在这个例子中，字面量仅仅包含两个String值。匹配了该数组的变量声明（只能包含String的数组），所以这个字面量的分配过程可以作为用两个初始项来构造shoppingList的一种方式。
-         由于 Swift 的类型推断机制，当我们用字面量构造只拥有相同类型值数组的时候，我们不必把数组的类型定义清 楚。 shoppingList 的构造也可以这样写:
-         */
-        var shoppingList2 = ["Eggs", "Milk"]
-        //        因为所有数组字面量中的值都是相同的类型。Swift可以推断出[String]是shoppingList中变量的正确类型。
-        
-        // MARK:  ====访问和修改数组====
-        /*lzy170913:
-         通过数组的方法和属性来访问和修改数组，或者使用下标语法。
-         */
-        
-        // lzy170913注：使用数组的只读属性 count 来获取数组中的数据项数量：
-        print("The shopping list contains \(shoppingList.count) items.")
-        // 2 items
-        
-        // lzy170913注：使用布尔属性 isEmpty 作为一个缩写形式去检查 count 属性是否为0：
-        if shoppingList.isEmpty {
-            print("The shopping list is empty.")
-        } else {
-            print("The shopping list is not empty.")
-        }
-        // 打印 not empty
-        
-        // lzy170913注：使用appendd(_:)方法在数组后面添加新的数据项
-        
-        shoppingList.append("Flour")
-        // shoppingList现在有3个数据项
-        
-        // lzy170913注：使用加法赋值运算符(+=)，直接在数组后面添加一个或多个拥有相同类型的数据项：
-        
-        shoppingList += ["Baking Powder"]
-        // shopping list现在有 4项了
-        
-        shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
-        // shopping list现在有7项
-        
-        // lzy170913注：使用 下标语法 来获取数组中的数据项，把我们需要的数据项的索引值，直接放在数组名称的方括号中：
-        var firstItem = shoppingList[0]
-        // 第一项是 Eggs
-        /*lzy170913注:
-         注意：数组第一项的索引值是0而不是1，Swift中的数组的索引总是从零开始的。
-         */
-        
-        // lzy170913注：使用 下标 来改变某个已有索引值对应的数据值：
-        shoppingList[0] = "Six eggs"
-        // 现在数组第一项是 "Six eggs" 而不是 Eggs了。
-        
-        // lzy170913注：使用 下标 一次改变一系列数据值，即使新数据和原来数据的数量是不一样的。下面的例子把 "Chocolate Spread" ， "Cheese" ，和 "Butter" 替换为 "Bananas" 和 "Apples" :
-        shoppingList[4...6] = ["Bananas", "Apples"]
-        // shopping list 现在已经有6项了
-        
-        // 不可以用下标访问的形式，在数组尾部添加新项。
-        
-        // lzy170913注：调用数组的 insert(_:at:)方法来在某个具体索引值之前添加数据项：
-        
-        /*这次 insert(_:at:) 方法调用把值为 "Maple Syrup" 的新数据项插入列表的最开始位置，并且使用 0 作为索引 值。
-         */
-        shoppingList.insert("Maple Syrup", at: 0)
-        // shopping list 现在有 7项， 这里insert的是第一项
-        
-        // lzy170913注：使用 remove(at:) 方法来移除数组中的某一项。这个方法把数组在特定索引值中存储的数据项移 除并且返回这个被移除的数据项(我们不需要的时候就可以无视它):
-        
-        let mapleSyrup = shoppingList.remove(at: 0)
-        // 索引值为0的数据项被移除
-        // shoppingList 现在只有6项，而且不包括 Maple Syrup
-        // mapleSyrup 常量的值等于被移除数据项的值 "Maple Syrup"
-        /*注意: 如果我们试着对索引越界的数据进行检索或者设置新值的操作，会引发一个运行期错误。
-         我们可以使用索引值和 数组的 count 属性进行比较来在使用某个索引之前先检验是否有效。
-         除了当 count 等于 0 时(说明这是个空数 组)，最大索引值一直是 count - 1 ，因为数组都是零起索引。
-         */
-        
-        //        数据项被移除后数组中的空出项会被自动填补，所以现在索引值为 0 的数据项的值再次等于 "Six eggs" :
-        firstItem = shoppingList[0]
-        // firstItem 现在等于 "Six eggs"
-        
-        //        如果我们只想把数组中的最后一项移除，可以使用 removeLast() 方法而不是 remove(at:) 方法来避免我们需要获 取数组的 count 属性。就像后者一样，前者也会返回被移除的数据项:
-        let apples = shoppingList.removeLast()
-        // 数组的最后一项被移除了
-        // shoppingList 现在只有5项，不包括 Apples // apples 常量的值现在等于 "Apples" 字符串
-        
-        // MARK:  ====数组的遍历====
-        /*lzy170913:
-         使用for-in循环来遍历所有数组中的数据项:
-         */
-        
-        for item in shoppingList {
-            print(item)
-        }
-        
-        /*lzy170913注:
-         如果我们同时需要每个数据项的值和索引值，可以使用 enumerated() 方法来进行数组遍历。 enumerated() 返回 一个由每一个数据项索引值和数据值组成的元组。我们可以把这个元组分解成临时常量或者变量来进行遍历:
-         更多关于 for-in 循环的介绍请参见for 循环 (页 0)。
-         */
-        
-        for (index, value) in shoppingList.enumerated() {
-            print("Item \(String(index + 1)):\(value)")
-        }
-        
-        // MARK: 集合(Sets)
-        
-        /*lzy170913注:
-         集合(Set)用来存储 相同类型 并且 没有确定顺序的值。当 集合元素顺序不重要时或者希望确保每个元素只出现一次 时可以使用 集合而不是数组。
-         
-         注意:
-         Swift的 Set 类型被桥接到 Foundation 中的 NSSet 类。
-         关于使用 Foundation 和 Cocoa 中 Set 的知识，参见 Using Swift with Cocoa and Obejective-C(Swift 3.0.1) 中使用 Cocoa 数据类型部分。
-         
-         集合类型的哈希值 一个类型为了存储在 集合中，该类型必须是可哈希化的————也就是说，该类型必须提供一个方法来计算它的哈希 值。一个哈希值是 Int 类型的，相等的对象哈希值必须相同，比如 a==b ,因此必须 a.hashValue == b.hashValue。
-         
-         Swift 的所有基本类型(比如 String , Int , Double 和 Bool )默认都是可哈希化的，可以作为 集合的值的类型或者字典的键的类型。没有关联值的枚举成员值(在枚举有讲述)默认也是可哈希化的。
-         注意: 你可以使用你自定义的类型作为 集合的值的类型或者是字典的键的类型，但你需要使你的自定义类型符合 Swift 标准库中的 Hashable 协议。符合 Hashable 协议的类型需要提供一个类型为 Int 的可读属性 hashValue 。由类型的 hashValue 属性返回的值不需要在同一程序的不同执行周期或者不同程序之间保持相同。
-         
-         因为 Hashable 协议符合 Equatable 协议，所以遵循该协议的类型也必须提供一个"是否相等"运算符( == )的实现。这个 Equatable 协议要求任何符合 == 实现的实例间都是一种相等的关系。也就是说，对于 a,b,c 三个值来 说， == 的实现必须满足下面三种情况:
-         • a == a (自反性)
-         • a == b 意味着 b == a (对称性)
-         • a == b && b == c 意味着 a == c (传递性)
-         关于遵循协议的更多信息，请看协议
-         */
-        
-        // MARK:  ====集合类型语法====
-        /*lzy170913:
-         Swift 中的 Set类型被写为 Set<Element>，这里的Element表示Set中允许存储的类型。
-         和数组不同，集合没有等价的简化形式。
-         */
-        
-        // MARK:  ====创建和构造一个空的集合====
-        /*lzy170913:
-         通过构造器语法 创建一个特定类型的空集合：
-         */
-        var letters = Set<Character>()
-        print("letters is of type Set<Character> with \(letters.count) items.")
-        // 0 items
-        
-        
-        /*lzy170913注:
-         通过构造器，这里的letters 变量的类型被推断为 Set<Character>。
-         如果上下文提供了类型信息，比如作为函数的参数或者已知类型的变量或常量，我们可以通过一个空的数组字面量创建一个空的 Set :
-         */
-        letters.insert("a")
-        // 含有了一个 Character类型的值
-        letters = []
-        // 现在变为了一个空的Set，但是它仍然是Set<Character>类型
-        
-        // MARK:  ====用数组字面量创建集合====
-        /*lzy170913:
-         
-         用数组字面量创建集合
-         你可以使用数组字面量来构造集合，并且可以使用简化形式写一个或者多个值作为集合元素。
-         下面的例子创建一个称之为 favoriteGenres 的 集合来存储 String 类型的值:
-         */
-        var favoriteGenres: Set<String> = ["Rock", "Classical", "Hip hop"] // favoriteGenres 被构造成含有三个初始值的集合
-        /*
-         
-         这个 favoriteGenres 变量被声明为“一个 String 值的 集合”，写为 Set<String> 。由于这个特定的 集合含有指 定 String 类型的值，所以它只允许存储 String 类型值。这里的 favoriteGenres 变量有三个 String 类型的初始 值( "Rock" ， "Classical" 和 "Hip hop" )，并以数组字面量的方式出现。
-         注意:
-         favoriteGenres 被声明为一个变量(拥有 var 标示符)而不是一个常量(拥有 let 标示符),因为它里面的元素将
-         会在下面的例子中被增加或者移除。
-         
-         一个 Set 类型不能从数组字面量中被单独推断出来，因此 Set 类型必须显式声明。
-         
-         然而，由于 Swift 的类型推断功能，如果你想使用一个数组字面量构造一个 Set 并且该数组字面量中的所有元素类型相同，那么你无须写出Set 的具体类型。
-         
-         favoriteGenres 的构造形式可以采用简化的方式代替:
-         由于数组字面量中的所有元素类型相同，Swift 可以推断出 Set<String> 作为 favoriteGenres 变量的正确类型。
-         */
-        var favoriteGenres2: Set = ["Rock", "Classical", "Hip hop"]
-        
-        // MARK:  ====访问和修改一个集合====
-        /*lzy170913:
-         你可以通过 Set 的属性和方法来访问和修改一个 Set 。
-         为了找出一个 Set 中元素的数量，可以使用其只读属性 count :
-         
-         */
-        
-        print("I have \(favoriteGenres.count) favorite music genres.") // 打印 "I have 3 favorite music genres."
-        
-        // 使用布尔属性 isEmpty 作为一个缩写形式去检查 count 属性是否为 0 :
-        
-        if favoriteGenres.isEmpty {
-            print("As far as music goes, I'm not picky.")
-        } else {
-            print("I have particular music preferences.")
-        }
-        // 打印 "I have particular music preferences."
-        
-        
-        // 你可以通过调用 Set 的 insert(_:) 方法来添加一个新元素:
-        
-        favoriteGenres.insert("Jazz")         // favoriteGenres 现在包含4个元素
-        
-        /*
-         你可以通过调用 Set 的 remove(_:) 方法去删除一个元素，如果该值是该 Set 的一个元素则删除该元素并且返回 被删除的元素值，否则如果该 Set 不包含该值，则返回 nil 。
-         另外， Set 中的所有元素可以通过它的 removeAll() 方法删除。
-         */
-        if let removedGenre = favoriteGenres.remove("Rock") {
-            print("\(removedGenre)? I'm over it.")
-        } else {
-            print("I never much cared for that.")
-        }
-        // 打印 "Rock? I'm over it."
-        
-        // 使用 contains(_:) 方法去检查 Set 中是否包含一个特定的值:
-        if favoriteGenres.contains("Funk") {
-            print("I get up on the good foot.")
-        } else {
-            print("It's too funky in here.")
-        }
-        // 打印 "It's too funky in here."
-        
-        // 遍历一个集合 : 你可以在一个 for-in 循环中遍历一个 Set 中的所有值。
-        
-        for genre in favoriteGenres {
-            print("\(genre)")
-        }
-        // Classical
-        // Jazz
-        // Hip hop
-        /*
-         Swift 的 Set 类型没有确定的顺序，为了按照特定顺序来遍历一个 Set 中的值可以使用 sorted() 方法，它将返
-         回一个有序数组，这个数组的元素排列顺序由操作符'<'对元素进行比较的结果来确定.
-         
-         */
-        for genre in favoriteGenres.sorted() {
-            print("(genre)")
-        }
-        // prints "Classical"
-        // prints "Hip hop"
-        // prints "Jazz
-        
-        /*
-         集合操作.jpg
-         
-         你可以高效地完成 Set 的一些基本操作，比如把两个 集合组合到一起，判断两个 集合共有元素，或者判断两个集合是否全包含，部分包含或者不相交。
-         基本集合操作
-         下面的插图描述了两个 集合- a 和 b -以及通过阴影部分的区域显示 集合各种操作的结果。
-         • 使用 intersection(_:) 方法根据两个 集合中都包含的值创建的一个新的 集合。 // lzy170913注：交集
-         • 使用 symmetricDifference(_:) 方法根据在一个集合中但不在两个集合中的值创建一个新的 集合。// lzy170913注：差集：相对的补集
-         
-         • 使用 union(_:) 方法根据两个集合的值创建一个新的集合。// lzy170913注：合集
-         • 使用 subtracting(_:) 方法根据不在该集合中的值创建一个新的集合。// 补集
-         
-         */
-        let oddDigits: Set = [1, 3, 5, 7, 9]
-        let evenDigits: Set = [0, 2, 4, 6, 8]
-        let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
-        oddDigits.union(evenDigits).sorted()
-        // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        oddDigits.intersection(evenDigits).sorted()
-        // []
-        oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
-        // [1, 9]
-        oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
-        // [1, 2, 9]
-        
-        /*
-         集合成员关系和相等.jpg
-         下面的插图描述了三个集合- a , b 和 c ,以及通过重叠区域表述集合间共享的元素。集合 a 是 集合 b 的父集合，因为 a 包含了 b 中所有的元素，相反的，集合 b 是 集合 a 的子集合，因为属于 b 的元素也被 a 包含。
-         集合b 和集合 c 彼此不关联，因为它们之间没有共同的元素。
-         • 使用“是否相等”运算符( == )来判断两个集合是否包含全部相同的值。
-         • 使用 isSubset(of:) 方法来判断一个集合中的值是否也被包含在另外一个集合中。
-         • 使用 isSuperset(of:) 方法来判断一个集合中包含另一个集合中所有的值。
-         • 使用 isStrictSubset(of:) 或者 isStrictSuperset(of:) 方法来判断一个集合是否是另外一个集合的子集合或者父集合并且两个集合并不相等。
-         • 使用 isDisjoint(with:) 方法来判断两个集合是否不含有相同的值(是否没有交集)。
-         
-         
-         */
-        let houseAnimals: Set = ["🐶", "🐱"]
-        let farmAnimals: Set = ["🐮", "🐔", "🐑", "🐶", "🐱"]
-        let cityAnimals: Set = ["🐦", "🐭"]
-        houseAnimals.isSubset(of: farmAnimals)
-        // true
-        farmAnimals.isSuperset(of: houseAnimals)
-        // true
-        farmAnimals.isDisjoint(with: cityAnimals)
-        // true
-        
-        // MARK: 字典
-        
-        /*lzy170914注:
-         
-         字典是一种存储多个相同类型的值的容器。每个值(value)都关联唯一的键(key)，键作为字典中的这个值数据的标识符。和数组中的数据项不同，字典中的数据项并没有具体顺序。我们在需要通过标识符(键)访问数据 的时候使用字典，这种方法很大程度上和我们在现实世界中使用字典查字义的方法一样。
-         
-         注意:
-         Swift 的 Dictionary 类型被桥接到 Foundation 的 NSDictionary 类。
-         更多关于在 Foundation 和 Cocoa 中使用 Dictionary 类型的信息，参见 Using Swift with Cocoa and Obejecti ve-C(Swift 3.0.1) 中使用 Cocoa 数据类型部分。
-         */
-        
-        // MARK:  ====字典类型简化语法====
-        /*lzy170914:
-         Swift 字典使用Dictionary<Key, Value>定义，其中 Key是字典中键的数据类型，Value是字典中对应于这些键所存储值的数据类型。
-         
-         注意:
-         一个字典的 Key 类型必须遵循 Hashable 协议，就像 Set 的值类型。
-         
-         我们也可以用 [Key: Value] 这样简化的形式去创建一个字典类型。虽然这两种形式功能上相同，但是后者是首 选，并且这本指导书涉及到字典类型时通篇采用后者。
-         */
-        
-        //        创建一个空字典我们可以像数组一样使用构造语法创建一个拥有确定类型的空字典:
-        
-        var namesOfIntegers = [Int : String]()
-        // namesOfIntegers 是一个空的 [Int: String] 字典
-        
-        /*lzy170914注:
-         这个例子创建了一个 [Int: String] 类型的空字典来储存整数的英语命名。它的键是 Int 型，值是 String 型。
-         如果上下文已经提供了类型信息，我们可以使用空字典字面量来创建一个空字典，记作 [:] (中括号中放一个冒号):
-         */
-        
-        namesOfIntegers[16] = "sixteen"
-        // namesOfIntegers 现在包含一个键值对
-        namesOfIntegers = [:]
-        // namesOfIntegers 又成为了一个 [Int: String] 类型的空字典
-        
-        
-        // MARK: == 用字典字面量创建字典
-        
-        /*lzy170914注:
-         我们可以使用字典字面量来构造字典，这和我们刚才介绍过的数组字面量拥有相似语法。
-         字典字面量是一种将一个或多个键值对写作 Dictionary  集合的快捷途径。
-         一个键值对是一个 key 和一个 value 的结合体。在字典字面量中，每一个键值对的键和值都由冒号分割。这些键值对构成一个列表，其中这些键值对由方括号包含、由逗号分割:
-         [key 1: value 1, key 2: value 2, key 3: value 3]
-         下面的例子创建了一个存储国际机场名称的字典。在这个字典中键是三个字母的国际航空运输相关代码，值是机
-         场名称:
-         
-         */
-        var airports: [String: String] = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
-        //        airports 字典被声明为一种 [String: String] 类型，这意味着这个字典的键和值都是 String 类型。
-        
-        /*
-         
-         注意:
-         airports 字典被声明为变量(用 var 关键字)而不是常量( let 关键字)因为后来更多的机场信息会被添加到
-         这个示例字典中。
-         airports 字典使用字典字面量初始化，包含两个键值对。第一对的键是 YYZ ，值是 Toronto Pearson 。第二对的 键是 DUB ，值是 Dublin 。
-         这个字典语句包含了两个 String: String 类型的键值对。它们对应 airports 变量声明的类型(一个只有 键和 String 值的字典)所以这个字典字面量的任务是构造拥有两个初始数据项的 airport 字典。
-         和数组一样，我们在用字典字面量构造字典时，如果它的键和值都有各自一致的类型，那么就不必写出字典的类型。 airports 字典也可以用这种简短方式定义:
-         */
-        
-        airports = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
-        
-        
-        /*
-         因为这个语句中所有的键和值都各自拥有相同的数据类型，Swift 可以推断出 Dictionary<String, String> 是 airports 字典的正确类型。
-         */
-        // MARK:  ====访问和修改字典====
-        /*lzy170914:
-         我们可以通过字典的方法和属性来访问和修改字典，或者通过使用下标语法。 和数组一样，我们可以通过字典的只读属性 count 来获取某个字典的数据项数量:
-         */
-        print("The dictionary of airports contains (airports.count) items.")
-        // 打印 "The dictionary of airports contains 2 items."(这个字典有两个数据项)
-        
-        //          使用布尔属性 isEmpty 作为一个缩写形式去检查 count 属性是否为 0 :
-        
-        if airports.isEmpty {
-            print("The airports dictionary is empty.")
-        } else {
-            print("The airports dictionary is not empty.")
-        }
-        // 打印 "The airports dictionary is not empty."
-        
-        //          我们也可以在字典中使用下标语法来添加新的数据项。可以使用一个恰当类型的键作为下标索引，并且分配恰当类型的新值:
-        airports["LHR"] = "London"
-        // airports 字典现在有三个数据项
-        
-        // 我们也可以使用下标语法来改变特定键对应的值:
-        airports["LHR"] = "London Heathrow"
-        // "LHR"对应的值 被改为 "London Heathrow
-        
-        
-        /*
-         作为另一种下标方法，字典的 updateValue(_:forKey:) 方法可以设置或者更新特定键对应的值。
-         就像上面所示的下标示例， updateValue(_:forKey:) 方法在这个键不存在对应值的时候会设置新值或者在存在时更新已存在的 值。
-         
-         和上面的下标方法不同的， updateValue(_:forKey:) 这个方法返回更新值之前的原值。
-         这样使得我们可以检查更新是否成功。
-         updateValue(_:forKey:) 方法会返回对应值的类型的可选值。举例来说:对于存储 String 值的字典，这个函数会 返回一个 String? 或者“可选 String ”类型的值。
-         
-         如果有值存在于更新前，则这个可选值包含了旧值，否则它将会是 nil 。
-         */
-        if let oldValue = airports.updateValue("Dublin Airport", forKey: "DUB") {
-            print("The old value for DUB was \(oldValue).")
-        }
-        // 输出 "The old value for DUB was Dublin."
-        
-        /*
-         我们也可以使用下标语法来在字典中检索特定键对应的值。因为有可能请求的键没有对应的值存在，字典的下标 访问会返回对应值的类型的可选值。如果这个字典包含请求键所对应的值，下标会返回一个包含这个存在值的可选值，否则将返回 nil :
-         
-         */
-        // TODO:        if let airportName = airports["DUB"] {
-        
-        if airports["DUB"] != nil {
-            print("The name of the airport is (airportName).")
-        } else {
-            print("That airport is not in the airports dictionary.")
-        }
-        // 打印 "The name of the airport is Dublin Airport."
-        
-        /*
-         我们还可以使用下标语法来通过给某个键的对应值赋值为 nil 来从字典里移除一个键值对:
-         */
-        airports["APL"] = "Apple Internation"
-        // "Apple Internation" 不是真的 APL 机场, 删除它
-        airports["APL"] = nil
-        // APL 现在被移除了
-        
-        
-        /*
-         此外， removeValue(forKey:) 方法也可以用来在字典中移除键值对。这个方法在键值对存在的情况下会移除该键 值对并且返回被移除的值或者在没有值的情况下返回 nil :
-         
-         */
-        // TODO:let removedValue = airports.removeValue(forKey: "DUB")
-        if airports.removeValue(forKey: "DUB") != nil {
-            print("The removed airport's name is (removedValue).")
-        } else {
-            print("The airports dictionary does not contain a value for DUB.")
-        }
-        // prints "The removed airport's name is Dublin Airport."
-        
-        // MARK:  ====字典遍历====
-        /*lzy170914:
-         我们可以使用 for-in 循环来遍历某个字典中的键值对。每一个字典中的数据项都以 (key, value) 元组形式返回，并且我们可以使用临时常量或者变量来分解这些元组:
-         */
-        for (airportCode, airportName) in airports {
-            print("\(airportCode): \(airportName)")
-        }
-        
-        //        通过访问keys或者 values属性，我们也可以遍历字典的键或者值:
-        
-        for airportCode in airports.keys {
-            print("Airport code: \(airportCode).")
-        }
-        // Airport code: YYZ
-        // Airport code: LHR
-        
-        for airportName in airports.values {
-            print("Airport name: \(airportName)")
-        }
-        // Airport name: Toronto Pearson
-        // Airport name: London Heathrow
-        
-        /*
-         
-         如果我们只是需要使用某个字典的键集合或者值集合来作为某个接受Array实例的 API 的参数，可以直接使用 keys 或者 values  属性构造一个新数组:
-         */
-        
-        let airportCodes = [String](airports.keys)
-        // airportCodes 是 ["YYZ", "LHR"]
-        let airportNames = [String](airports.values)
-        // airportNames 是 ["Toronto Pearson", "London Heathrow"]
-    }
-    
-}
+            
+            print("Game over!")
+            /*
+             本例中使用了最简单的方法来模拟掷骰子。 diceRoll 的值并不是一个随机数，而是以 0 为初始值，之后每一次 while 循环， diceRoll 的值增加 1 ，然后检测是否超出了最大值。当 diceRoll 的值等于 7 时，就超过了骰子的最大值，会被重置为1。所以diceRoll的取值顺序会一直是 1 ，2，3，4，5，6，1，2 等。
+             掷完骰子后，玩家向前移动 diceRoll 个方格，如果玩家移动超过了第 25 个方格，这个时候游戏将会结束，为了 应对这种情况，代码会首先判断 square 的值是否小于 board 的 count 属性，只有小于才会在 board[square] 上增 加 square ，来向前或向后移动(遇到了梯子或者蛇)。
+             注意:
+             如果没有这个检测( square < board.count )， board[square] 可能会越界访问 board 数组，导致错误。如果 square 等于 26 ， 代码会去尝试访问 board[26] ，超过数组的长度。
+             当本轮 while 循环运行完毕，会再检测循环条件是否需要再运行一次循环。如果玩家移动到或者超过第 25 个方 格，循环条件结果为 false ，此时游戏结束。
+             
+             while 循环比较适合本例中的这种情况，因为在 while 循环开始时，我们并不知道游戏要跑多久，只有在达成指定条件时循环才会结束。
+             
+             */
+            // MARK:  ====Repeat-While====
+            /*lzy170914:
+             while 循环的另外一种形式是 repeat-while ，它和 while 的区别是在判断循环条件之前，先执行一次循环的代码 块。然后重复循环直到条件为 false 。
+             注意:
+             Swift语言的 repeat-while 循环和其他语言中的 do-while 循环是类似的。
+             下面是 repeat-while 循环的一般格式:
+             
+             repeat {
+             
+             } while condition
+             
+             还是蛇和梯子的游戏，使用 repeat-while 循环来替代 while 循环。 finalSquare 、 board 、 square 和 diceRoll 的值初始化同 while 循环时一样,见上方。
+             
+             repeat-while 的循环版本，循环中第一步就需要去检测是否在梯子或者蛇的方块上。没有梯子会让玩家直接上到第 25 个方格，所以玩家不会通过梯子直接赢得游戏。这样在循环开始时先检测是否踩在梯子或者蛇上是安全的。
+             游戏开始时，玩家在第 0 个方格上， board[0] 一直等于 0， 不会有什么影响:
+             */
 
+        square = 0
+        diceRoll = 0
+        
+            repeat {
+                print("repeatWhile square:\(square)")
+                // 顺着梯子爬上去或者顺着蛇滑下去
+                square += board[square]
+                // 掷骰子
+                diceRoll += 1
+                if diceRoll == 7 { diceRoll = 1 }
+                // 根据点数移动
+                square += diceRoll
+                
+            } while square < finalSquare
+            // 检测完玩家是否踩在梯子或者蛇上之后，开始掷骰子，然后玩家向前移动 diceRoll 个方格，本轮循环结束。
+            
+            
+            /*
+             
+             循环条件( while square < finalSquare )和 while 方式相同，但是只会在循环结束后进行计算。在这个游戏中， repeat-while 表现得比 while 循环更好。 repeat-while 方式会在条件判断 square 没有超出后直接运行 are += board[square] ，这种方式可以去掉 while 版本中的数组越界判断。
+             */
+            // MARK:  条件语句
+            /*lzy170914:
+             根据特定的条件执行特定的代码通常是十分有用的。当错误发生时，你可能想运行额外的代码;或者，当值太大
+             或太小时，向用户显示一条消息。要实现这些功能，你就需要使用条件语句。
+             Swift 提供两种类型的条件语句: if 语句和 switch 语句。通常，当条件较为简单且可能的情况很少时，使用 if 语句。而 switch 语句更适用于条件较复杂、有更多排列组合的时候。并且 switch 在需要用到模式匹配(patte rn-matching)的情况下会更有用。
+             */
+            
+            // MARK:  ====If====
+            //            if 语句最简单的形式就是只包含一个条件，只有该条件为 true 时，才执行相关代码:
+            
+            var temperatureInFahrenheit = 30
+            if temperatureInFahrenheit <= 32 {
+                print("It's very cold.Consider wearing a scarf.")
+            }
+            // 输出"It's very cold. Consider wearing a scarf."上面的例子会判断温度是否小于等于 32 华氏度(水的冰点)。如果是，则打印一条消息;否则，不打印任何消息，继续执行 if 块后面的代码。
+            
+            //            当然， if 语句允许二选一执行，叫做 else 从句。也就是当条件为 false 时，执行 else 语句:
+            temperatureInFahrenheit = 40
+            if temperatureInFahrenheit <= 32 {
+                print("It's very cold. Consider wearing a scarf.")
+            } else {
+                print("It's not that cold. Wear a t-shirt.")
+            }
+            // 输出 "It's not that cold. Wear a t-shirt."
+            
+            /*lzy170914:
+             显然，这两条分支中总有一条会被执行。由于温度已升至 40 华氏度，不算太冷，没必要再围围巾。因此，else 分支就被触发了。
+             你可以把多个 if 语句链接在一起，来实现更多分支:
+             */
+            temperatureInFahrenheit = 90
+            if temperatureInFahrenheit <= 32 {
+                print("It's very cold. Consider wearing a scarf.")
+            } else if temperatureInFahrenheit >= 86 {
+                print("It's really warm. Don't forget to wear sunscreen.")
+                
+            } else {
+                print("It's not that cold. Wear a t-shirt.")
+            }
+            // 输出 "It's really warm. Don't forget to wear sunscreen."
+            
+            // 在上面的例子中，额外的 if 语句用于判断是不是特别热。而最后的 else 语句被保留了下来，用于打印既不冷也不热时的消息。实际上，当不需要完整判断情况的时候，最后的 else 语句是可选的:
+            temperatureInFahrenheit = 72
+            if temperatureInFahrenheit <= 32 {
+                print("It's very cold. Consider wearing a scarf.")
+            } else if temperatureInFahrenheit >= 86 {
+                print("It's really warm. Don't forget to wear sunscreen.")
+            }
+            // 在这个例子中，由于既不冷也不热，所以不会触发 if 或 else if 分支，也就不会打印任何消息。
+            
+            // MARK:  ====Switch====
+            /*lzy170914:
+             switch 语句会尝试把某个值与若干个模式(pattern)进行匹配。根据第一个匹配成功的模式， switch 语句会执 行对应的代码。当有可能的情况较多时，通常用 switch 语句替换 if 语句。
+             */
+            
+            /*switch 语句最简单的形式就是把某个值与一个或若干个相同类型的值作比较:
+             switch some value to consider {
+                case value 1:
+             respond to value 1
+                case value 2,
+             value 3:
+                respond to value 2 or 3
+             default:
+                otherwise, do something else
+             }
+             
+             switch 语句由多个 case 构成，每个由 case 关键字开始。为了匹配某些更特定的值，Swift 提供了几种方法来进行更复杂的模式匹配，这些模式将在本节的稍后部分提到。
+             与 if 语句类似，每一个 case 都是代码执行的一条分支。 switch 语句会决定哪一条分支应该被执行，这个流程被称作 根据给定的值切换(switching)。
+             switch 语句必须是完备的。这就是说，每一个可能的值都必须至少有一个 case 分支与之对应。在某些不可能涵盖所有值的情况下，你可以使用默认( default )分支来涵盖其它所有没有对应的值，这个默认分支必须在 switch 语句的最后面。
+             */
+        // 下面的例子使用 switch 语句来匹配一个名为 someCharacter 的小写字符:
+            let someCharacter: Character = "z"
+            switch someCharacter {
+                
+            case "a" :
+                print("The first letter of the alphabet.")
+            case "z" :
+                print("The last letter of the alphabet.")
+            default:
+                print("Some other character")
+            }
+            /* 输出 "The last letter of the alphabet"
+            在这个例子中，第一个 case 分支用于匹配第一个英文字母 a ，第二个 case 分支用于匹配最后一个字母 z 。 因为 switch 语句必须有一个case分支用于覆盖所有可能的字符，而不仅仅是所有的英文字母，所以switch语句使 用 default 分支来匹配除了 a 和 z 外的所有值，这个分支保证了swith语句的完备性。
+         */
+
+        // MARK: ======不存在隐式的贯穿======
+            /*与 C 和 Objective-C 中的 switch 语句不同，在 Swift 中，当匹配的 case 分支中的代码执行完毕后，程序会 终止 switch 语句，而不会继续执行下一个 case 分支。这也就是说，不需要在 case 分支中显式地使用 break 语句。这使得 switch 语句更安全、更易用，也避免了因忘记写 break 语句而产生的错误。
+             注意: 虽然在Swift中 break 不是必须的，但你依然可以在 case 分支中的代码执行完毕前使用 break 跳 出，详情请参见Switch 语句中的 break (页 0)。
+         */
+//        每一个 case 分支都必须包含至少一条语句。像下面这样书写代码是无效的，因为第一个 case 分支是空的:
+        let anoterCharacter: Character = "a"
+        switch anoterCharacter {
+//        case "a" : //无效，这个分支下面没有语句 case "A":
+        case "A" :
+            print("The letter A")
+        default :
+            print("Not the letter A")
+        }
+        
+        /*这段代码会报编译错误:
+         ‘case’ label in ‘switch’ should have at least one executable statement
+         不像 C 语言里的 switch 语句，在 Swift 中， switch 语句不会一起匹配 "a" 和 "A" 。
+         相反的，上面的代码会引起编译期错误: case "a": 不包含任何可执行语句。
+         这就避免了意外地从一个 case 分支贯穿到另外一个，使得代码更安全、也更直观。
+         */
+//        为了让单个case同时匹配 a 和 A ，可以将这个两个值组合成一个复合匹配，并且用逗号分开:
+        
+        let anotherCharacter02: Character = "a"
+        switch anotherCharacter02 {
+        case "a", "A" :
+            print("the letter A")
+        default:
+            print("Not the letter A")
+        }
+        // 输出 "The letter A 。为了可读性，符合匹配可以写成多行形式，详情请参考复合匹配 (页 0) 注意: 如果想要显式贯穿case分支，请使用 fallthrough 语句，详情请参考贯穿 (页 0)。
+        
+        
+        // MARK: ======区间匹配======
+        
+// case 分支的模式也可以是一个值的区间。下面的例子展示了如何使用区间匹配来输出任意数字对应的自然语言格式:
+        
+        let approximateCount = 62
+        let countedThings = "moons orbiting Saturn"
+        var naturalCount: String
+        switch approximateCount {
+        case 0:
+            naturalCount = "no"
+        case 1...5 :
+            naturalCount = "a few"
+        case 5..<12:// lzy170914注：Use of unresolved operator ‘…<’
+            naturalCount = "several"
+        case 12..<100:
+            naturalCount = "dozens of"
+        case 100..<1000:
+            naturalCount = "hundreds of"
+        default:
+            naturalCount = "many"
+        }
+        print("There are \(naturalCount) \(countedThings).")
+        // 输出 "There are dozens of moons orbiting Saturn."
+        /*在上例中， approximateCount 在一个 switch 声明中被评估。每一个 case 都与之进行比较。因为 approximateCou nt 落在了 12 到 100 的区间，所以 naturalCount 等于 "dozens of" 值，并且此后的执行跳出了 switch 语句。
+         */
+        // MARK:  ====元组====
+        /*lzy170914:
+         我们可以使用元组在同一个 switch 语句中测试多个值。元组中的元素可以是值，也可以是区间。另外，使用下划 线( _ )来匹配所有可能的值。
+         */
+        //  下面的例子展示了如何使用一个 (Int, Int) 类型的元组来分类下图中的点(x, y):
+        let somePoint = (1, 1)
+        switch somePoint {
+        case (0, 0):
+            print("(0, 0) is at the origin")
+        case(_,0):
+            print("(\(somePoint.0), 0) is on the x-axis")
+        case (0, _):
+            print("(0, \(somePoint.1)) is on the y-axis")
+        case (-2 ... 2, -2 ... 2):
+            print("(\(somePoint.0), \(somePoint.1)) is inside the box")
+        default:
+            print("(\(somePoint.0), \(somePoint.1)) is outside the box.")
+        }
+        // 见工程中的(x,y).jpg。输出 "(1, 1) is inside the box"
+
+        /* 在上面的例子中， switch 语句会判断某个点是否是原点(0, 0)，是否在红色的x轴上，是否在橘黄色的y轴上，是否在一个以原点为中心的4x4的蓝色矩形里，或者在这个矩形外面。
+         
+             不像 C 语言，Swift 允许多个 case 匹配同一个值。实际上，在这个例子中，点(0, 0)可以匹配所有四个 case。但是，如果存在多个匹配，那么只会执行第一个被匹配到的 case 分支。考虑点(0, 0)会首先匹配 case (0, 0) ，因此剩下的能够匹配的分支都会被忽视掉。
+         */
+        // MARK:  ====值绑定(Value Bindings)====
+        /*lzy170914:
+         case 分支允许将匹配的值绑定到一个临时的常量或变量，并且在case分支体内使用 —— 这种行为被称为值绑定(value binding)，因为匹配的值在case分支体内，与临时的常量或变量绑定。
+         */
+//        下面的例子展示了如何在一个 (Int, Int) 类型的元组中使用值绑定来分类下图中的点(x, y):
+        let anoterPoint = (2, 0)
+        switch anoterPoint {
+            
+        case (let x, 0):
+            print("on the x-axis with an x value of \(x)")
+        case (0, let y):
+            print("on the y-axis with an y value of \(y)")
+        case let (x, y):
+            print("somewhere else at (\(x), \(y))")
+        }// 输出 "on the x-axis with an x value of 2"
+        
+        
+        /*
+             在上面的例子中， switch 语句会判断某个点是否在红色的x轴上，是否在橘黄色的y轴上，或者不在坐标轴上。
+             这三个 case 都声明了常量 x 和 y 的占位符，用于临时获取元组 anotherPoint 的一个或两个值。
+         第一个 case —— case (let x, 0) 将匹配一个纵坐标为 0 的点，并把这个点的横坐标赋给临时的常量 x 。
+         类似的，第二个 case —— case (0, let y) 将匹配一个横坐标为 0 的点，并把这个点的纵坐标赋给临时的常量 y 。
+             一旦声明了这些临时的常量，它们就可以在其对应的 case 分支里使用。在这个例子中，它们用于打印给定点的 类型。
+             请注意，这个 switch 语句不包含默认分支。这是因为最后一个 case —— case let(x, y) 声明了一个可以匹配余下所有值的元组。这使得 switch 语句已经完备了，因此不需要再书写默认分支。
+         */
+        
+        // MARK:  ====Where====
+        /*lzy170914:
+         case 分支的模式可以使用 where 语句来判断额外的条件。
+         */
+        //        下面的例子把下图中的点(x, y)进行了分类:
+        /*
+         
+         
+             let yetAnotherPoint = (1, -1)
+             switch yetAnotherPoint {
+             case let (x, y) where x == y:
+             print("(\(x), \(y)) is on the line x == y")
+             case let (x, y) where x == -y:
+             print("(\(x), \(y)) is on the line x == -y")
+             case let (x, y):
+             print("(\(x), \(y)) is just some arbitrary point")
+         
+             }
+             // 输出 "(1, -1) is on the line x == -y"
+             image
+             图片 2.8 image
+             在上面的例子中， switch 语句会判断某个点是否在绿色的对角线 x == y 上，是否在紫色的对角线 x == -y 上，或者不在对角线上。
+             这三个 case 都声明了常量 x 和 y 的占位符，用于临时获取元组 yetAnotherPoint 的两个值。这两个常量被用作 where 语句的一部分，从而创建一个动态的过滤器(filter)。当且仅当 where 语句的条件为 true 时，匹配到的
+             case 分支才会被执行。
+             就像是值绑定中的例子，由于最后一个 case 分支匹配了余下所有可能的值， switch 语句就已经完备了，因此不 需要再书写默认分支。
+             复合匹配
+             当多个条件可以使用同一种方法来处理时，可以将这几种可能放在同一个 case 后面，并且用逗号隔开。当case后 面的任意一种模式匹配的时候，这条分支就会被匹配。并且，如果匹配列表过长，还可以分行书写:
+             let someCharacter: Character = "e"
+             switch someCharacter {
+             case "a", "e", "i", "o", "u":
+             print("\(someCharacter) is a vowel")
+             case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+             "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+             print("\(someCharacter) is a consonant")
+             default:
+             print("\(someCharacter) is not a vowel or a consonant")
+             }
+             // 输出 "e is a vowel"
+             这个 switch 语句中的第一个case，匹配了英语中的五个小写元音字母。相似的，第二个case匹配了英语中所有的 小写辅音字母。最终， default 分支匹配了其它所有字符。 复合匹配同样可以包含值绑定。复合匹配里所有的匹 配模式，都必须包含相同的值绑定。并且每一个绑定都必须获取到相同类型的值。这保证了，无论复合匹配中的 哪个模式发生了匹配，分支体内的代码，都能获取到绑定的值，并且绑定的值都有一样的类型。
+             let stillAnotherPoint = (9, 0)
+             switch stillAnotherPoint {
+             case (let distance, 0), (0, let distance):
+             print("On an axis, \(distance) from the origin")
+             default:
+             print("Not on an axis")
+             }
+             // 输出 "On an axis, 9 from the origin"
+             第 2 章 Swift 教程 | 109
+             上面的case有两个模式: (let distance, 0) 匹配了在x轴上的值， (0, let distance) 匹配了在y轴上的值。两个 模式都绑定了 distance ，并且 distance 在两种模式下，都是整型——这意味着分支体内的代码，只要case匹 配，都可以获取到 distance 值
+             控制转移语句
+             控制转移语句改变你代码的执行顺序，通过它可以实现代码的跳转。Swift 有五种控制转移语句:
+             • continue
+             • break
+             • fallthrough • return
+             • throw
+             我们将会在下面讨论 continue 、 break 和 fallthrough 语句。 return 语句将会在函数章节讨论， throw 语句会 在错误抛出 (页 0)章节讨论。
+             Continue
+             continue 语句告诉一个循环体立刻停止本次循环，重新开始下次循环。就好像在说“本次循环我已经执行完 了”，但是并不会离开整个循环体。
+             下面的例子把一个小写字符串中的元音字母和空格字符移除，生成了一个含义模糊的短句:
+             let puzzleInput = "great minds think alike"
+             var puzzleOutput = ""
+             for character in puzzleInput.characters {
+             switch character {
+             case "a", "e", "i", "o", "u", " ":
+             continue
+             default:
+             puzzleOutput.append(character)
+             }
+             }
+             print(puzzleOutput)
+             // 输出 "grtmndsthnklk"
+             在上面的代码中，只要匹配到元音字母或者空格字符，就调用 continue 语句，使本次循环结束，重新开始下次循 环。这种行为使 switch 匹配到元音字母和空格字符时不做处理，而不是让每一个匹配到的字符都被打印。
+             
+             第 2 章 Swift 教程 | 110
+             Break
+             break 语句会立刻结束整个控制流的执行。当你想要更早的结束一个 switch 代码块或者一个循环体时，你都可以 使用 break 语句。
+             循环语句中的 break
+             当在一个循环体中使用 break 时，会立刻中断该循环体的执行，然后跳转到表示循环体结束的大括号( } )后的第 一行代码。不会再有本次循环的代码被执行，也不会再有下次的循环产生。
+             Switch 语句中的 break
+             当在一个 switch 代码块中使用 break 时，会立即中断该 switch 代码块的执行，并且跳转到表示 switch 代码块 结束的大括号( } )后的第一行代码。
+             这种特性可以被用来匹配或者忽略一个或多个分支。因为 Swift 的 switch 需要包含所有的分支而且不允许有为 空的分支，有时为了使你的意图更明显，需要特意匹配或者忽略某个分支。那么当你想忽略某个分支时，可以在 该分支内写上 break 语句。当那个分支被匹配到时，分支内的 break 语句立即结束 switch 代码块。
+             注意: 当一个 switch 分支仅仅包含注释时，会被报编译时错误。注释不是代码语句而且也不能让 switch 分支 达到被忽略的效果。你应该使用 break 来忽略某个分支。
+             下面的例子通过 switch 来判断一个 Character 值是否代表下面四种语言之一。为了简洁，多个值被包含在了同一 个分支情况中。
+             let numberSymbol: Character = "三" // 简体中文里的数字 3 var possibleIntegerValue: Int?
+             switch numberSymbol {
+             case "1", "?", "一", "?":
+             possibleIntegerValue = 1 case "2", "?", "二", "?":
+             possibleIntegerValue = 2 case "3", "?", "三", "?":
+             possibleIntegerValue = 3 case "4", "?", "四", "?":
+             possibleIntegerValue = 4
+             default:
+             break }
+             if let integerValue = possibleIntegerValue {
+             print("The integer value of \(numberSymbol) is \(integerValue).")
+             } else {
+             print("An integer value could not be found for \(numberSymbol).")
+             }
+             // 输出 "The integer value of 三 is 3."
+             这个例子检查 numberSymbol 是否是拉丁，阿拉伯，中文或者泰语中的 1 到 4 之一。如果被匹配到，该 switch 分 支语句给 Int? 类型变量 possibleIntegerValue 设置一个整数值。
+             
+             第 2 章 Swift 教程 | 111
+             当 switch 代码块执行完后，接下来的代码通过使用可选绑定来判断 possibleIntegerValue 是否曾经被设置过 值。因为是可选类型的缘故， possibleIntegerValue 有一个隐式的初始值 nil ，所以仅仅当 possibleIntegerValu e 曾被 switch 代码块的前四个分支中的某个设置过一个值时，可选的绑定才会被判定为成功。
+             在上面的例子中，想要把 Character 所有的的可能性都枚举出来是不现实的，所以使用 default 分支来包含所有 上面没有匹配到字符的情况。由于这个 default 分支不需要执行任何动作，所以它只写了一条 break 语句。一旦 落入到 default 分支中后， break 语句就完成了该分支的所有代码操作，代码继续向下，开始执行 if let 语句。
+             贯穿
+             Swift 中的 switch 不会从上一个 case 分支落入到下一个 case 分支中。相反，只要第一个匹配到的 case 分支 完成了它需要执行的语句，整个 switch 代码块完成了它的执行。相比之下，C 语言要求你显式地插入 break 语句 到每个 case 分支的末尾来阻止自动落入到下一个 case 分支中。Swift 的这种避免默认落入到下一个分支中的 特性意味着它的 switch 功能要比 C 语言的更加清晰和可预测，可以避免无意识地执行多个 case 分支从而引发 的错误。
+             如果你确实需要 C 风格的贯穿的特性，你可以在每个需要该特性的 case 分支中使用 fallthrough 关键字。下面 的例子使用 fallthrough 来创建一个数字的描述语句。
+             let integerToDescribe = 5
+             var description = "The number \(integerToDescribe) is"
+             switch integerToDescribe {
+             case 2, 3, 5, 7, 11, 13, 17, 19:
+             description += " a prime number, and also"
+             fallthrough
+             default:
+             description += " an integer."
+             }
+             print(description)
+             // 输出 "The number 5 is a prime number, and also an integer."
+             这个例子定义了一个 String 类型的变量 description 并且给它设置了一个初始值。函数使用 switch 逻辑来判断 integerToDescribe 变量的值。当 integerToDescribe 的值属于列表中的质数之一时，该函数在 description 后添
+             加一段文字，来表明这个数字是一个质数。然后它使用 fallthrough 关键字来“贯穿”到 default 分支中。 defau lt 分支在 description 的最后添加一段额外的文字，至此 switch 代码块执行完了。
+             如果 integerToDescribe 的值不属于列表中的任何质数，那么它不会匹配到第一个 switch 分支。而这里没有其他 特别的分支情况，所以 integerToDescribe 匹配到 default 分支中。
+             当 switch 代码块执行完后，使用 print(_:separator:terminator:) 函数打印该数字的描述。在这个例子中，数字 5 被准确的识别为了一个质数。
+             
+             第 2 章 Swift 教程 | 112
+             注意: fallthrough 关键字不会检查它下一个将会落入执行的 case 中的匹配条件。 fallthrough 简单地使代 码继续连接到下一个 case 中的代码，这和 C 语言标准中的 switch 语句特性是一样的。
+             带标签的语句
+             在 Swift 中，你可以在循环体和条件语句中嵌套循环体和条件语句来创造复杂的控制流结构。并且，循环体和条 件语句都可以使用 break 语句来提前结束整个代码块。因此，显式地指明 break 语句想要终止的是哪个循环体或 者条件语句，会很有用。类似地，如果你有许多嵌套的循环体，显式指明 continue 语句想要影响哪一个循环体也 会非常有用。
+             为了实现这个目的，你可以使用标签(statement label)来标记一个循环体或者条件语句，对于一个条件语 句，你可以使用 break 加标签的方式，来结束这个被标记的语句。对于一个循环语句，你可以使用 break 或者 co ntinue 加标签，来结束或者继续这条被标记语句的执行。
+             声明一个带标签的语句是通过在该语句的关键词的同一行前面放置一个标签，作为这个语句的前导关键字(introd ucor keyword)，并且该标签后面跟随一个冒号。下面是一个针对 while 循环体的标签语法，同样的规则适用于所 有的循环体和条件语句。
+             label name : while condition { statements }
+             下面的例子是前面章节中蛇和梯子的适配版本，在此版本中，我们将使用一个带有标签的 while 循环体中调用 br eak 和 continue 语句。这次，游戏增加了一条额外的规则:
+             • 为了获胜，你必须刚好落在第 25 个方块中。
+             如果某次掷骰子使你的移动超出第 25 个方块，你必须重新掷骰子，直到你掷出的骰子数刚好使你能落在第 25 个方块中。
+             游戏的棋盘和之前一样:
+             image
+             图片 2.9 image
+             finalSquare 、 board 、 square 和 diceRoll 值被和之前一样的方式初始化:
+             let finalSquare = 25
+             var board = [Int](repeating: 0, count: finalSquare + 1)
+             board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
+             board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
+             var square = 0
+             var diceRoll = 0
+             
+             第 2 章 Swift 教程 | 113
+             这个版本的游戏使用 while 循环和 switch 语句来实现游戏的逻辑。 while 循环有一个标签名 gameLoop ，来表明 它是游戏的主循环。
+             该 while 循环体的条件判断语句是 while square !=finalSquare ，这表明你必须刚好落在方格25中。
+             gameLoop: while square != finalSquare {
+             diceRoll += 1
+             if diceRoll == 7 { diceRoll = 1 }
+             switch square + diceRoll {
+             case finalSquare:
+             // 骰子数刚好使玩家移动到最终的方格里，游戏结束。
+             break gameLoop
+             case let newSquare where newSquare > finalSquare:
+             // 骰子数将会使玩家的移动超出最后的方格，那么这种移动是不合法的，玩家需要重新掷骰子
+             continue gameLoop
+             default:
+             // 合法移动，做正常的处理 square += diceRoll
+             square += board[square]
+             } }
+             print("Game over!")
+             每次循环迭代开始时掷骰子。与之前玩家掷完骰子就立即移动不同，这里使用了 switch 语句来考虑每次移动可能 产生的结果，从而决定玩家本次是否能够移动。
+             • 如果骰子数刚好使玩家移动到最终的方格里，游戏结束。 break gameLoop 语句跳转控制去执行 while 循环体 后的第一行代码，意味着游戏结束。
+             • 如果骰子数将会使玩家的移动超出最后的方格，那么这种移动是不合法的，玩家需要重新掷骰子。 continue gameLoop 语句结束本次 while 循环，开始下一次循环。
+             • 在剩余的所有情况中，骰子数产生的都是合法的移动。玩家向前移动 diceRoll 个方格，然后游戏逻辑再处 理玩家当前是否处于蛇头或者梯子的底部。接着本次循环结束，控制跳转到 while 循环体的条件判断语句 处，再决定是否需要继续执行下次循环。
+             注意:
+             如果上述的 break 语句没有使用 gameLoop 标签，那么它将会中断 switch 语句而不是 while 循环。使用 gameLoo p 标签清晰的表明了 break 想要中断的是哪个代码块。 同时请注意，当调用 continue gameLoop 去跳转到下一 次循环迭代时，这里使用 gameLoop 标签并不是严格必须的。因为在这个游戏中，只有一个循环体，所以 contin ue 语句会影响到哪个循环体是没有歧义的。然而， continue 语句使用 gameLoop 标签也是没有危害的。这样做 符合标签的使用规则，同时参照旁边的 break gameLoop ，能够使游戏的逻辑更加清晰和易于理解。
+             
+             第 2 章 Swift 教程 | 114
+             提前退出
+             像 if 语句一样， guard 的执行取决于一个表达式的布尔值。我们可以使用 guard 语句来要求条件必须为真 时，以执行 guard 语句后的代码。不同于 if 语句，一个 guard 语句总是有一个 else 从句，如果条件不为真则执 行 else 从句中的代码。
+             func greet(person: [String: String]) {
+             guard let name = person["name"] else {
+             return }
+             print("Hello \(name)")
+             guard let location = person["location"] else {
+             print("I hope the weather is nice near you.")
+             return }
+             print("I hope the weather is nice in \(location).")
+             }
+             greet(["name": "John"])
+             // 输出 "Hello John!"
+             // 输出 "I hope the weather is nice near you." greet(["name": "Jane", "location": "Cupertino"]) // 输出 "Hello Jane!"
+             // 输出 "I hope the weather is nice in Cupertino."
+             如果 guard 语句的条件被满足，则继续执行 guard 语句大括号后的代码。将变量或者常量的可选绑定作为 语句的条件，都可以保护 guard 语句后面的代码。
+             如果条件不被满足，在 else 分支上的代码就会被执行。这个分支必须转移控制以退出 guard 语句出现的代码 段。它可以用控制转移语句如 return , break , continue 或者 throw 做这件事，或者调用一个不返回的方法或函 数，例如 fatalError() 。
+             相比于可以实现同样功能的 if 语句，按需使用 guard 语句会提升我们代码的可读性。它可以使你的代码连贯的 被执行而不需要将它包在 else 块中，它可以使你在紧邻条件判断的地方，处理违规的情况。
+             检测 API 可用性
+             Swift内置支持检查 API 可用性，这可以确保我们不会在当前部署机器上，不小心地使用了不可用的API。
+             编译器使用 SDK 中的可用信息来验证我们的代码中使用的所有 API 在项目指定的部署目标上是否可用。如果我 们尝试使用一个不可用的 API，Swift 会在编译时报错。
+             我们在 if 或 guard 语句中使用 可用性条件(availability condition) 去有条件的执行一段代码，来在运行时判 断调用的API是否可用。编译器使用从可用性条件语句中获取的信息去验证，在这个代码块中调用的 API 是否可 用。
+             guard
+             第 2 章 Swift 教程 | 115
+             if #available(iOS 10, macOS 10.12, *) {
+             // 在 iOS 使用 iOS 10 的 API, 在 macOS 使用 macOS 10.12 的 API
+             } else {
+             // 使用先前版本的 iOS 和 macOS 的 API
+             }
+             以上可用性条件指定，在iOS中， if 语句的代码块仅仅在 iOS 10 及更高的系统下运行;在 macOS中，仅在 macO S 10.12 及更高才会运行。最后一个参数， * ，是必须的，用于指定在所有其它平台中，如果版本号高于你的设 备指定的最低版本，if语句的代码块将会运行。
+             在它一般的形式中，可用性条件使用了一个平台名字和版本的列表。平台名字可以是 iOS ， macOS ， watchOS 和 tvOS ——请访问声明属性来获取完整列表。除了指定像 iOS 8的主板本号，我们可以指定像iOS 8.3 以及 macOS
+             10.10.3的子版本号。
+             if #available(platform name version, ..., *) { APIs 可用，语句将执行
+             } else {
+             APIs 不可用，语句将不执行
+             }
+             
+             
+             */
+            
+        
+ }
+        
+}

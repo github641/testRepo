@@ -258,7 +258,7 @@ class Shape {
     }
 }
 
-class ViewController01: UIViewController {
+class ASwiftTour_01: UIViewController {
     
     
     

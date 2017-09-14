@@ -63,7 +63,7 @@
  */
 import UIKit
 
-class ViewController02: UIViewController {
+class TheBasics_BasicOperators_02: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
