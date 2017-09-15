@@ -1,613 +1,395 @@
 //
-//  ViewController.swift
+//  ViewController2.swift
 //  SwiftProgrammingLanguage
 //
-//  Created by admin on 2017/9/14.
+//  Created by admin on 2017/9/15.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
-/*lzy170908注:
- 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
+/*lzy170914注:
+ 函数(Functions)
+
+ 本页包含内容: - 函数定义与调用 (页 0) - 函数参数与返回值 (页 0) - 函数参数标签和参数名称 (页 0) - 函数类型 (页 0) - 嵌套函数 (页 0)
+ 函数是一段完成特定任务的独立代码片段。你可以通过给函数命名来标识某个函数的功能，这个名字可以被用来 在需要的时候"调用"这个函数来完成它的任务。
+ Swift 统一的函数语法非常的灵活，可以用来表示任何函数，包括从最简单的没有参数名字的 C 风格函数，到复 杂的带局部和外部参数名的 Objective-C 风格函数。参数可以提供默认值，以简化函数调用。参数也可以既当做 传入参数，也当做传出参数，也就是说，一旦函数执行结束，传入的参数值将被修改。
+ 在 Swift 中，每个函数都有一个由函数的参数值类型和返回值类型组成的类型。你可以把函数类型当做任何其他 普通变量类型一样处理，这样就可以更简单地把函数当做别的函数的参数，也可以从其他函数中返回函数。函数 的定义可以写在其他函数定义中，这样可以在嵌套函数范围内实现功能封装。
+ 函数的定义与调用
+ 当你定义一个函数时，你可以定义一个或多个有名字和类型的值，作为函数的输入，称为参数，也可以定义某种
+ 类型的值作为函数执行结束时的输出，称为返回类型。
+ 每个函数有个函数名，用来描述函数执行的任务。要使用一个函数时，用函数名来“调用”这个函数，并传给它 匹配的输入值(称作 实参 )。函数的实参必须与函数参数表里参数的顺序一致。
+ 下面例子中的函数的名字是 greet(person:) ，之所以叫这个名字,是因为这个函数用一个人的名字当做输入，并 返回向这个人问候的语句。为了完成这个任务，你需要定义一个输入参数——一个叫做 person 的 String 值，和一个包含给这个人问候语的 String 类型的返回值:
  
- 控制流(Control Flow)
+ 注意
+ 函数的第一个参数并没有设置一个标签，而其他的参数因为已经有了默认 值，因此是可选的。关于这些函数语法上的变化详见下方关于 函数参数标签和参数名 以及 默认参数值。
+ 在   的函数体中，先定义了一个新的名为   的   常量，同时，把对
+ 第 2 章 Swift 教程 | 117
+ func
+ ->
+ greet(person:)
+ a")
+ r:terminator:)
+ print(_:separator:terminator:)
+ String
+ greet(person: "Ann
+ String
+ greet
+ String
+ greet(person:)
+ greeting
+ greeting
+ return
+ return greeting
+ greeting
+ greet(person:)
+ "Anna" "Brian"
+ print(_:separato
+ personNam
+ func greet(person: String) -> String {
+ let greeting = "Hello, " + person + "!"
+ return greeting
+ }
+ 所有的这些信息汇总起来成为函数的定义，并以   作为前缀。指定函数返回类型时，用返回箭头   (一 个连字符后跟一个右尖括号)后跟返回类型的名称的方式来表示。
+ 该定义描述了函数的功能，它期望接收什么作为参数和执行结束时它返回的结果是什么类型。这样的定义使得函
+ 数可以在别的地方以一种清晰的方式被调用:
+ print(greet(person: "Anna")) // 打印 "Hello, Anna!" print(greet(person: "Brian")) // 打印 "Hello, Brian!"
+ 调用   函数时，在圆括号中传给它一个 。正如上面所示，因为这个函数返回一个
+ 类型的实参，例如 类型的值，所以   可以被包含在
+ 的调用中，用来输出这个函数的返回值。
+ e 的问候消息赋值给了 调用，该函数结束它的执行并返回
+ 你可以用不同的输入值多次调用
+ 数分别返回了不同的结果。
+ 。然后用
+ 关键字把这个问候返回出去。一旦 被 的当前值。
+ 为了简化这个函数的定义，可以将问候消息的创建和返回写成一句:
+ func greetAgain(person: String) -> String {
+ return "Hello again, " + person + "!"
+ }
+ print(greetAgain(person: "Anna")) // 打印 "Hello again, Anna!"
+ 函数参数与返回值
+ 。上面的例子展示的是用   和
+ 调用的结果，该函
+ 函数参数与返回值在 Swift 中非常的灵活。你可以定义任何类型的函数，包括从只带一个未名参数的简单函数到 复杂的带有表达性参数名和不同参数选项的复杂函数。
+ 第 2 章 Swift 教程 | 118
+ 无参数函数
+ 函数可以没有参数。下面这个函数就是一个无参数函数，当被调用时，它返回固定的 String 消息:
+ func sayHelloWorld() -> String {
+ return "hello, world"
+ } print(sayHelloWorld()) // 打印 "hello, world"
+ 尽管这个函数没有参数，但是定义中在函数名后还是需要一对圆括号。当被调用时，也需要在函数名后写一对圆
+ 括号。
+ 多参数函数
+ 函数可以有多种输入参数，这些参数被包含在函数的括号之中，以逗号分隔。
+ 下面这个函数用一个人名和是否已经打过招呼作为输入，并返回对这个人的适当问候语:
+ func greet(person: String, alreadyGreeted: Bool) -> String {
+ if alreadyGreeted {
+ return greetAgain(person: person)
+ } else {
+ return greet(person: person)
+ }
+ }
+ print(greet(person: "Tim", alreadyGreeted: true)) // 打印 "Hello again, Tim!"
+ 你可以通过在括号内使用逗号分隔来传递一个 String 参数值和一个标识为 alreadyGreeted 的 Bool 值，来调用 g reet(person:alreadyGreeted:) 函数。注意这个函数和上面 greet(person:) 是不同的。虽然它们都有着同样的名 字 greet ，但是 greet(person:alreadyGreeted:) 函数需要两个参数，而 greet(person:) 只需要一个参数。
+ 无返回值函数
+ 函数可以没有返回值。下面是 greet(person:) 函数的另一个版本，这个函数直接打印一个String值，而不是 返回它:
+ func greet(person: String) {
+ print("Hello, \(person)!")
+ }
+ greet(person: "Dave") // 打印 "Hello, Dave!"
+ 因为这个函数不需要返回值，所以这个函数的定义中没有返回箭头(->)和返回类型。
  
- • For-In 循环 (页 0)
- • While 循环 (页 0)
- • 条件语句 (页 0)
- • 控制转移语句(Control Transfer Statements) (页 0)
- • 提前退出 (页 0)
- • 检测 API 可用性 (页 0)
+ 第 2 章 Swift 教程 | 119
+ 注意
+ 严格上来说，虽然没有返回值被定义，greet(person:) 函数依然返回了值。没有定义返回类型的函数会返回一 个特殊的 Void 值。它其实是一个空的元组(tuple)，没有任何元素，可以写成()。
+ 被调用时，一个函数的返回值可以被忽略:
+ func printAndCount(string: String) -> Int {
+ print(string)
+ return string.characters.count
+ }
+ func printWithoutCounting(string: String) {
+ let _ = printAndCount(string: string)
+ }
+ printAndCount(string: "hello, world")
+ // 打印 "hello, world" 并且返回值 12 printWithoutCounting(string: "hello, world") // 打印 "hello, world" 但是没有返回任何值
+ 第一个函数 printAndCount(string:) ，输出一个字符串并返回 Int 类型的字符数。第二个函数 printWithoutC ounting(string:) 调用了第一个函数，但是忽略了它的返回值。当第二个函数被调用时，消息依然会由第一个函 数输出，但是返回值不会被用到。
+ 注意: 返回值可以被忽略，但定义了有返回值的函数必须返回一个值，如果在函数定义底部没有返回任何值，将导致编 译时错误(compile-time error)。
+ 多重返回值函数
+ 你可以用元组(tuple)类型让多个值作为一个复合值从函数中返回。
+ 下例中定义了一个名为 minMax(array:) 的函数，作用是在一个 Int 类型的数组中找出最小值与最大值。
+ func minMax(array: [Int]) -> (min: Int, max: Int) {
+ var currentMin = array[0]
+ var currentMax = array[0]
+ for value in array[1..<array.count] {
+ if value < currentMin {
+ currentMin = value
+ } else if value > currentMax {
+ currentMax = value
+ } }
+ return (currentMin, currentMax)
+ }
+ minMax(array:) 函数返回一个包含两个 Int 值的元组，这些值被标记为 min 和 max ，以便查询函数的返 回值时可以通过名字访问它们。
  
+ 第 2 章 Swift 教程 | 120
+ 在 minMax(array:) 的函数体中，在开始的时候设置两个工作变量 currentMin 和 currentMax 的值为数组中 的第一个数。然后函数会遍历数组中剩余的值并检查该值是否比 currentMin 和 currentMax 更小或更大。最 后数组中的最小值与最大值作为一个包含两个 Int 值的元组返回。
+ 因为元组的成员值已被命名，因此可以通过 . 语法来检索找到的最小值与最大值:
+ let bounds = minMax(array: [8, -6, 2, 109, 3, 71]) print("min is \(bounds.min) and max is \(bounds.max)") // 打印 "min is -6 and max is 109"
+ 需要注意的是，元组的成员不需要在元组从函数中返回时命名，因为它们的名字已经在函数返回类型中指定了。
+ 可选元组返回类型
+ 如果函数返回的元组类型有可能整个元组都“没有值”，你可以使用可选的( optional ) 元组返回类型反映 整个元组可以是nil的事实。你可以通过在元组类型的右括号后放置一个问号来定义一个可选元组，例如 (Int, Int)? 或 (String, Int, Bool)?
+ 注意 可选元组类型如 (Int, Int)? 与元组包含可选类型如 (Int?, Int?) 是不同的.可选的元组类型，整个 元组是可选的，而不只是元组中的每个元素值。
+ 前面的 minMax(array:) 函数返回了一个包含两个 Int 值的元组。但是函数不会对传入的数组执行任何安全检 查，如果 array 参数是一个空数组，如上定义的 minMax(array:) 在试图访问 array[0] 时会触发一个运行 时错误(runtime error)。
+ 为了安全地处理这个“空数组”问题，将 minMax(array:) 函数改写为使用可选元组返回类型，并且当数组为空 时返回 nil :
+ func minMax(array: [Int]) -> (min: Int, max: Int)? {
+ if array.isEmpty { return nil }
+ var currentMin = array[0]
+ var currentMax = array[0]
+ for value in array[1..<array.count] {
+ if value < currentMin {
+ currentMin = value
+ } else if value > currentMax {
+ currentMax = value
+ }
+ }
+ return (currentMin, currentMax)
+ }
+ 你可以使用可选绑定来检查 minMax(array:) 函数返回的是一个存在的元组值还是 nil :
+ if let bounds = minMax(array: [8, -6, 2, 109, 3, 71]) {
+ print("min is \(bounds.min) and max is \(bounds.max)")
+ }
+ // 打印 "min is -6 and max is 109"
  
+ 第 2 章 Swift 教程 | 121
+ 函数参数标签和参数名称
+ 每个函数参数都有一个参数标签( argument label )以及一个参数名称( parameter name )。参数标签在调用函 数的时候使用;调用的时候需要将函数的参数标签写在对应的参数前面。参数名称在函数的实现中使用。默认情 况下，函数参数使用参数名称来作为它们的参数标签。
+ func someFunction(firstParameterName: Int, secondParameterName: Int) {
+ // 在函数体内，firstParameterName 和 secondParameterName 代表参数中的第一个和第二个参数值
+ }
+ someFunction(firstParameterName: 1, secondParameterName: 2)
+ 所有的参数都必须有一个独一无二的名字。虽然多个参数拥有同样的参数标签是可能的，但是一个唯一的函数标
+ 签能够使你的代码更具可读性。
+ 指定参数标签 你可以在函数名称前指定它的参数标签，中间以空格分隔:
+ func someFunction(argumentLabel parameterName: Int) { // 在函数体内，parameterName 代表参数值
+ }
+ 这个版本的 greet(person:) 函数，接收一个人的名字和他的家乡，并且返回一句问候:
+ func greet(person: String, from hometown: String) -> String {
+ return "Hello \(person)!  Glad you could visit from \(hometown)."
+ }
+ print(greet(person: "Bill", from: "Cupertino"))
+ // 打印 "Hello Bill! Glad you could visit from Cupertino."
+ 参数标签的使用能够让一个函数在调用时更有表达力，更类似自然语言，并且仍保持了函数内部的可读性以及清
+ 晰的意图。
+ 忽略参数标签
+ 如果你不希望为某个参数添加一个标签，可以使用一个下划线( _ )来代替一个明确的参数标签。
+ func someFunction(_ firstParameterName: Int, secondParameterName: Int) {
+ // 在函数体内，firstParameterName 和 secondParameterName 代表参数中的第一个和第二个参数值
+ }
+ someFunction(1, secondParameterName: 2)
+ 如果一个参数有一个标签，那么在调用的时候必须使用标签来标记这个参数。
+ 第 2 章 Swift 教程 | 122
+ 默认参数值
+ 你可以在函数体中通过给参数赋值来为任意一个参数定义默认值(Deafult Value)。当默认值被定义后，调用这 个函数时可以忽略这个参数。
+ func someFunction(parameterWithoutDefault: Int, parameterWithDefault: Int = 12) {
+ // 如果你在调用时候不传第二个参数，parameterWithDefault 会值为 12 传入到函数体中。
+ }
+ someFunction(parameterWithoutDefault: 3, parameterWithDefault: 6) // parameterWithDefault = 6
+ someFunction(parameterWithoutDefault: 4) // parameterWithDefault = 12
+ 将不带有默认值的参数放在函数参数列表的最前。一般来说，没有默认值的参数更加的重要，将不带默认值的参
+ 数放在最前保证在函数调用时，非默认参数的顺序是一致的，同时也使得相同的函数在不同情况下调用时显得更
+ 为清晰。
+ 可变参数
+ 一个可变参数(variadic parameter)可以接受零个或多个值。函数调用时，你可以用可变参数来指定函数参数 可以被传入不确定数量的输入值。通过在变量类型名后面加入( ... )的方式来定义可变参数。
+ 可变参数的传入值在函数体中变为此类型的一个数组。例如，一个叫做 numbers 的 Double... 型可变参 数，在函数体内可以当做一个叫 numbers 的 [Double] 型的数组常量。
+ 下面的这个函数用来计算一组任意长度数字的 算术平均数(arithmetic mean):
+ func arithmeticMean(_ numbers: Double...) -> Double {
+ var total: Double = 0
+ for number in numbers {
+ total += number
+ }
+ return total / Double(numbers.count)
+ }
+ arithmeticMean(1, 2, 3, 4, 5)
+ // 返回 3.0, 是这 5 个数的平均数。 arithmeticMean(3, 8.25, 18.75)
+ // 返回 10.0, 是这 3 个数的平均数。
+ 注意:
+ 一个函数最多只能拥有一个可变参数。
+ 
+ &
+ inout
+ swapTwoInts(_:_:)
+ swapTwoInts(_:_:)
+ b a
+ Int
+ swapTwoInts(_:_:)
+ a
+ b
+ b
+ a
+ b temporaryA
+ a
+ temporaryA
+ swapTwoInts(_:_:)
+ &
+ someInt
+ anotherInt
+ someInt anotherInt
+ swapTwoInts
+ swapTwoInts(_:_:)
+ someIn
+ anotherInt
+ 输入输出参数
+ 函数参数默认是常量。试图在函数体中更改参数值将会导致编译错误(compile-time error)。这意味着你不能错 误地更改参数值。如果你想要一个函数可以修改参数的值，并且想要在这些修改在函数调用结束后仍然存在，那 么就应该把这个参数定义为输入输出参数(In-Out Parameters)。
+ 定义一个输入输出参数时，在参数定义前加 inout 关键字。一个输入输出参数有传入函数的值，这个值被函数 修改，然后被传出函数，替换原来的值。想获取更多的关于输入输出参数的细节和相关的编译器优化，请查看输 入输出参数一节。
+ 你只能传递变量给输入输出参数。你不能传入常量或者字面量，因为这些量是不能被修改的。当传入的参数作为 输入输出参数时，需要在参数名前加 符，表示这个值可以被函数修改。
+ 注意 输入输出参数不能有默认值，而且可变参数不能用   标记。
+ 下例中，   函数有两个分别叫做 和 的输入输出参数:
+ func swapTwoInts(_ a: inout Int, _ b: inout Int) { let temporaryA = a
+ a= b
+ b = temporaryA
+ 函数简单地交换 与 的值。该函数先将 的值存到一个临时常量
+ 中，然后将 的值赋给 ，最后将
+ 你可以用两个   型的变量来调用 函数前，都加了 的前缀:
+ 赋值给 。
+ 。需要注意的是，   和 在传入
+ var someInt = 3
+ var anotherInt = 107
+ swapTwoInts(&someInt, &anotherInt)
+ print("someInt is now \(someInt), and anotherInt is now \(anotherInt)") // 打印 "someInt is now 107, and anotherInt is now 3"
+ 从上面这个例子中，我们可以看到 和 改，尽管它们的定义在函数体外。
+ 注意:
+ 输入输出参数和返回值是不一样的。上面的
+ t 和   的值。输入输出参数是函数对函数体外产生影响的另一种方式。
+ 的原始值在
+ 函数中被修
+ 第 2 章 Swift 教程 | 123
+ }
+ 函数并没有定义任何返回值，但仍然修改了
+ 
+ 第 2 章 Swift 教程 | 124
+ 函数类型
+ 每个函数都有种特定的函数类型，函数的类型由函数的参数类型和返回类型组成。
+ 例如:
+ func addTwoInts(_ a: Int, _ b: Int) -> Int {
+ return a + b
+ }
+ func multiplyTwoInts(_ a: Int, _ b: Int) -> Int {
+ return a * b }
+ 这个例子中定义了两个简单的数学函数:addTwoInts 和 multiplyTwoInts。这两个函数都接受两个 Int 值， 返回一个 Int 值。
+ 这两个函数的类型是 (Int, Int) -> Int ，可以解读为“这个函数类型有两个 Int 型的参数并返回一个 Int 型的值。”。
+ 下面是另一个例子，一个没有参数，也没有返回值的函数:
+ func printHelloWorld() {
+ print("hello, world")
+ }
+ 这个函数的类型是: () -> Void ，或者叫“没有参数，并返回 Void 类型的函数”。 使用函数类型
+ 在 Swift 中，使用函数类型就像使用其他类型一样。例如，你可以定义一个类型为函数的常量或变量，并将适当 的函数赋值给它:
+ var mathFunction: (Int, Int) -> Int = addTwoInts
+ mathFunction Int Int addTwoInts
+ addTwoInts mathFunction
+ mathFunction
+ 这段代码可以被解读为:
+ ”定义一个叫做
+ 数’，并让这个新变量指向
+ 和
+ 的。 现在，你可以用
+ 的变量，类型是‘一个有两个   型的参数并返回一个 型的值的函 函数”。
+ 有同样的类型，所以这个赋值过程在 Swift 类型检查(type-check)中是允许
+ 来调用被赋值的函数了:
+ 第 2 章 Swift 教程 | 125
+ print("Result: \(mathFunction(2, 3))")
+ // Prints "Result: 5"
+ 有相同匹配类型的不同函数可以被赋值给同一个变量，就像非函数类型的变量一样:
+ mathFunction = multiplyTwoInts
+ print("Result: \(mathFunction(2, 3))")
+ // Prints "Result: 6"
+ 就像其他类型一样，当赋值一个函数给常量或变量时，你可以让 Swift 来推断其函数类型:
+ let anotherMathFunction = addTwoInts
+ // anotherMathFunction 被推断为 (Int, Int) -> Int 类型
+ 函数类型作为参数类型
+ 你可以用 (Int, Int) -> Int 这样的函数类型作为另一个函数的参数类型。这样你可以将函数的一部分实现留给 函数的调用者来提供。
+ 下面是另一个例子，正如上面的函数一样，同样是输出某种数学运算结果:
+ func printMathResult(_ mathFunction: (Int, Int) -> Int, _ a: Int, _ b: Int) {
+ print("Result: \(mathFunction(a, b))")
+ }
+ printMathResult(addTwoInts, 3, 5) // 打印 "Result: 8"
+ 这个例子定义了 printMathResult(_:_:_:) 函数，它有三个参数:第一个参数叫 mathFunction ，类型是 (Int, Int) -> Int ，你可以传入任何这种类型的函数;第二个和第三个参数叫 a 和 b ，它们的类型都是 Int ，这 两个值作为已给出的函数的输入值。
+ 当 printMathResult(_:_:_:) 被调用时，它被传入 addTwoInts 函数和整数 3 和 5 。它用传入 3 和 5 调用 addTwoInts ，并输出结果: 8 。
+ printMathResult(_:_:_:) 函数的作用就是输出另一个适当类型的数学函数的调用结果。它不关心传入函数是如 何实现的，只关心传入的函数是不是一个正确的类型。这使得 printMathResult(_:_:_:) 能以一种类型安全(ty pe-safe)的方式将一部分功能转给调用者实现。
+ 函数类型作为返回类型
+ 你可以用函数类型作为另一个函数的返回类型。你需要做的是在返回箭头(->)后写一个完整的函数类型。
+ 下面的这个例子中定义了两个简单函数，分别是 stepForward(_:) 和 stepBackward(_:) 。 stepForward(_:) 函 数返回一个比输入值大 1 的值。stepBackward(_:) 函数返回一个比输入值小 1 的值。这两个函数的类型都 是 (Int) -> Int :
+ 第 2 章 Swift 教程 | 126
+ func stepForward(_ input: Int) -> Int {
+ return input + 1
+ }
+ func stepBackward(_ input: Int) -> Int {
+ return input - 1
+ }
+ 如下名为 chooseStepFunction(backward:) 的函数，它的返回类型是 (Int) -> Int 类型的函数。 chooseStepF unction(backward:) 根据布尔值 backwards 来返回 stepForward(_:) 函数或 stepBackward(_:) 函数:
+ func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+ return backward ? stepBackward : stepForward
+ }
+ 你现在可以用 chooseStepFunction(backward:) 来获得两个函数其中的一个:
+ var currentValue = 3
+ let moveNearerToZero = chooseStepFunction(backward: currentValue > 0) // moveNearerToZero 现在指向 stepBackward() 函数。
+ 上面这个例子中计算出从 currentValue 逐渐接近到0是需要向正数走还是向负数走。currentValue 的初始值 是 3 ，这意味着 currentValue > 0 为真(true)，这将使得 chooseStepFunction(_:) 返回 stepBackwar d(_:) 函数。一个指向返回的函数的引用保存在了 moveNearerToZero 常量中。
+ 现在， moveNearerToZero 指向了正确的函数，它可以被用来数到零:
+ print("Counting to zero:")
+ // Counting to zero:
+ while currentValue != 0 {
+ print("\(currentValue)... ")
+ currentValue = moveNearerToZero(currentValue)
+ }
+ print("zero!")
+ // 3...
+ // 2...
+ // 1...
+ // zero!
+ 嵌套函数
+ 到目前为止本章中你所见到的所有函数都叫全局函数(global functions)，它们定义在全局域中。你也可以把 函数定义在别的函数体中，称作 嵌套函数(nested functions)。
+ 默认情况下，嵌套函数是对外界不可见的，但是可以被它们的外围函数(enclosing function)调用。一个外围 函数也可以返回它的某一个嵌套函数，使得这个函数可以在其他域中被使用。
+ 你可以用返回嵌套函数的方式重写 chooseStepFunction(backward:) 函数:
+ func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+ func stepForward(input: Int) -> Int { return input + 1 }
+ func stepBackward(input: Int) -> Int { return input - 1 }
+ 第 2 章 Swift 教程 | 127
+ return backward ? stepBackward : stepForward
+ }
+ var currentValue = -4
+ let moveNearerToZero = chooseStepFunction(backward: currentValue > 0)
+ // moveNearerToZero now refers to the nested stepForward() function
+ while currentValue != 0 {
+ print("\(currentValue)... ")
+ currentValue = moveNearerToZero(currentValue)
+ }
+ print("zero!")
+ // -4...
+ // -3...
+ // -2...
+ // -1...
+ // zero!
  */
 
 import UIKit
 
 class ViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        /*lzy170914注:
-         
-         Swift 还提供了 for-in 循环，用来更简单地遍历数组(array)，字典(dictionary)，区间(range)，字符串(string)和其他序列类型。
-         Swift 的 switch 语句比 C 语言中更加强大。在 C 语言中，如果某个 case 不小心漏写了 break ，这个 case 就会贯穿至下一个 case，Swift 无需写 break ，所以不会发生这种贯穿的情况。case 还可以匹配很多不同的模式，包括间隔匹配(interval match)，元组(tuple)和转换到特定类型。 switch 语句的 case 中匹配的值可以绑定成临时常量或变量，在case体内使用，也可以用 where 来描述更复杂的匹配条件。
-         
-         */
-        // MARK:  ====For-In 循环====
-        /*lzy170914:
-         你可以使用 for-in 循环来遍历一个集合中的所有元素，例如数字范围、数组中的元素或者字符串中的字符。
-         */
-        //         下面的例子用来输出乘 5 乘法表前面一部分内容:
-        for index in 1 ... 5{
-            
-            print("\(index) times 5 is \(index * 5).")
-        }
-        // 1 times 5 is 5
-        // 2 times 5 is 10
-        // 3 times 5 is 15
-        // 4 times 5 is 20
-        // 5 times 5 is 25
-        
-        /*
-         例子中用来进行遍历的元素是使用闭区间操作符( ... )表示的从 1 到 5 的数字区间。
-         index 被赋值为闭区间中的第一个数字( 1 )，然后循环中的语句被执行一次。
-         在本例中，这个循环只包含一个语句，用来输出当前 index 值所对应的乘 5 乘法表的结果。
-         该语句执行后， index 的值被更新为闭区间中的第二个数字( 2 )，之后 print(_:separator:terminator:) 函数会再执行一次。整个过程会进行到闭区间结尾为止。
-         上面的例子中， index 是一个每次循环遍历开始时被自动赋值的常量。这种情况下， index 在使用前不需要声明，只需要将它包含在循环的声明中，就可以对其进行隐式声明，而无需使用 let 关键字声明。
-         
-         如果你不需要区间序列内每一项的值，你可以使用下划线( _ )替代变量名来忽略这个值:
-         */
-        
-        let base = 3
-        let power = 10
-        var answer = 1
-        for _ in 1 ... power {
-            answer *= base
-        }
-        print("\(base) to the power of \(power) is \(answer).")// 输出 「3 to the power（幂） of 10 is 59049」
-        
-        /*
-         
-         这个例子计算 base 这个数的 power 次幂(本例中，是 3 的 10 次幂)，从 1 ( 3 的 0 次幂)开始做 3 的乘 法， 进行 10 次，使用 1 到 10 的闭区间循环。这个计算并不需要知道每一次循环中计数器具体的值，只需要执 行了正确的循环次数即可。下划线符号 _ (替代循环中的变量)能够忽略当前值，并且不提供循环遍历时对值的访问。
-         */
-        
-        
-        //        使用 for-in 遍历一个数组所有元素:
-        
-        let names = ["Anna", "Alex", "Brian", "jack"]
-        
-        for name in names {
-            print("Hi, \(name)!")
-        }
-        // Hello, Anna!
-        // Hello, Alex!
-        // Hello, Brian!
-        // Hello, Jack!
-        /*
-         你也可以通过遍历一个字典来访问它的键值对。
-         遍历字典时，字典的每项元素会以 (key, value) 元组的形式返回，你可以在 for-in 循环中使用显式的常量名称来解读 (key, value) 元组。下面的例子中，字典的键(key)解 读为常量 animalName ，字典的值会被解读为常量 legCount :
-         */
-        let numberOfLegs = ["spider" : 8, "ant" : 6, "cat" : 4]
-        for (animalName, legCount) in numberOfLegs{
-            print("\(animalName)s has \(legCount) legs")
-        }
-        // ants have 6 legs
-        // cats have 4 legs
-        // spiders have 8 legs
-        
-        
-        /*
-         字典元素的遍历顺序和插入顺序可能不同，字典的内容在内部是无序的，所以遍历元素时不能保证顺序。
-         关于数组和字典，详情参见集合类型。
-         */
-        
-        
-        // MARK:  ====While 循环====
-        /*lzy170914:
-         while 循环会一直运行一段语句直到条件变成 false 。这类循环适合使用在第一次迭代前，迭代次数未知的情况
-         下。Swift 提供两种 while 循环形式:
-         • while循环，每次在循环开始时计算条件是否符合;
-         • repeat-while循环，每次在循环结束时计算条件是否符合。
-         */
-        
-        /*
-         while 循环从计算一个条件开始。如果条件为 true ，会重复运行一段语句，直到条件变为 false 。下面是 while 循环的一般格式:
-         while condition {
-         statements
-         }
-         下面的例子来玩一个叫做蛇和梯子(也叫做滑道和梯子)的小游戏:
-         游戏的规则如下:
-         • 游戏盘面包括 25 个方格，游戏目标是达到或者超过第 25 个方格;
-         • 每一轮，你通过掷一个六面体骰子来确定你移动方块的步数，移动的路线由上图中横向的虚线所示;
-         • 如果在某轮结束，你移动到了梯子的底部，可以顺着梯子爬上去;
-         • 如果在某轮结束，你移动到了蛇的头部，你会顺着蛇的身体滑下去。
-         */
-        
-        
-        /*游戏盘面可以使用一个 Int 数组来表达。数组的长度由一个 finalSquare 常量储存，用来初始化数组和检测最终 胜利条件。游戏盘面由 26 个 Int 0 值初始化，而不是 25 个(由 0 到 25 ，一共 26 个):
-         */
-        let finalSquare = 25
-        var board = [Int](repeatElement(0, count: finalSquare + 1))
-        
-        /*
-         一些方格被设置成特定的值来表示有蛇或者梯子。梯子底部的方格是一个正值，使你可以向上移动，蛇头处的方
-         格是一个负值，会让你向下移动:
-         */
-        // lzy170914注：这里的语句使用分号分割，一般Swift是不用分号，之前文档说过，要是你需要在一行中写多条语句，需要分号隔开；另外注释也说到 正号 只是为了代码美观。
-        board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
-        board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
-        /*
-         3 号方格是梯子的底部，会让你向上移动到 11 号方格，我们使用 board[03] 等于 +08 (来表示 11 和 3 之间的 差值)。使用一元正运算符( +i )是为了和一元负运算符( -i )对称，为了让盘面代码整齐，小于 10 的数字都使用 0 补齐(这些风格上的调整都不是必须的，只是为了让代码看起来更加整洁)。
-         
-         玩家由左下角空白处编号为 0 的方格开始游戏。玩家第一次掷骰子后才会进入游戏盘面:
-         dice(骰子
-         */
-        var square = 0
-        var diceRoll = 0
-        while square < finalSquare {
-            // 掷骰子
-            diceRoll += 1
-            if diceRoll == 7 {diceRoll = 1}// 根据点数移动
-                
-                square += diceRoll
-                
-                if square < board.count {
-                    // 如果玩家还在棋盘上，顺着梯子爬上去或者顺着蛇滑下去
-                    square += board[square]
-                }
-            }
-            
-            print("Game over!")
-            /*
-             本例中使用了最简单的方法来模拟掷骰子。 diceRoll 的值并不是一个随机数，而是以 0 为初始值，之后每一次 while 循环， diceRoll 的值增加 1 ，然后检测是否超出了最大值。当 diceRoll 的值等于 7 时，就超过了骰子的最大值，会被重置为1。所以diceRoll的取值顺序会一直是 1 ，2，3，4，5，6，1，2 等。
-             掷完骰子后，玩家向前移动 diceRoll 个方格，如果玩家移动超过了第 25 个方格，这个时候游戏将会结束，为了 应对这种情况，代码会首先判断 square 的值是否小于 board 的 count 属性，只有小于才会在 board[square] 上增 加 square ，来向前或向后移动(遇到了梯子或者蛇)。
-             注意:
-             如果没有这个检测( square < board.count )， board[square] 可能会越界访问 board 数组，导致错误。如果 square 等于 26 ， 代码会去尝试访问 board[26] ，超过数组的长度。
-             当本轮 while 循环运行完毕，会再检测循环条件是否需要再运行一次循环。如果玩家移动到或者超过第 25 个方 格，循环条件结果为 false ，此时游戏结束。
-             
-             while 循环比较适合本例中的这种情况，因为在 while 循环开始时，我们并不知道游戏要跑多久，只有在达成指定条件时循环才会结束。
-             
-             */
-            // MARK:  ====Repeat-While====
-            /*lzy170914:
-             while 循环的另外一种形式是 repeat-while ，它和 while 的区别是在判断循环条件之前，先执行一次循环的代码 块。然后重复循环直到条件为 false 。
-             注意:
-             Swift语言的 repeat-while 循环和其他语言中的 do-while 循环是类似的。
-             下面是 repeat-while 循环的一般格式:
-             
-             repeat {
-             
-             } while condition
-             
-             还是蛇和梯子的游戏，使用 repeat-while 循环来替代 while 循环。 finalSquare 、 board 、 square 和 diceRoll 的值初始化同 while 循环时一样,见上方。
-             
-             repeat-while 的循环版本，循环中第一步就需要去检测是否在梯子或者蛇的方块上。没有梯子会让玩家直接上到第 25 个方格，所以玩家不会通过梯子直接赢得游戏。这样在循环开始时先检测是否踩在梯子或者蛇上是安全的。
-             游戏开始时，玩家在第 0 个方格上， board[0] 一直等于 0， 不会有什么影响:
-             */
 
-        square = 0
-        diceRoll = 0
-        
-            repeat {
-                print("repeatWhile square:\(square)")
-                // 顺着梯子爬上去或者顺着蛇滑下去
-                square += board[square]
-                // 掷骰子
-                diceRoll += 1
-                if diceRoll == 7 { diceRoll = 1 }
-                // 根据点数移动
-                square += diceRoll
-                
-            } while square < finalSquare
-            // 检测完玩家是否踩在梯子或者蛇上之后，开始掷骰子，然后玩家向前移动 diceRoll 个方格，本轮循环结束。
-            
-            
-            /*
-             
-             循环条件( while square < finalSquare )和 while 方式相同，但是只会在循环结束后进行计算。在这个游戏中， repeat-while 表现得比 while 循环更好。 repeat-while 方式会在条件判断 square 没有超出后直接运行 are += board[square] ，这种方式可以去掉 while 版本中的数组越界判断。
-             */
-            // MARK:  条件语句
-            /*lzy170914:
-             根据特定的条件执行特定的代码通常是十分有用的。当错误发生时，你可能想运行额外的代码;或者，当值太大
-             或太小时，向用户显示一条消息。要实现这些功能，你就需要使用条件语句。
-             Swift 提供两种类型的条件语句: if 语句和 switch 语句。通常，当条件较为简单且可能的情况很少时，使用 if 语句。而 switch 语句更适用于条件较复杂、有更多排列组合的时候。并且 switch 在需要用到模式匹配(patte rn-matching)的情况下会更有用。
-             */
-            
-            // MARK:  ====If====
-            //            if 语句最简单的形式就是只包含一个条件，只有该条件为 true 时，才执行相关代码:
-            
-            var temperatureInFahrenheit = 30
-            if temperatureInFahrenheit <= 32 {
-                print("It's very cold.Consider wearing a scarf.")
-            }
-            // 输出"It's very cold. Consider wearing a scarf."上面的例子会判断温度是否小于等于 32 华氏度(水的冰点)。如果是，则打印一条消息;否则，不打印任何消息，继续执行 if 块后面的代码。
-            
-            //            当然， if 语句允许二选一执行，叫做 else 从句。也就是当条件为 false 时，执行 else 语句:
-            temperatureInFahrenheit = 40
-            if temperatureInFahrenheit <= 32 {
-                print("It's very cold. Consider wearing a scarf.")
-            } else {
-                print("It's not that cold. Wear a t-shirt.")
-            }
-            // 输出 "It's not that cold. Wear a t-shirt."
-            
-            /*lzy170914:
-             显然，这两条分支中总有一条会被执行。由于温度已升至 40 华氏度，不算太冷，没必要再围围巾。因此，else 分支就被触发了。
-             你可以把多个 if 语句链接在一起，来实现更多分支:
-             */
-            temperatureInFahrenheit = 90
-            if temperatureInFahrenheit <= 32 {
-                print("It's very cold. Consider wearing a scarf.")
-            } else if temperatureInFahrenheit >= 86 {
-                print("It's really warm. Don't forget to wear sunscreen.")
-                
-            } else {
-                print("It's not that cold. Wear a t-shirt.")
-            }
-            // 输出 "It's really warm. Don't forget to wear sunscreen."
-            
-            // 在上面的例子中，额外的 if 语句用于判断是不是特别热。而最后的 else 语句被保留了下来，用于打印既不冷也不热时的消息。实际上，当不需要完整判断情况的时候，最后的 else 语句是可选的:
-            temperatureInFahrenheit = 72
-            if temperatureInFahrenheit <= 32 {
-                print("It's very cold. Consider wearing a scarf.")
-            } else if temperatureInFahrenheit >= 86 {
-                print("It's really warm. Don't forget to wear sunscreen.")
-            }
-            // 在这个例子中，由于既不冷也不热，所以不会触发 if 或 else if 分支，也就不会打印任何消息。
-            
-            // MARK:  ====Switch====
-            /*lzy170914:
-             switch 语句会尝试把某个值与若干个模式(pattern)进行匹配。根据第一个匹配成功的模式， switch 语句会执 行对应的代码。当有可能的情况较多时，通常用 switch 语句替换 if 语句。
-             */
-            
-            /*switch 语句最简单的形式就是把某个值与一个或若干个相同类型的值作比较:
-             switch some value to consider {
-                case value 1:
-             respond to value 1
-                case value 2,
-             value 3:
-                respond to value 2 or 3
-             default:
-                otherwise, do something else
-             }
-             
-             switch 语句由多个 case 构成，每个由 case 关键字开始。为了匹配某些更特定的值，Swift 提供了几种方法来进行更复杂的模式匹配，这些模式将在本节的稍后部分提到。
-             与 if 语句类似，每一个 case 都是代码执行的一条分支。 switch 语句会决定哪一条分支应该被执行，这个流程被称作 根据给定的值切换(switching)。
-             switch 语句必须是完备的。这就是说，每一个可能的值都必须至少有一个 case 分支与之对应。在某些不可能涵盖所有值的情况下，你可以使用默认( default )分支来涵盖其它所有没有对应的值，这个默认分支必须在 switch 语句的最后面。
-             */
-        // 下面的例子使用 switch 语句来匹配一个名为 someCharacter 的小写字符:
-            let someCharacter: Character = "z"
-            switch someCharacter {
-                
-            case "a" :
-                print("The first letter of the alphabet.")
-            case "z" :
-                print("The last letter of the alphabet.")
-            default:
-                print("Some other character")
-            }
-            /* 输出 "The last letter of the alphabet"
-            在这个例子中，第一个 case 分支用于匹配第一个英文字母 a ，第二个 case 分支用于匹配最后一个字母 z 。 因为 switch 语句必须有一个case分支用于覆盖所有可能的字符，而不仅仅是所有的英文字母，所以switch语句使 用 default 分支来匹配除了 a 和 z 外的所有值，这个分支保证了swith语句的完备性。
-         */
+        // Do any additional setup after loading the view.
+    }
 
-        // MARK: ======不存在隐式的贯穿======
-            /*与 C 和 Objective-C 中的 switch 语句不同，在 Swift 中，当匹配的 case 分支中的代码执行完毕后，程序会 终止 switch 语句，而不会继续执行下一个 case 分支。这也就是说，不需要在 case 分支中显式地使用 break 语句。这使得 switch 语句更安全、更易用，也避免了因忘记写 break 语句而产生的错误。
-             注意: 虽然在Swift中 break 不是必须的，但你依然可以在 case 分支中的代码执行完毕前使用 break 跳 出，详情请参见Switch 语句中的 break (页 0)。
-         */
-//        每一个 case 分支都必须包含至少一条语句。像下面这样书写代码是无效的，因为第一个 case 分支是空的:
-        let anoterCharacter: Character = "a"
-        switch anoterCharacter {
-//        case "a" : //无效，这个分支下面没有语句 case "A":
-        case "A" :
-            print("The letter A")
-        default :
-            print("Not the letter A")
-        }
-        
-        /*这段代码会报编译错误:
-         ‘case’ label in ‘switch’ should have at least one executable statement
-         不像 C 语言里的 switch 语句，在 Swift 中， switch 语句不会一起匹配 "a" 和 "A" 。
-         相反的，上面的代码会引起编译期错误: case "a": 不包含任何可执行语句。
-         这就避免了意外地从一个 case 分支贯穿到另外一个，使得代码更安全、也更直观。
-         */
-//        为了让单个case同时匹配 a 和 A ，可以将这个两个值组合成一个复合匹配，并且用逗号分开:
-        
-        let anotherCharacter02: Character = "a"
-        switch anotherCharacter02 {
-        case "a", "A" :
-            print("the letter A")
-        default:
-            print("Not the letter A")
-        }
-        // 输出 "The letter A 。为了可读性，符合匹配可以写成多行形式，详情请参考复合匹配 (页 0) 注意: 如果想要显式贯穿case分支，请使用 fallthrough 语句，详情请参考贯穿 (页 0)。
-        
-        
-        // MARK: ======区间匹配======
-        
-// case 分支的模式也可以是一个值的区间。下面的例子展示了如何使用区间匹配来输出任意数字对应的自然语言格式:
-        
-        let approximateCount = 62
-        let countedThings = "moons orbiting Saturn"
-        var naturalCount: String
-        switch approximateCount {
-        case 0:
-            naturalCount = "no"
-        case 1...5 :
-            naturalCount = "a few"
-        case 5..<12:// lzy170914注：Use of unresolved operator ‘…<’
-            naturalCount = "several"
-        case 12..<100:
-            naturalCount = "dozens of"
-        case 100..<1000:
-            naturalCount = "hundreds of"
-        default:
-            naturalCount = "many"
-        }
-        print("There are \(naturalCount) \(countedThings).")
-        // 输出 "There are dozens of moons orbiting Saturn."
-        /*在上例中， approximateCount 在一个 switch 声明中被评估。每一个 case 都与之进行比较。因为 approximateCou nt 落在了 12 到 100 的区间，所以 naturalCount 等于 "dozens of" 值，并且此后的执行跳出了 switch 语句。
-         */
-        // MARK:  ====元组====
-        /*lzy170914:
-         我们可以使用元组在同一个 switch 语句中测试多个值。元组中的元素可以是值，也可以是区间。另外，使用下划 线( _ )来匹配所有可能的值。
-         */
-        //  下面的例子展示了如何使用一个 (Int, Int) 类型的元组来分类下图中的点(x, y):
-        let somePoint = (1, 1)
-        switch somePoint {
-        case (0, 0):
-            print("(0, 0) is at the origin")
-        case(_,0):
-            print("(\(somePoint.0), 0) is on the x-axis")
-        case (0, _):
-            print("(0, \(somePoint.1)) is on the y-axis")
-        case (-2 ... 2, -2 ... 2):
-            print("(\(somePoint.0), \(somePoint.1)) is inside the box")
-        default:
-            print("(\(somePoint.0), \(somePoint.1)) is outside the box.")
-        }
-        // 见工程中的(x,y).jpg。输出 "(1, 1) is inside the box"
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
 
-        /* 在上面的例子中， switch 语句会判断某个点是否是原点(0, 0)，是否在红色的x轴上，是否在橘黄色的y轴上，是否在一个以原点为中心的4x4的蓝色矩形里，或者在这个矩形外面。
-         
-             不像 C 语言，Swift 允许多个 case 匹配同一个值。实际上，在这个例子中，点(0, 0)可以匹配所有四个 case。但是，如果存在多个匹配，那么只会执行第一个被匹配到的 case 分支。考虑点(0, 0)会首先匹配 case (0, 0) ，因此剩下的能够匹配的分支都会被忽视掉。
-         */
-        // MARK:  ====值绑定(Value Bindings)====
-        /*lzy170914:
-         case 分支允许将匹配的值绑定到一个临时的常量或变量，并且在case分支体内使用 —— 这种行为被称为值绑定(value binding)，因为匹配的值在case分支体内，与临时的常量或变量绑定。
-         */
-//        下面的例子展示了如何在一个 (Int, Int) 类型的元组中使用值绑定来分类下图中的点(x, y):
-        let anoterPoint = (2, 0)
-        switch anoterPoint {
-            
-        case (let x, 0):
-            print("on the x-axis with an x value of \(x)")
-        case (0, let y):
-            print("on the y-axis with an y value of \(y)")
-        case let (x, y):
-            print("somewhere else at (\(x), \(y))")
-        }// 输出 "on the x-axis with an x value of 2"
-        
-        
-        /*
-             在上面的例子中， switch 语句会判断某个点是否在红色的x轴上，是否在橘黄色的y轴上，或者不在坐标轴上。
-             这三个 case 都声明了常量 x 和 y 的占位符，用于临时获取元组 anotherPoint 的一个或两个值。
-         第一个 case —— case (let x, 0) 将匹配一个纵坐标为 0 的点，并把这个点的横坐标赋给临时的常量 x 。
-         类似的，第二个 case —— case (0, let y) 将匹配一个横坐标为 0 的点，并把这个点的纵坐标赋给临时的常量 y 。
-             一旦声明了这些临时的常量，它们就可以在其对应的 case 分支里使用。在这个例子中，它们用于打印给定点的 类型。
-             请注意，这个 switch 语句不包含默认分支。这是因为最后一个 case —— case let(x, y) 声明了一个可以匹配余下所有值的元组。这使得 switch 语句已经完备了，因此不需要再书写默认分支。
-         */
-        
-        // MARK:  ====Where====
-        /*lzy170914:
-         case 分支的模式可以使用 where 语句来判断额外的条件。
-         */
-        //        下面的例子把下图中的点(x, y)进行了分类:
-        /*
-         
-         
-             let yetAnotherPoint = (1, -1)
-             switch yetAnotherPoint {
-             case let (x, y) where x == y:
-             print("(\(x), \(y)) is on the line x == y")
-             case let (x, y) where x == -y:
-             print("(\(x), \(y)) is on the line x == -y")
-             case let (x, y):
-             print("(\(x), \(y)) is just some arbitrary point")
-         
-             }
-             // 输出 "(1, -1) is on the line x == -y"
-             image
-             图片 2.8 image
-             在上面的例子中， switch 语句会判断某个点是否在绿色的对角线 x == y 上，是否在紫色的对角线 x == -y 上，或者不在对角线上。
-             这三个 case 都声明了常量 x 和 y 的占位符，用于临时获取元组 yetAnotherPoint 的两个值。这两个常量被用作 where 语句的一部分，从而创建一个动态的过滤器(filter)。当且仅当 where 语句的条件为 true 时，匹配到的
-             case 分支才会被执行。
-             就像是值绑定中的例子，由于最后一个 case 分支匹配了余下所有可能的值， switch 语句就已经完备了，因此不 需要再书写默认分支。
-             复合匹配
-             当多个条件可以使用同一种方法来处理时，可以将这几种可能放在同一个 case 后面，并且用逗号隔开。当case后 面的任意一种模式匹配的时候，这条分支就会被匹配。并且，如果匹配列表过长，还可以分行书写:
-             let someCharacter: Character = "e"
-             switch someCharacter {
-             case "a", "e", "i", "o", "u":
-             print("\(someCharacter) is a vowel")
-             case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
-             "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
-             print("\(someCharacter) is a consonant")
-             default:
-             print("\(someCharacter) is not a vowel or a consonant")
-             }
-             // 输出 "e is a vowel"
-             这个 switch 语句中的第一个case，匹配了英语中的五个小写元音字母。相似的，第二个case匹配了英语中所有的 小写辅音字母。最终， default 分支匹配了其它所有字符。 复合匹配同样可以包含值绑定。复合匹配里所有的匹 配模式，都必须包含相同的值绑定。并且每一个绑定都必须获取到相同类型的值。这保证了，无论复合匹配中的 哪个模式发生了匹配，分支体内的代码，都能获取到绑定的值，并且绑定的值都有一样的类型。
-             let stillAnotherPoint = (9, 0)
-             switch stillAnotherPoint {
-             case (let distance, 0), (0, let distance):
-             print("On an axis, \(distance) from the origin")
-             default:
-             print("Not on an axis")
-             }
-             // 输出 "On an axis, 9 from the origin"
-             第 2 章 Swift 教程 | 109
-             上面的case有两个模式: (let distance, 0) 匹配了在x轴上的值， (0, let distance) 匹配了在y轴上的值。两个 模式都绑定了 distance ，并且 distance 在两种模式下，都是整型——这意味着分支体内的代码，只要case匹 配，都可以获取到 distance 值
-             控制转移语句
-             控制转移语句改变你代码的执行顺序，通过它可以实现代码的跳转。Swift 有五种控制转移语句:
-             • continue
-             • break
-             • fallthrough • return
-             • throw
-             我们将会在下面讨论 continue 、 break 和 fallthrough 语句。 return 语句将会在函数章节讨论， throw 语句会 在错误抛出 (页 0)章节讨论。
-             Continue
-             continue 语句告诉一个循环体立刻停止本次循环，重新开始下次循环。就好像在说“本次循环我已经执行完 了”，但是并不会离开整个循环体。
-             下面的例子把一个小写字符串中的元音字母和空格字符移除，生成了一个含义模糊的短句:
-             let puzzleInput = "great minds think alike"
-             var puzzleOutput = ""
-             for character in puzzleInput.characters {
-             switch character {
-             case "a", "e", "i", "o", "u", " ":
-             continue
-             default:
-             puzzleOutput.append(character)
-             }
-             }
-             print(puzzleOutput)
-             // 输出 "grtmndsthnklk"
-             在上面的代码中，只要匹配到元音字母或者空格字符，就调用 continue 语句，使本次循环结束，重新开始下次循 环。这种行为使 switch 匹配到元音字母和空格字符时不做处理，而不是让每一个匹配到的字符都被打印。
-             
-             第 2 章 Swift 教程 | 110
-             Break
-             break 语句会立刻结束整个控制流的执行。当你想要更早的结束一个 switch 代码块或者一个循环体时，你都可以 使用 break 语句。
-             循环语句中的 break
-             当在一个循环体中使用 break 时，会立刻中断该循环体的执行，然后跳转到表示循环体结束的大括号( } )后的第 一行代码。不会再有本次循环的代码被执行，也不会再有下次的循环产生。
-             Switch 语句中的 break
-             当在一个 switch 代码块中使用 break 时，会立即中断该 switch 代码块的执行，并且跳转到表示 switch 代码块 结束的大括号( } )后的第一行代码。
-             这种特性可以被用来匹配或者忽略一个或多个分支。因为 Swift 的 switch 需要包含所有的分支而且不允许有为 空的分支，有时为了使你的意图更明显，需要特意匹配或者忽略某个分支。那么当你想忽略某个分支时，可以在 该分支内写上 break 语句。当那个分支被匹配到时，分支内的 break 语句立即结束 switch 代码块。
-             注意: 当一个 switch 分支仅仅包含注释时，会被报编译时错误。注释不是代码语句而且也不能让 switch 分支 达到被忽略的效果。你应该使用 break 来忽略某个分支。
-             下面的例子通过 switch 来判断一个 Character 值是否代表下面四种语言之一。为了简洁，多个值被包含在了同一 个分支情况中。
-             let numberSymbol: Character = "三" // 简体中文里的数字 3 var possibleIntegerValue: Int?
-             switch numberSymbol {
-             case "1", "?", "一", "?":
-             possibleIntegerValue = 1 case "2", "?", "二", "?":
-             possibleIntegerValue = 2 case "3", "?", "三", "?":
-             possibleIntegerValue = 3 case "4", "?", "四", "?":
-             possibleIntegerValue = 4
-             default:
-             break }
-             if let integerValue = possibleIntegerValue {
-             print("The integer value of \(numberSymbol) is \(integerValue).")
-             } else {
-             print("An integer value could not be found for \(numberSymbol).")
-             }
-             // 输出 "The integer value of 三 is 3."
-             这个例子检查 numberSymbol 是否是拉丁，阿拉伯，中文或者泰语中的 1 到 4 之一。如果被匹配到，该 switch 分 支语句给 Int? 类型变量 possibleIntegerValue 设置一个整数值。
-             
-             第 2 章 Swift 教程 | 111
-             当 switch 代码块执行完后，接下来的代码通过使用可选绑定来判断 possibleIntegerValue 是否曾经被设置过 值。因为是可选类型的缘故， possibleIntegerValue 有一个隐式的初始值 nil ，所以仅仅当 possibleIntegerValu e 曾被 switch 代码块的前四个分支中的某个设置过一个值时，可选的绑定才会被判定为成功。
-             在上面的例子中，想要把 Character 所有的的可能性都枚举出来是不现实的，所以使用 default 分支来包含所有 上面没有匹配到字符的情况。由于这个 default 分支不需要执行任何动作，所以它只写了一条 break 语句。一旦 落入到 default 分支中后， break 语句就完成了该分支的所有代码操作，代码继续向下，开始执行 if let 语句。
-             贯穿
-             Swift 中的 switch 不会从上一个 case 分支落入到下一个 case 分支中。相反，只要第一个匹配到的 case 分支 完成了它需要执行的语句，整个 switch 代码块完成了它的执行。相比之下，C 语言要求你显式地插入 break 语句 到每个 case 分支的末尾来阻止自动落入到下一个 case 分支中。Swift 的这种避免默认落入到下一个分支中的 特性意味着它的 switch 功能要比 C 语言的更加清晰和可预测，可以避免无意识地执行多个 case 分支从而引发 的错误。
-             如果你确实需要 C 风格的贯穿的特性，你可以在每个需要该特性的 case 分支中使用 fallthrough 关键字。下面 的例子使用 fallthrough 来创建一个数字的描述语句。
-             let integerToDescribe = 5
-             var description = "The number \(integerToDescribe) is"
-             switch integerToDescribe {
-             case 2, 3, 5, 7, 11, 13, 17, 19:
-             description += " a prime number, and also"
-             fallthrough
-             default:
-             description += " an integer."
-             }
-             print(description)
-             // 输出 "The number 5 is a prime number, and also an integer."
-             这个例子定义了一个 String 类型的变量 description 并且给它设置了一个初始值。函数使用 switch 逻辑来判断 integerToDescribe 变量的值。当 integerToDescribe 的值属于列表中的质数之一时，该函数在 description 后添
-             加一段文字，来表明这个数字是一个质数。然后它使用 fallthrough 关键字来“贯穿”到 default 分支中。 defau lt 分支在 description 的最后添加一段额外的文字，至此 switch 代码块执行完了。
-             如果 integerToDescribe 的值不属于列表中的任何质数，那么它不会匹配到第一个 switch 分支。而这里没有其他 特别的分支情况，所以 integerToDescribe 匹配到 default 分支中。
-             当 switch 代码块执行完后，使用 print(_:separator:terminator:) 函数打印该数字的描述。在这个例子中，数字 5 被准确的识别为了一个质数。
-             
-             第 2 章 Swift 教程 | 112
-             注意: fallthrough 关键字不会检查它下一个将会落入执行的 case 中的匹配条件。 fallthrough 简单地使代 码继续连接到下一个 case 中的代码，这和 C 语言标准中的 switch 语句特性是一样的。
-             带标签的语句
-             在 Swift 中，你可以在循环体和条件语句中嵌套循环体和条件语句来创造复杂的控制流结构。并且，循环体和条 件语句都可以使用 break 语句来提前结束整个代码块。因此，显式地指明 break 语句想要终止的是哪个循环体或 者条件语句，会很有用。类似地，如果你有许多嵌套的循环体，显式指明 continue 语句想要影响哪一个循环体也 会非常有用。
-             为了实现这个目的，你可以使用标签(statement label)来标记一个循环体或者条件语句，对于一个条件语 句，你可以使用 break 加标签的方式，来结束这个被标记的语句。对于一个循环语句，你可以使用 break 或者 co ntinue 加标签，来结束或者继续这条被标记语句的执行。
-             声明一个带标签的语句是通过在该语句的关键词的同一行前面放置一个标签，作为这个语句的前导关键字(introd ucor keyword)，并且该标签后面跟随一个冒号。下面是一个针对 while 循环体的标签语法，同样的规则适用于所 有的循环体和条件语句。
-             label name : while condition { statements }
-             下面的例子是前面章节中蛇和梯子的适配版本，在此版本中，我们将使用一个带有标签的 while 循环体中调用 br eak 和 continue 语句。这次，游戏增加了一条额外的规则:
-             • 为了获胜，你必须刚好落在第 25 个方块中。
-             如果某次掷骰子使你的移动超出第 25 个方块，你必须重新掷骰子，直到你掷出的骰子数刚好使你能落在第 25 个方块中。
-             游戏的棋盘和之前一样:
-             image
-             图片 2.9 image
-             finalSquare 、 board 、 square 和 diceRoll 值被和之前一样的方式初始化:
-             let finalSquare = 25
-             var board = [Int](repeating: 0, count: finalSquare + 1)
-             board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
-             board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
-             var square = 0
-             var diceRoll = 0
-             
-             第 2 章 Swift 教程 | 113
-             这个版本的游戏使用 while 循环和 switch 语句来实现游戏的逻辑。 while 循环有一个标签名 gameLoop ，来表明 它是游戏的主循环。
-             该 while 循环体的条件判断语句是 while square !=finalSquare ，这表明你必须刚好落在方格25中。
-             gameLoop: while square != finalSquare {
-             diceRoll += 1
-             if diceRoll == 7 { diceRoll = 1 }
-             switch square + diceRoll {
-             case finalSquare:
-             // 骰子数刚好使玩家移动到最终的方格里，游戏结束。
-             break gameLoop
-             case let newSquare where newSquare > finalSquare:
-             // 骰子数将会使玩家的移动超出最后的方格，那么这种移动是不合法的，玩家需要重新掷骰子
-             continue gameLoop
-             default:
-             // 合法移动，做正常的处理 square += diceRoll
-             square += board[square]
-             } }
-             print("Game over!")
-             每次循环迭代开始时掷骰子。与之前玩家掷完骰子就立即移动不同，这里使用了 switch 语句来考虑每次移动可能 产生的结果，从而决定玩家本次是否能够移动。
-             • 如果骰子数刚好使玩家移动到最终的方格里，游戏结束。 break gameLoop 语句跳转控制去执行 while 循环体 后的第一行代码，意味着游戏结束。
-             • 如果骰子数将会使玩家的移动超出最后的方格，那么这种移动是不合法的，玩家需要重新掷骰子。 continue gameLoop 语句结束本次 while 循环，开始下一次循环。
-             • 在剩余的所有情况中，骰子数产生的都是合法的移动。玩家向前移动 diceRoll 个方格，然后游戏逻辑再处 理玩家当前是否处于蛇头或者梯子的底部。接着本次循环结束，控制跳转到 while 循环体的条件判断语句 处，再决定是否需要继续执行下次循环。
-             注意:
-             如果上述的 break 语句没有使用 gameLoop 标签，那么它将会中断 switch 语句而不是 while 循环。使用 gameLoo p 标签清晰的表明了 break 想要中断的是哪个代码块。 同时请注意，当调用 continue gameLoop 去跳转到下一 次循环迭代时，这里使用 gameLoop 标签并不是严格必须的。因为在这个游戏中，只有一个循环体，所以 contin ue 语句会影响到哪个循环体是没有歧义的。然而， continue 语句使用 gameLoop 标签也是没有危害的。这样做 符合标签的使用规则，同时参照旁边的 break gameLoop ，能够使游戏的逻辑更加清晰和易于理解。
-             
-             第 2 章 Swift 教程 | 114
-             提前退出
-             像 if 语句一样， guard 的执行取决于一个表达式的布尔值。我们可以使用 guard 语句来要求条件必须为真 时，以执行 guard 语句后的代码。不同于 if 语句，一个 guard 语句总是有一个 else 从句，如果条件不为真则执 行 else 从句中的代码。
-             func greet(person: [String: String]) {
-             guard let name = person["name"] else {
-             return }
-             print("Hello \(name)")
-             guard let location = person["location"] else {
-             print("I hope the weather is nice near you.")
-             return }
-             print("I hope the weather is nice in \(location).")
-             }
-             greet(["name": "John"])
-             // 输出 "Hello John!"
-             // 输出 "I hope the weather is nice near you." greet(["name": "Jane", "location": "Cupertino"]) // 输出 "Hello Jane!"
-             // 输出 "I hope the weather is nice in Cupertino."
-             如果 guard 语句的条件被满足，则继续执行 guard 语句大括号后的代码。将变量或者常量的可选绑定作为 语句的条件，都可以保护 guard 语句后面的代码。
-             如果条件不被满足，在 else 分支上的代码就会被执行。这个分支必须转移控制以退出 guard 语句出现的代码 段。它可以用控制转移语句如 return , break , continue 或者 throw 做这件事，或者调用一个不返回的方法或函 数，例如 fatalError() 。
-             相比于可以实现同样功能的 if 语句，按需使用 guard 语句会提升我们代码的可读性。它可以使你的代码连贯的 被执行而不需要将它包在 else 块中，它可以使你在紧邻条件判断的地方，处理违规的情况。
-             检测 API 可用性
-             Swift内置支持检查 API 可用性，这可以确保我们不会在当前部署机器上，不小心地使用了不可用的API。
-             编译器使用 SDK 中的可用信息来验证我们的代码中使用的所有 API 在项目指定的部署目标上是否可用。如果我 们尝试使用一个不可用的 API，Swift 会在编译时报错。
-             我们在 if 或 guard 语句中使用 可用性条件(availability condition) 去有条件的执行一段代码，来在运行时判 断调用的API是否可用。编译器使用从可用性条件语句中获取的信息去验证，在这个代码块中调用的 API 是否可 用。
-             guard
-             第 2 章 Swift 教程 | 115
-             if #available(iOS 10, macOS 10.12, *) {
-             // 在 iOS 使用 iOS 10 的 API, 在 macOS 使用 macOS 10.12 的 API
-             } else {
-             // 使用先前版本的 iOS 和 macOS 的 API
-             }
-             以上可用性条件指定，在iOS中， if 语句的代码块仅仅在 iOS 10 及更高的系统下运行;在 macOS中，仅在 macO S 10.12 及更高才会运行。最后一个参数， * ，是必须的，用于指定在所有其它平台中，如果版本号高于你的设 备指定的最低版本，if语句的代码块将会运行。
-             在它一般的形式中，可用性条件使用了一个平台名字和版本的列表。平台名字可以是 iOS ， macOS ， watchOS 和 tvOS ——请访问声明属性来获取完整列表。除了指定像 iOS 8的主板本号，我们可以指定像iOS 8.3 以及 macOS
-             10.10.3的子版本号。
-             if #available(platform name version, ..., *) { APIs 可用，语句将执行
-             } else {
-             APIs 不可用，语句将不执行
-             }
-             
-             
-             */
-            
-        
- }
-        
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
