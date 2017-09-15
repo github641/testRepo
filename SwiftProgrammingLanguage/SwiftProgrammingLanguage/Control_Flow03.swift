@@ -648,9 +648,6 @@ class Control_Flow03: UIViewController {
          } else {
          APIs 不可用，语句将不执行
          }
-         
-         
-         
          */
         
     }
