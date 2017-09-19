@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ViewController2.swift
 //  SwiftProgrammingLanguage
 //
 //  Created by admin on 2017/9/18.
@@ -8,14 +8,14 @@
 /*lzy170918注:
  这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
  
- 闭包(Closures)
+ 函数(Functions)
  
  本页包含内容:
- • 闭包表达式 (页 0)
- • 尾随闭包 (页 0)
- • 值捕获 (页 0)
- • 闭包是引用类型 (页 0) • 逃逸闭包 (页 0)
- • 自动闭包 (页 0)
+ - 函数定义与调用 (页 0)
+ - 函数参数与返回值 (页 0)
+ - 函数参数标签和参数名称 (页 0)
+ - 函数类型 (页 0)
+ - 嵌套函数 (页 0)
  */
 import UIKit
 
@@ -23,309 +23,205 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         /*lzy170918注:
-         闭包是自包含的函数代码块，可以在代码中被传递和使用。Swift 中的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。
-         闭包可以捕获和存储其所在上下文中任意常量和变量的引用。被称为包裹常量和变量。 
-         Swift 会为你管理在捕获过程中涉及到的所有内存操作。
-         注意 如果你不熟悉捕获(capturing)这个概念也不用担心，你可以在值捕获 (页 0)章节对其进行详细了解。
-         
-         在函数章节中介绍的全局和嵌套函数实际上也是特殊的闭包，闭包采取如下三种形式之一:
-         • 全局函数是一个有名字但不会捕获任何值的闭包
-         • 嵌套函数是一个有名字并可以捕获其封闭函数域内值的闭包
-         • 闭包表达式是一个利用轻量级语法所写的可以捕获其上下文中变量或常量值的匿名闭包
-         
-         Swift 的闭包表达式拥有简洁的风格，并鼓励在常见场景中进行语法优化，主要优化如下:
-         • 利用上下文推断参数和返回值类型
-         • 隐式返回单表达式闭包，即单表达式闭包可以省略 return 关键字
-         • 参数名称缩写
-         • 尾随闭包语法
-         */
-        
-        // MARK:  闭包表达式
-        /*lzy170918:
-         嵌套函数是一个在较复杂函数中方便进行命名和定义自包含代码模块的方式。
-         当然，有时候编写小巧的没有完整定义和命名的类函数结构也是很有用处的，尤其是在你处理一些函数并需要将另外一些函数作为该函数的参数时。
-         闭包表达式是一种利用简洁语法构建内联闭包的方式。
-         闭包表达式提供了一些语法优化，使得撰写闭包变得简单明了。
-         下面闭包表达式的例子通过使用几次迭代展示了 sorted(by:) 方法定义和语法优化的方式。每一次迭代都用更简洁的方式描述了相同的功能。
-         */
-        // MARK:  ====sorted 方法====
-        /*lzy170918:
-         [String] sorted(by: (String, String) -> Bool)
-         Swift 标准库提供了名为 sorted(by:) 的方法，它会根据你所提供的用于排序的闭包函数将已知类型数组中的 值进行排序。一旦排序完成，sorted(by:) 方法会返回一个与原数组大小相同，包含同类型元素且元素已正确排 序的新数组。原数组不会被 sorted(by:) 方法修改。
-         下面的闭包表达式示例使用 sorted(by:) 方法对一个 String 类型的数组进行字母逆序排序。
-         sorted(by:) 方法接受一个闭包，该闭包函数需要传入与数组元素类型相同的两个值，并返回一个布尔类型值来表明当排序结束后传入的第一个参数排在第二个参数前面还是后面。如果第一个参数值出现在第二个参数值前面，排序闭包函数需要返回 true ，反之返回 false 。
-         */
-        
-//        以下是初始数组:
-        let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
-//        提供排序闭包函数的一种方式是撰写一个符合其类型要求的普通函数，并将其作为 sorted(by:) 方法的参数传入:
-        func backward(_ s1: String, _ s2: String) -> Bool {
-            return s1 > s2
-        }
-        // 该例子对一个 String 类型的数组进行排序，因此排序闭包函数类型需为 (String, String) -> Bool 。
-        print(names.sorted(by: backward))// reversedNames 为 ["Ewa", "Daniella", "Chris", "Barry", "Alex"]
-        /*
-         如果第一个字符串(s1)大于第二个字符串(s2)，backward(_:_:) 函数会返回 true，表示在新的数组中 s1 应该出现在 s2 前。对于字符串中的字符来说，“大于”表示“按照字母顺序较晚出现”。这意味着字母 "B" 大于字母 "A" ，字符串 "Tom" 大于字符串 "Tim"。该闭包将进行字母逆序排序，"Barry" 将会排在 "Alex" 之前。
-         然而，以这种方式来编写一个实际上很简单的表达式( a > b )，确实太过繁琐了。对于这个例子来说，利用闭包 表达式语法可以更好地构造一个内联排序闭包。
-         */
-        // MARK:  ====闭包表达式语法====
-        /*lzy170918:
-         闭包表达式语法有如下的一般形式:
-         { (parameters) -> returnType in
-            statements
-         }
-         
-         闭包表达式参数 可以是 in-out 参数，但不能设定默认值。
-         也可以使用具名的可变参数(译者注:但是如果可变参数不放在参数列表的最后一位的话，调用闭包的时时编译器将报错。可参考这里)。元组也可以作为参数和返回值。
-         下面的例子展示了之前 backward(_:_:) 函数对应的闭包表达式版本的代码:
-         */
-        var reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in
-            return s1 > s2
-        })
-        
-        
-        /*
-         需要注意的是内联闭包参数和返回值类型声明与 backward(_:_:) 函数类型声明相同。
-         在这两种方式中，都写成了 (s1: String, s2: String) -> Bool 。然而在内联闭包表达式中，函数和返回值类型都写在大括号内，而不是大括号外。
-         闭包的函数体部分由关键字 in 引入。该关键字表示闭包的参数和返回值类型定义已经完成，闭包函数体即将开 始。
-         由于这个闭包的函数体部分如此短，以至于可以将其改写成一行代码:
-         reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in return s1 > s2 } )
-         该例中 sorted(by:) 方法的整体调用保持不变，一对圆括号仍然包裹住了方法的整个参数。然而，参数现在变 成了内联闭包。*/
-        
-        // MARK:  ====根据上下文推断类型====
-        /*
-         因为排序闭包函数是作为 sorted(by:) 方法的参数传入的，Swift 可以推断其参数和返回值的类型。 sorted(b y:) 方法被一个字符串数组调用，因此其参数必须是 (String, String) -> Bool 类型的函数。这意味着 (Stri ng, String) 和 Bool 类型并不需要作为闭包表达式定义的一部分。因为所有的类型都可以被正确推断，返回箭 头( -> )和围绕在参数周围的括号也可以被省略:
-         reversedNames = names.sorted(by: { s1, s2 in return s1 > s2 } )
-         实际上，通过内联闭包表达式构造的闭包作为参数传递给函数或方法时，总是能够推断出闭包的参数和返回值类
-         型。这意味着闭包作为函数或者方法的参数时，你几乎不需要利用完整格式构造内联闭包。
-         尽管如此，你仍然可以明确写出有着完整格式的闭包。如果完整格式的闭包能够提高代码的可读性，则我们更鼓 励采用完整格式的闭包。而在 sorted(by:) 方法这个例子里，显然闭包的目的就是排序。由于这个闭包是为了 处理字符串数组的排序，因此读者能够推测出这个闭包是用于字符串处理的。
-         单表达式闭包隐式返回
-         单行表达式闭包可以通过省略 return 关键字来隐式返回单行表达式的结果，如上版本的例子可以改写为: reversedNames = names.sorted(by: { s1, s2 in s1 > s2 } )
-         在这个例子中，sorted(by:) 方法的参数类型明确了闭包必须返回一个 Bool 类型值。因为闭包函数体只包含 了一个单一表达式( s1 > s2 )，该表达式返回 Bool 类型值，因此这里没有歧义， return 关键字可以省 略。
-         参数名称缩写
-         Swift 自动为内联闭包提供了参数名称缩写功能，你可以直接通过 $0 ， $1 ， $2 来顺序调用闭包的参数，以 此类推。
-         如果你在闭包表达式中使用参数名称缩写，你可以在闭包定义中省略参数列表，并且对应参数名称缩写的类型会 通过函数类型进行推断。 in 关键字也同样可以被省略，因为此时闭包表达式完全由闭包函数体构成:
-         reversedNames = names.sorted(by: { $0 > $1 } ) 在这个例子中，$0和$1表示闭包中第一个和第二个 String 类型的参数。
-         第 2 章 Swift 教程 | 132
-         运算符方法
-         实际上还有一种更简短的方式来编写上面例子中的闭包表达式。Swift 的 String 类型定义了关于大于 号(>)的字符串实现，其作为一个函数接受两个 String 类型的参数并返回 Bool 类型的值。而这正好与
-         sorted(by:) 方法的参数需要的函数类型相符合。因此，你可以简单地传递一个大于号，Swift 可以自动推断出 你想使用大于号的字符串函数实现:
-         reversedNames = names.sorted(by: >) 更多关于运算符方法的内容请查看运算符方法 (页 0)。
-         */
-        
-        
-        // MARK:  尾随闭包
-        /*lzy170918:
-         尾随闭包
-         如果你需要将一个很长的闭包表达式作为最后一个参数传递给函数，可以使用尾随闭包来增强函数的可读性。尾
-         随闭包是一个书写在函数括号之后的闭包表达式，函数支持将其作为最后一个参数调用。在使用尾随闭包时，你
-         不用写出它的参数标签:
-         func someFunctionThatTakesAClosure(closure: () -> Void) { // 函数体部分
-         }
-         // 以下是不使用尾随闭包进行函数调用 someFunctionThatTakesAClosure(closure: {
-         // 闭包主体部分 })
-         // 以下是使用尾随闭包进行函数调用 someFunctionThatTakesAClosure() {
-         // 闭包主体部分 }
-         在闭包表达式语法 (页 0)一节中作为 sorted(by:) 方法参数的字符串排序闭包可以改写为:
-         reversedNames = names.sorted() { $0 > $1 }
-         如果闭包表达式是函数或方法的唯一参数，则当你使用尾随闭包时，你甚至可以把 () 省略掉:
-         reversedNames = names.sorted { $0 > $1 }
-         当闭包非常长以至于不能在一行中进行书写时，尾随闭包变得非常有用。举例来说，Swift 的 Array 类型有一 个 map(_:) 方法，这个方法获取一个闭包表达式作为其唯一参数。该闭包函数会为数组中的每一个元素调用一 次，并返回该元素所映射的值。具体的映射方式和返回值类型由闭包来指定。
-         当提供给数组的闭包应用于每个数组元素后，map(_:) 方法将返回一个新的数组，数组中包含了与原数组中的元 素一一对应的映射后的值。
-         
-         第 2 章 Swift 教程 | 133
-         下例介绍了如何在 map(_:) 方法中使用尾随闭包将 Int 类型数组 [16, 58, 510] 转换为包含对应 String 类型的值的数组 ["OneSix", "FiveEight", "FiveOneZero"] :
-         let digitNames = [
-         0: "Zero", 1: "One", 2: "Two",   3: "Three", 4: "Four",
-         5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"
-         ]
-         let numbers = [16, 58, 510]
-         如上代码创建了一个整型数位和它们英文版本名字相映射的字典。同时还定义了一个准备转换为字符串数组的整
-         型数组。
-         你现在可以通过传递一个尾随闭包给 numbers 数组的 map(_:) 方法来创建对应的字符串版本数组:
-         let strings = numbers.map {
-         (number) -> String in
-         var number = number
-         var output = ""
-         repeat {
-         output = digitNames[number % 10]! + output
-         number /= 10
-         } while number > 0
-         return output
-         }
-         // strings 常量被推断为字符串类型数组，即 [String] // 其值为 ["OneSix", "FiveEight", "FiveOneZero"]
-         map(_:) 为数组中每一个元素调用了一次闭包表达式。你不需要指定闭包的输入参数 number 的类型，因为可 以通过要映射的数组类型进行推断。
-         在该例中，局部变量 number 的值由闭包中的 number 参数获得，因此可以在闭包函数体内对其进行修改，(闭 包或者函数的参数总是常量)，闭包表达式指定了返回类型为 String ，以表明存储映射值的新数组类型为 Stri ng。
-         闭包表达式在每次被调用的时候创建了一个叫做 output 的字符串并返回。其使用求余运算符( number % 1
-         0 )计算最后一位数字并利用 digitNames 字典获取所映射的字符串。这个闭包能够用于创建任意正整数的字符 串表示。
-         注意:
-         字典 digitNames 下标后跟着一个叹号( ! )，因为字典下标返回一个可选值(optional value)，表明该键 不存在时会查找失败。在上例中，由于可以确定 number % 10 总是 digitNames 字典的有效下标，因此叹号 可以用于强制解包 (force-unwrap) 存储在下标的可选类型的返回值中的 String 类型的值。
-         从 digitNames 字典中获取的字符串被添加到 output 的前部，逆序建立了一个字符串版本的数字。(在表达 式 number % 10 中，如果 number 为 16 ，则返回 6 ， 58 返回 8 ， 510 返回 0 。)
-         
-         第 2 章 Swift 教程 | 134
-         number 变量之后除以 10 。因为其是整数，在计算过程中未除尽部分被忽略。因此 16 变成了 1 ， 58 变 成了 5，510 变成了 51。
-         整个过程重复进行，直到 number /= 10 为 0 ，这时闭包会将字符串 output 返回，而 map(_:) 方法则会 将字符串添加到映射数组中。
-         在上面的例子中，通过尾随闭包语法，优 地在函数后封装了闭包的具体功能，而不再需要将整个闭包包裹在 m ap(_:) 方法的括号内。
 
-         */
-        
-        
-        // MARK:  值捕获
-        /*lzy170918:
+         本页内容包含:
+         • 枚举语法 (页 0)
+         • 使用 Switch 语句匹配枚举值 (页 0) • 关联值 (页 0)
+         • 原始值 (页 0)
+         • 递归枚举 (页 0)
+         枚举为一组相关的值定义了一个共同的类型，使你可以在你的代码中以类型安全的方式来使用这些值。
+         如果你熟悉 C 语言，你会知道在 C 语言中，枚举会为一组整型值分配相关联的名称。Swift 中的枚举更加灵 活，不必给每一个枚举成员提供一个值。如果给枚举成员提供一个值(称为“原始”值)，则该值的类型可以是 字符串，字符，或是一个整型值或浮点数。
+         此外，枚举成员可以指定任意类型的关联值存储到枚举成员中，就像其他语言中的联合体(unions)和变体(var iants)。你可以在一个枚举中定义一组相关的枚举成员，每一个枚举成员都可以有适当类型的关联值。
+         在 Swift 中，枚举类型是一等(first-class)类型。它们采用了很多在传统上只被类(class)所支持的特 性，例如计算属性(computed properties)，用于提供枚举值的附加信息，实例方法(instance methods)，用 于提供和枚举值相关联的功能。枚举也可以定义构造函数(initializers)来提供一个初始值;可以在原始实现 的基础上扩展它们的功能;还可以遵循协议(protocols)来提供标准的功能。
+         想了解更多相关信息，请参见属性，方法，构造过程，扩展和协议。
          
-         值捕获
-         闭包可以在其被定义的上下文中捕获常量或变量。即使定义这些常量和变量的原作用域已经不存在，闭包仍然可
-         以在闭包函数体内引用和修改这些值。
-         Swift 中，可以捕获值的闭包的最简单形式是嵌套函数，也就是定义在其他函数的函数体内的函数。嵌套函数可 以捕获其外部函数所有的参数以及定义的常量和变量。
-         举个例子，这有一个叫做 makeIncrementor 的函数，其包含了一个叫做 incrementor 的嵌套函数。嵌套函数 incrementor() 从上下文中捕获了两个值，runningTotal 和 amount。捕获这些值之后，makeIncrementor 将 incrementor 作为闭包返回。每次调用 incrementor 时，其会以 amount 作为增量增加 runningTotal 的
-         值。
-         func makeIncrementer(forIncrement amount: Int) -> () -> Int {
-         var runningTotal = 0
-         func incrementer() -> Int {
-         runningTotal += amount
-         return runningTotal
+         第 2 章 Swift 教程 | 140
+         枚举语法
+         使用 enum 关键词来创建枚举并且把它们的整个定义放在一对大括号内:
+         enum SomeEnumeration { // 枚举定义放在这里
          }
-         return incrementer
+         下面是用枚举表示指南针四个方向的例子:
+         enum CompassPoint {
+         case north
+         case south
+         case east
+         case west
          }
-         makeIncrementor () -> Int Int
-         makeIncrementer(forIncrement:)
-         incrementor
-         makeIncrementer(forIncrement:) Int amount incrementor
-         incrementor
-         0
-         runningTotal
-         runningTotal
-         forIncrement
-         makeIncrementer
-         runningTotal
-         amoun
-         返回类型为   。这意味着其返回的是一个函数，而非一个简单类型的值。该函数在 每次调用时不接受参数，只返回一个   类型的值。关于函数返回其他函数的内容，请查看函数类型作为返回 类型 (页 0)。
-         数值。该值为
-         ，该参数表示每次
-         义了一个嵌套函数
-         函数定义了一个初始值为 的整型变量   ，用来存储当前总计 的返回值。
-         有一个 类型的参数，其外部参数名为   ，内部参数名为
-         被调用时   将要增加的量。 ，用来执行实际的增加操作。该函数简单地使   增加
-         函数还定
-         t ，并将其返回。
-         第 2 章 Swift 教程 | 135
-         如果我们单独考虑嵌套函数 incrementer() ，会发现它有些不同寻常:
-         func incrementer() -> Int {
-         runningTotal += amount
-         return runningTotal
+         枚举中定义的值(如 north ， south ， east 和 west )是这个枚举的成员值(或成员)。你可以使用 case 关键 字来定义一个新的枚举成员值。
+         注意
+         与 C 和 Objective-C 不同，Swift 的枚举成员在被创建时不会被赋予一个默认的整型值。在上面的
+         nt 例子中， north ， south ， east 和 west 不会被隐式地赋值为 0 ， 1 ， 2 和 3 。相反，这些枚举成员本身 就是完备的值，这些值的类型是已经明确定义好的 CompassPoint 类型。
+         多个成员值可以出现在同一行上，用逗号隔开:
+         CompassPoi
+         enum Planet {
+         case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
          }
-         incrementer() 函数并没有任何参数，但是在函数体内访问了 runningTotal 和 amount 变量。这是因为它从 外围函数捕获了 runningTotal 和 amount 变量的引用。捕获引用保证了 runningTotal 和 amount 变量在 调用完 makeIncrementer 后不会消失，并且保证了在下一次执行 incrementer 函数时，runningTotal 依旧存 在。
-         注意 为了优化，如果一个值不会被闭包改变，或者在闭包创建后不会改变，Swift 可能会改为捕获并保存一份 对值的拷贝。 Swift 也会负责被捕获变量的所有内存管理工作，包括释放不再需要的变量。
-         下面是一个使用 makeIncrementor 的例子:
-         let incrementByTen = makeIncrementor(forIncrement: 10)
-         该例子定义了一个叫做 incrementByTen 的常量，该常量指向一个每次调用会将其 runningTotal 变量增加 1 0 的 incrementor 函数。调用这个函数多次可以得到以下结果:
-         incrementByTen() // 返回的值为10 incrementByTen() // 返回的值为20 incrementByTen() // 返回的值为30
-         如果你创建了另一个 incrementor ，它会有属于自己的引用，指向一个全新、独立的 runningTotal 变量:
-         let incrementBySeven = makeIncrementor(forIncrement: 7) incrementBySeven()
-         // 返回的值为7
-         再次调用原来的 incrementByTen 会继续增加它自己的 runningTotal 变量，该变量和 incrementBySeven 中 捕获的变量没有任何联系:
-         incrementByTen() // 返回的值为40
-         注意: 如果你将闭包赋值给一个类实例的属性，并且该闭包通过访问该实例或其成员而捕获了该实例，你将在闭包和该 实例间创建一个循环强引用。Swift 使用捕获列表来打破这种循环强引用。更多信息，请参考闭包引起的循环强 引用 (页 0)。
+         每个枚举定义了一个全新的类型。像 Swift 中其他类型一样，它们的名字(例如 CompassPoint 和 Planet )应该 以一个大写字母开头。给枚举类型起一个单数名字而不是复数名字，以便于读起来更加容易理解:
+         var directionToHead = CompassPoint.west
+         directionToHead 的类型可以在它被 CompassPoint 的某个值初始化时推断出来。一旦 directionToHead 被声明为 CompassPoint 类型，你可以使用更简短的点语法将其设置为另一个 CompassPoint 的值:
+         directionToHead = .east
+         当 directionToHead 的类型已知时，再次为其赋值可以省略枚举类型名。在使用具有显式类型的枚举值时，这种 写法让代码具有更好的可读性。
+         第 2 章 Swift 教程 | 141
+         使用 Switch 语句匹配枚举值 你可以使用 switch 语句匹配单个枚举值:
+         directionToHead = .south
+         switch directionToHead {
+         case .north:
+         print("Lots of planets have a north")
+         case .south:
+         print("Watch out for penguins")
+         case .east:
+         print("Where the sun rises")
+         case .west:
+         print("Where the skies are blue")
+         }
+         // 打印 "Watch out for penguins”
+         你可以这样理解这段代码:
+         “判断 directionToHead 的值。当它等于 .north ，打印 “Lots of planets have a north” 。当它等于 .sout
+         h ，打印 “Watch out for penguins” 。”
+         ......以此类推。
+         正如在控制流中介绍的那样，在判断一个枚举类型的值时， switch 语句必须穷举所有情况。如果忽略了 .west 这 种情况，上面那段代码将无法通过编译，因为它没有考虑到 CompassPoint 的全部成员。强制穷举确保了枚举成员 不会被意外遗漏。
+         当不需要匹配每个枚举成员的时候，你可以提供一个 default 分支来涵盖所有未明确处理的枚举成员:
+         let somePlanet = Planet.earth
+         switch somePlanet {
+         case .earth:
+         print("Mostly harmless")
+         default:
+         print("Not a safe place for humans")
+         }
+         // 打印 "Mostly harmless”
+         关联值
+         上一小节的例子演示了如何定义和分类枚举的成员。你可以为 Planet.earth 设置一个常量或者变量，并在赋值之 后查看这个值。然而，有时候能够把其他类型的关联值和成员值一起存储起来会很有用。这能让你连同成员值一 起存储额外的自定义信息，并且你每次在代码中使用该枚举成员时，还可以修改这个关联值。
          
-         第 2 章 Swift 教程 | 136
-
+         第 2 章 Swift 教程 | 142
+         你可以定义 Swift 枚举来存储任意类型的关联值，如果需要的话，每个枚举成员的关联值类型可以各不相同。枚 举的这种特性跟其他语言中的可识别联合(discriminated unions)，标签联合(tagged unions)，或者变 体(variants)相似。
+         例如，假设一个库存跟踪系统需要利用两种不同类型的条形码来跟踪商品。有些商品上标有使用 0 到 9 的数字的 UPC 格式的一维条形码。每一个条形码都有一个代表“数字系统”的数字，该数字后接五位代表“厂商代码”的 数字，接下来是五位代表“产品代码”的数字。最后一个数字是“检查”位，用来验证代码是否被正确扫描:
+         其他商品上标有 QR 码格式的二维码，它可以使用任何 ISO 8859-1 字符，并且可以编码一个最多拥有 2,953 个 字符的字符串:
+         这便于库存跟踪系统用包含四个整型值的元组存储 UPC 码，以及用任意长度的字符串储存 QR 码。
+         在 Swift 中，使用如下方式定义表示两种商品条形码的枚举:
+         enum Barcode {
+         case upc(Int, Int, Int, Int)
+         case qrCode(String)
+         } 以上代码可以这么理解:
+         “定义一个名为 Barcode 的枚举类型，它的一个成员值是具有 (Int，Int，Int，Int) 类型关联值的 upc ，另一个 成员值是具有 String 类型关联值的 qrCode 。”
+         这个定义不提供任何 Int 或 String 类型的关联值，它只是定义了，当 Barcode 常量和变量等于 Barcode.upc 或 B arcode.qrCode 时，可以存储的关联值的类型。
+         然后可以使用任意一种条形码类型创建新的条形码，例如: var productBarcode = Barcode.upc(8, 85909, 51226, 3)
+         上面的例子创建了一个名为 productBarcode 的变量，并将 Barcode.upc 赋值给它，关联的元组值为 (8, 85909, 51 226, 3) 。
+         同一个商品可以被分配一个不同类型的条形码，例如: productBarcode = .qrCode("ABCDEFGHIJKLMNOP")
+         
+         第 2 章 Swift 教程 | 143
+         这时，原始的 Barcode.upc 和其整数关联值被新的 Barcode.qrCode 和其字符串关联值所替代。 Barcode 类型的常 量和变量可以存储一个 .upc 或者一个 .qrCode (连同它们的关联值)，但是在同一时间只能存储这两个值中的一 个。
+         像先前那样，可以使用一个 switch 语句来检查不同的条形码类型。然而，这一次，关联值可以被提取出来作为 switch 语句的一部分。你可以在 switch 的 case 分支代码中提取每个关联值作为一个常量(用 let 前缀)或者 作为一个变量(用 var 前缀)来使用:
+         switch productBarcode {
+         case .upc(let numberSystem, let manufacturer, let product, let check):
+         print("UPC: \(numberSystem), \(manufacturer), \(product), \(check).")
+         case .qrCode(let productCode):
+         print("QR code: \(productCode).")
+         }
+         // 打印 "QR code: ABCDEFGHIJKLMNOP." 如果一个枚举成员的所有关联值都被提取为常量，或者都被提取为变量，为了简洁，你可以只在成员名称前标注
+         一个let或者var:
+         switch productBarcode {
+         case let .upc(numberSystem, manufacturer, product, check):
+         print("UPC: \(numberSystem), \(manufacturer), \(product), \(check).")
+         case let .qrCode(productCode):
+         print("QR code: \(productCode).")
+         }
+         // 输出 "QR code: ABCDEFGHIJKLMNOP."
+         原始值
+         在关联值 (页 0)小节的条形码例子中，演示了如何声明存储不同类型关联值的枚举成员。作为关联值的替代选 择，枚举成员可以被默认值(称为原始值)预填充，这些原始值的类型必须相同。
+         这是一个使用 ASCII 码作为原始值的枚举:
+         enum ASCIIControlCharacter: Character {
+         case tab = "\t"
+         case lineFeed = "\n"
+         case carriageReturn = "\r"
+         }
+         枚举类型 ASCIIControlCharacter 的原始值类型被定义为 Character ，并设置了一些比较常见的 ASCII 控制字 符。 Character 的描述详见字符串和字符部分。
+         原始值可以是字符串，字符，或者任意整型值或浮点型值。每个原始值在枚举声明中必须是唯一的。
+         注意
+         原始值和关联值是不同的。原始值是在定义枚举时被预先填充的值，像上述三个 ASCII 码。对于一个特定的枚
+         
+         第 2 章 Swift 教程 | 144
+         举成员，它的原始值始终不变。关联值是创建一个基于枚举成员的常量或变量时才设置的值，枚举成员的关联值
+         可以变化。
+         原始值的隐式赋值
+         在使用原始值为整数或者字符串类型的枚举时，不需要显式地为每一个枚举成员设置原始值，Swift 将会自动为 你赋值。
+         例如，当使用整数作为原始值时，隐式赋值的值依次递增 1 。如果第一个枚举成员没有设置原始值，其原始值将 为0。
+         下面的枚举是对之前 Planet 这个枚举的一个细化，利用整型的原始值来表示每个行星在太阳系中的顺序:
+         enum Planet: Int {
+         case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+         }
+         在上面的例子中， Plant.mercury 的显式原始值为 1 ， Planet.venus 的隐式原始值为 2 ，依次类推。
+         当使用字符串作为枚举类型的原始值时，每个枚举成员的隐式原始值为该枚举成员的名称。
+         下面的例子是 CompassPoint 枚举的细化，使用字符串类型的原始值来表示各个方向的名称:
+         enum CompassPoint: String {
+         case north, south, east, west
+         }
+         上面例子中， CompassPoint.south 拥有隐式原始值 south ，依次类推。
+         使用枚举成员的 rawValue 属性可以访问该枚举成员的原始值:
+         let earthsOrder = Planet.earth.rawValue // earthsOrder 值为 3
+         let sunsetDirection = CompassPoint.west.rawValue // sunsetDirection 值为 "west"
+         使用原始值初始化枚举实例
+         如果在定义枚举类型的时候使用了原始值，那么将会自动获得一个初始化方法，这个方法接收一个叫做 rawValue 的参数，参数类型即为原始值类型，返回值则是枚举成员或 nil 。你可以使用这个初始化方法来创建一个新的枚 举实例。
+         这个例子利用原始值 7 创建了枚举成员 uranus :
+         第 2 章 Swift 教程 | 145
+         let possiblePlanet = Planet(rawValue: 7)
+         // possiblePlanet 类型为 Planet? 值为 Planet.uranus
+         然而，并非所有 Int 值都可以找到一个匹配的行星。因此，原始值构造器总是返回一个可选的枚举成员。在上面 的例子中， possiblePlanet 是 Planet? 类型，或者说“可选的 Planet ”。
+         注意 原始值构造器是一个可失败构造器，因为并不是每一个原始值都有与之对应的枚举成员。更多信息请参见可失败 构造器 (页 0)
+         如果你试图寻找一个位置为 11 的行星，通过原始值构造器返回的可选 Planet 值将是 nil :
+         let positionToFind = 11
+         if let somePlanet = Planet(rawValue: positionToFind) {
+         switch somePlanet {
+         case .earth:
+         print("Mostly harmless")
+         default:
+         print("Not a safe place for humans")
+         }
+         } else {
+         print("There isn't a planet at position \(positionToFind)")
+         }
+         // 输出 "There isn't a planet at position 11
+         这个例子使用了可选绑定(optional binding)，试图通过原始值 11 来访问一个行星。
+         anet(rawValue: 11) 语句创建了一个可选 Planet ，如果可选 Planet 的值存在，就会赋值给 somePlanet 。在这个 例子中，无法检索到位置为 11 的行星，所以 else 分支被执行。
+         递归枚举 递归枚举是一种枚举类型，它有一个或多个枚举成员使用该枚举类型的实例作为关联值。使用递归枚举时，编译
+         器会插入一个间接层。你可以在枚举成员前加上 indirect 来表示该成员可递归。 例如，下面的例子中，枚举类型存储了简单的算术表达式:
+         if let somePlanet = Pl
+         enum ArithmeticExpression {
+         case number(Int)
+         indirect case addition(ArithmeticExpression, ArithmeticExpression)
+         indirect case multiplication(ArithmeticExpression, ArithmeticExpression)
+         }
+         你也可以在枚举类型开头加上 indirect 关键字来表明它的所有成员都是可递归的:
+         indirect enum ArithmeticExpression {
+         case number(Int)
+         case addition(ArithmeticExpression, ArithmeticExpression)
+         case multiplication(ArithmeticExpression, ArithmeticExpression)
+         }
+         第 2 章 Swift 教程 | 146
+         上面定义的枚举类型可以存储三种算术表达式:纯数字、两个表达式相加、两个表达式相乘。枚举成员 addition 和 multiplication 的关联值也是算术表达式——这些关联值使得嵌套表达式成为可能。例如，表达式 (5 + 4) * 2 ，乘号右边是一个数字，左边则是另一个表达式。因为数据是嵌套的，因而用来存储数据的枚举类型也需要支 持这种嵌套——这意味着枚举类型需要支持递归。下面的代码展示了使用 ArithmeticExpression 这个递归枚举创 建表达式 (5 + 4) * 2
+         let five = ArithmeticExpression.number(5)
+         let four = ArithmeticExpression.number(4)
+         let sum = ArithmeticExpression.addition(five, four)
+         let product = ArithmeticExpression.multiplication(sum, ArithmeticExpression.number(2))
+         要操作具有递归性质的数据结构，使用递归函数是一种直截了当的方式。例如，下面是一个对算术表达式求值的
+         函数:
+         func evaluate(_ expression: ArithmeticExpression) -> Int {
+         switch expression {
+         case let .number(value):
+         return value
+         case let .addition(left, right):
+         return evaluate(left) + evaluate(right)
+         case let .multiplication(left, right):
+         return evaluate(left) * evaluate(right)
+         }
+         }
+         print(evaluate(product)) // 打印 "18"
+         该函数如果遇到纯数字，就直接返回该数字的值。如果遇到的是加法或乘法运算，则分别计算左边表达式和右边
+         表达式的值，然后相加或相乘。
          */
-        
-        
-        // MARK:  闭包是引用类型
-        /*lzy170918:
-         闭包是引用类型
-         上面的例子中，incrementBySeven 和 incrementByTen 都是常量，但是这些常量指向的闭包仍然可以增加其捕 获的变量的值。这是因为函数和闭包都是引用类型。
-         无论你将函数或闭包赋值给一个常量还是变量，你实际上都是将常量或变量的值设置为对应函数或闭包的引 用。上面的例子中，指向闭包的引用 incrementByTen 是一个常量，而并非闭包内容本身。
-         这也意味着如果你将闭包赋值给了两个不同的常量或变量，两个值都会指向同一个闭包:
-         let alsoIncrementByTen = incrementByTen alsoIncrementByTen()
-         // 返回的值为50
-         逃逸闭包
-         当一个闭包作为参数传到一个函数中，但是这个闭包在函数返回之后才被执行，我们称该闭包从函数中逃逸。当 你定义接受闭包作为参数的函数时，你可以在参数名之前标注 @escaping ，用来指明这个闭包是允许“逃逸”出 这个函数的。
-         一种能使闭包“逃逸”出函数的方法是，将这个闭包保存在一个函数外部定义的变量中。举个例子，很多启动异 步操作的函数接受一个闭包参数作为 completion handler。这类函数会在异步操作开始之后立刻返回，但是闭包 直到异步操作结束后才会被调用。在这种情况下，闭包需要“逃逸”出函数，因为闭包需要在函数返回之后被调 用。例如:
-         var completionHandlers: [() -> Void] = []
-         func someFunctionWithEscapingClosure(completionHandler: @escaping () -> Void) {
-         completionHandlers.append(completionHandler)
-         }
-         someFunctionWithEscapingClosure(_:) 函数接受一个闭包作为参数，该闭包被添加到一个函数外定义的数组 中。如果你不将这个参数标记为 @escaping ，就会得到一个编译错误。
-         将一个闭包标记为 @escaping 意味着你必须在闭包中显式地引用 self 。比如说，在下面的代码中，传递到 s omeFunctionWithEscapingClosure(_:) 中的闭包是一个逃逸闭包，这意味着它需要显式地引用 self 。相对 的，传递到 someFunctionWithNonescapingClosure(_:) 中的闭包是一个非逃逸闭包，这意味着它可以隐式引用
-         self 。
-         func someFunctionWithNonescapingClosure(closure: () -> Void) {
-         closure()
-         }
-         class SomeClass {
-         第 2 章 Swift 教程 | 137
-         var x = 10
-         func doSomething() {
-         someFunctionWithEscapingClosure { self.x = 100 }
-         someFunctionWithNonescapingClosure { x = 200 }
-         }
-         }
-         let instance = SomeClass() instance.doSomething() print(instance.x)
-         // 打印出 "200"
-         completionHandlers.first?() print(instance.x)
-         // 打印出 "100"
-
-         */
-        
-        
-        // MARK:  自动闭包
-        /*lzy170918:
-         自动闭包
-         自动闭包是一种自动创建的闭包，用于包装传递给函数作为参数的表达式。这种闭包不接受任何参数，当它被调
-         用的时候，会返回被包装在其中的表达式的值。这种便利语法让你能够省略闭包的花括号，用一个普通的表达式
-         来代替显式的闭包。
-         我们经常会调用采用自动闭包的函数，但是很少去实现这样的函数。举个例子来说，
-         ile:line:) 函数接受自动闭包作为它的 condition 参数和 message 参数;它的 condition 参数仅会在 deb ug 模式下被求值，它的 message 参数仅当 condition 参数为 false 时被计算求值。
-         自动闭包让你能够延迟求值，因为直到你调用这个闭包，代码段才会被执行。延迟求值对于那些有副作用(Side Effect)和高计算成本的代码来说是很有益处的，因为它使得你能控制代码的执行时机。下面的代码展示了闭包 如何延时求值。
-         assert(condition:message:f
-         var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"] print(customersInLine.count)
-         // 打印出 "5"
-         let customerProvider = { customersInLine.remove(at: 0) } print(customersInLine.count)
-         // 打印出 "5"
-         print("Now serving \(customerProvider())!") // Prints "Now serving Chris!" print(customersInLine.count)
-         // 打印出 "4"
-         customersInLine
-         customerProvider String () -> String
-         St
-         ring
-         尽管在闭包的代码中，   的第一个元素被移除了，不过在闭包被调用之前，这个元素是不会被移 除的。如果这个闭包永远不被调用，那么在闭包里面的表达式将永远不会执行，那意味着列表中的元素永远不会 被移除。请注意，   的类型不是   ，而是   ，一个没有参数且返回值为
-         的函数。
-         将闭包作为参数传递给函数时，你能获得同样的延时求值行为。
-         第 2 章 Swift 教程 | 138
-         // customersInLine is ["Alex", "Ewa", "Barry", "Daniella"]
-         func serve(customer customerProvider: () -> String) {
-         print("Now serving \(customerProvider())!")
-         }
-         serve(customer: { customersInLine.remove(at: 0) } ) // 打印出 "Now serving Alex!"
-         上面的 serve(customer:) 函数接受一个返回顾客名字的显式的闭包。下面这个版本的 serve(customer:) 完成 了相同的操作，不过它并没有接受一个显式的闭包，而是通过将参数标记为 @autoclosure 来接收一个自动闭 包。现在你可以将该函数当作接受 String 类型参数(而非闭包)的函数来调用。customerProvider 参数将自 动转化为一个闭包，因为该参数被标记了 @autoclosure 特性。
-         // customersInLine is ["Ewa", "Barry", "Daniella"]
-         func serve(customer customerProvider: @autoclosure () -> String) {
-         print("Now serving \(customerProvider())!")
-         }
-         serve(customer: customersInLine.remove(at: 0)) // 打印 "Now serving Ewa!"
-         注意 过度使用 autoclosures 会让你的代码变得难以理解。上下文和函数名应该能够清晰地表明求值是被延迟 执行的。
-         如果你想让一个自动闭包可以“逃逸”，则应该同时使用 @autoclosure 和 @escaping 属性。@escaping 属 性的讲解见上面的逃逸闭包 (页 0)。
-         // customersInLine i= ["Barry", "Daniella"]
-         var customerProviders: [() -> String] = []
-         func collectCustomerProviders(_ customerProvider: @autoclosure @escaping () -> String) {
-         customerProviders.append(customerProvider)
-         }
-         collectCustomerProviders(customersInLine.remove(at: 0))
-         collectCustomerProviders(customersInLine.remove(at: 0))
-         print("Collected \(customerProviders.count) closures.") // 打印 "Collected 2 closures."
-         for customerProvider in customerProviders {
-         print("Now serving \(customerProvider())!")
-         }
-         // 打印 "Now serving Barry!"
-         // 打印 "Now serving Daniella!"
-         在上面的代码中，collectCustomerProviders(_:) 函数并没有调用传入的 customerProvider 闭包，而是将闭包 追加到了 customerProviders 数组中。这个数组定义在函数作用域范围外，这意味着数组内的闭包能够在函数返 回之后被调用。因此，customerProvider 参数必须允许“逃逸”出函数作用域。
-         */
-
-        
     }
+
 
 
 }
