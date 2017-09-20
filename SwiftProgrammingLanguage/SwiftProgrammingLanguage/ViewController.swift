@@ -1,21 +1,180 @@
 //
-//  ViewController2.swift
+//  ViewController.swift
 //  SwiftProgrammingLanguage
 //
-//  Created by admin on 2017/9/18.
+//  Created by admin on 2017/9/20.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
-/*lzy170918注:
- 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
- 
- 函数(Functions)
- 
+/*lzy170920注:
+ 类和结构体
+ 1.0 翻译:JaySurplus 校对:sg552 2.0 翻译+校对:SkyJean
+ 2.1 校对:shanks，2015-10-29 2.2 校对:SketchK 2016-05-13 3.0.1， shanks， 2016-11-12
  本页包含内容:
- - 函数定义与调用 (页 0)
- - 函数参数与返回值 (页 0)
- - 函数参数标签和参数名称 (页 0)
- - 函数类型 (页 0)
- - 嵌套函数 (页 0)
+ • 类和结构体对比 (页 0)
+ • 结构体和枚举是值类型 (页 0)
+ • 类是引用类型 (页 0)
+ • 类和结构体的选择 (页 0)
+ • 字符串、数组、和字典类型的赋值与复制行为 (页 0)
+ 类和结构体是人们构建代码所用的一种通用且灵活的构造体。我们可以使用完全相同的语法规则来为类和结构体
+ 定义属性(常量、变量)和添加方法，从而扩展类和结构体的功能。
+ 与其他编程语言所不同的是，Swift 并不要求你为自定义类和结构去创建独立的接口和实现文件。你所要做的是 在一个单一文件中定义一个类或者结构体，系统将会自动生成面向其它代码的外部接口。
+ 注意
+ 通常一个类的实例被称为对象。然而在 Swift 中，类和结构体的关系要比在其他语言中更加的密切，本章中所 讨论的大部分功能都可以用在类和结构体上。因此，我们会主要使用实例。
+ 类和结构体对比
+ Swift 中类和结构体有很多共同点。共同处在于:
+ • 定义属性用于存储值
+ • 定义方法用于提供功能
+ • 定义下标操作使得可以通过下标语法来访问实例所包含的值
+ 
+ 第 2 章 Swift 教程 | 148
+ • 定义构造器用于生成初始化值
+ • 通过扩展以增加默认实现的功能 • 实现协议以提供某种标准功能
+ 更多信息请参见属性，方法，下标，构造过程，扩展，和协议。
+ 与结构体相比，类还有如下的附加功能:
+ • 继承允许一个类继承另一个类的特征
+ • 类型转换允许在运行时检查和解释一个类实例的类型 • 析构器允许一个类实例释放任何其所被分配的资源
+ • 引用计数允许对一个类的多次引用
+ 更多信息请参见继承，类型转换，析构过程，和自动引用计数。
+ 注意
+ 结构体总是通过被复制的方式在代码中传递，不使用引用计数。
+ 定义语法
+ 类和结构体有着类似的定义方式。我们通过关键字 class 和 struct 来分别表示类和结构体，并在一对大括号中定 义它们的具体内容:
+ class SomeClass { // 在这里定义类
+ }
+ struct SomeStructure {
+ // 在这里定义结构体 }
+ 注意
+ 在你每次定义一个新类或者结构体的时候，实际上你是定义了一个新的 Swift 类型。因此请使用
+ e 这种方式来命名(如 SomeClass 和 SomeStructure 等)，以便符合标准 Swift 类型的大写命名风格(如 g ， Int 和 Bool )。相反的，请使用 lowerCamelCase 这种方式为属性和方法命名(如 framerate 和 Count )，以便和类型名区分。
+ 以下是定义结构体和定义类的示例:
+ struct Resolution {
+ var width = 0
+ var height = 0
+ }
+ class VideoMode {
+ UpperCamelCas
+ increment
+ Strin
+ 
+ 第 2 章 Swift 教程 | 149
+ var resolution = Resolution()
+ var interlaced = false
+ var frameRate = 0.0
+ var name: String?
+ }
+ 在上面的示例中我们定义了一个名为 Resolution 的结构体，用来描述一个显示器的像素分辨率。这个结构体包含 了两个名为 width 和 height 的存储属性。存储属性是被捆绑和存储在类或结构体中的常量或变量。当这两个属性 被初始化为整数 0 的时候，它们会被推断为 Int 类型。
+ 在上面的示例中我们还定义了一个名为 VideoMode 的类，用来描述一个视频显示器的特定模式。这个类包含了四 个变量存储属性。第一个是 分辨率 ，它被初始化为一个新的 Resolution 结构体的实例，属性类型被推断为 Reso lution 。新 VideoMode 实例同时还会初始化其它三个属性，它们分别是，初始值为 false 的 interlaced ，初始 值为 0.0 的 frameRate ，以及值为可选 String 的 name 。 name 属性会被自动赋予一个默认值 nil ，意为“没有
+ name 值”，因为它是一个可选类型。 类和结构体实例
+ Resolution 结构体和 VideoMode 类的定义仅描述了什么是 Resolution 和 VideoMode 。它们并没有描述一个特定 的分辨率(resolution)或者视频模式(video mode)。为了描述一个特定的分辨率或者视频模式，我们需要生 成一个它们的实例。
+ 生成结构体和类实例的语法非常相似:
+ let someResolution = Resolution()
+ let someVideoMode = VideoMode()
+ 结构体和类都使用构造器语法来生成新的实例。构造器语法的最简单形式是在结构体或者类的类型名称后跟随一 对空括号，如 Resolution() 或 VideoMode() 。通过这种方式所创建的类或者结构体实例，其属性均会被初始化为 默认值。构造过程章节会对类和结构体的初始化进行更详细的讨论。
+ 属性访问
+ 通过使用点语法，你可以访问实例的属性。其语法规则是，实例名后面紧跟属性名，两者通过点号( . )连接: print("The width of someResolution is \(someResolution.width)")
+ // 打印 "The width of someResolution is 0"
+ 在上面的例子中， someResolution.width 引用 someResolution 的 width 属性，返回 width 的初始值 0 。
+ 你也可以访问子属性，如 VideoMode 中 Resolution 属性的 width 属性:
+ print("The width of someVideoMode is \(someVideoMode.resolution.width)") // 打印 "The width of someVideoMode is 0"
+ 
+ 第 2 章 Swift 教程 | 150
+ 你也可以使用点语法为变量属性赋值:
+ someVideoMode.resolution.width = 1280
+ print("The width of someVideoMode is now \(someVideoMode.resolution.width)") // 打印 "The width of someVideoMode is now 1280"
+ 注意
+ 与 Objective-C 语言不同的是，Swift 允许直接设置结构体属性的子属性。上面的最后一个例子，就是直接设 置了 someVideoMode 中 resolution 属性的 width 这个子属性，以上操作并不需要重新为整个 resolution 属性设 置新值。
+ 结构体类型的成员逐一构造器
+ 所有结构体都有一个自动生成的成员逐一构造器，用于初始化新结构体实例中成员的属性。新实例中各个属性的
+ 初始值可以通过属性的名称传递到成员逐一构造器之中:
+ let vga = Resolution(width:640, height: 480) 与结构体不同，类实例没有默认的成员逐一构造器。构造过程章节会对构造器进行更详细的讨论。
+ 结构体和枚举是值类型
+ 值类型被赋予给一个变量、常量或者被传递给一个函数的时候，其值会被拷贝。
+ 在之前的章节中，我们已经大量使用了值类型。实际上，在 Swift 中，所有的基本类型:整数(Integer)、浮 点数(floating-point)、布尔值(Boolean)、字符串(string)、数组(array)和字典(dictionary)，都是 值类型，并且在底层都是以结构体的形式所实现。
+ 在 Swift 中，所有的结构体和枚举类型都是值类型。这意味着它们的实例，以及实例中所包含的任何值类型属 性，在代码中传递的时候都会被复制。
+ 请看下面这个示例，其使用了前一个示例中的 Resolution 结构体:
+ let hd = Resolution(width: 1920, height: 1080)
+ var cinema = hd
+ 在以上示例中，声明了一个名为hd的常量，其值为一个初始化为全高清视频分辨率(1920 像素宽，1080 像 素高)的 Resolution 实例。
+ 然后示例中又声明了一个名为 cinema 的变量，并将 hd 赋值给它。因为 Resolution 是一个结构体，所以 的值其实是 hd 的一个拷贝副本，而不是 hd 本身。尽管 hd 和 cinema 有着相同的宽(width)和高(heigh t)，但是在幕后它们是两个完全不同的实例。
+ cinema
+ 第 2 章 Swift 教程 | 151
+ 下面，为了符合数码影院放映的需求(2048 像素宽，1080 像素高)，cinema的width属性需要作如下修 改:
+ cinema.width = 2048
+ 这里，将会显示 cinema 的 width 属性确已改为了 2048 :
+ print("cinema is now \(cinema.width) pixels wide") // 打印 "cinema is now 2048 pixels wide"
+ 然而，初始的 hd 实例中 width 属性还是 1920 : print("hd is still \(hd.width) pixels wide")
+ // 打印 "hd is still 1920 pixels wide"
+ 在将 hd 赋予给 cinema 的时候，实际上是将 hd 中所存储的值进行拷贝，然后将拷贝的数据存储到新的 cinema 实 例中。结果就是两个完全独立的实例碰巧包含有相同的数值。由于两者相互独立，因此将 cinema 的 width 修改为
+ 2048 并不会影响 hd 中的 width 的值。 枚举也遵循相同的行为准则:
+ enum CompassPoint {
+ case North, South, East, West
+ }
+ var currentDirection = CompassPoint.West
+ let rememberedDirection = currentDirection
+ currentDirection = .East
+ if rememberedDirection == .West {
+ print("The remembered direction is still .West")
+ }
+ // 打印 "The remembered direction is still .West"
+ 上例中 rememberedDirection 被赋予了 currentDirection 的值，实际上它被赋予的是值的一个拷贝。赋值过程结
+ 束后再修改 currentDirection 的值并不影响 rememberedDirection 所储存的原始值的拷贝。
+ 类是引用类型
+ 与值类型不同，引用类型在被赋予到一个变量、常量或者被传递到一个函数时，其值不会被拷贝。因此，引用的
+ 是已存在的实例本身而不是其拷贝。
+ 请看下面这个示例，其使用了之前定义的 VideoMode 类:
+ let tenEighty = VideoMode()
+ tenEighty.resolution = hd
+ tenEighty.interlaced = true
+ tenEighty.name = "1080i"
+ tenEighty.frameRate = 25.0
+ 第 2 章 Swift 教程 | 152
+ 以上示例中，声明了一个名为 tenEighty 的常量，其引用了一个 VideoMode 类的新实例。在之前的示例中，这个 视频模式(video mode)被赋予了HD分辨率( 1920 * 1080 )的一个拷贝(即 hd 实例)。同时设置为 interlace d ，命名为 “1080i” 。最后，其帧率是 25.0 帧每秒。
+ 然后， tenEighty 被赋予名为 alsoTenEighty 的新常量，同时对 alsoTenEighty 的帧率进行修改:
+ let alsoTenEighty = tenEighty
+ alsoTenEighty.frameRate = 30.0
+ 因为类是引用类型，所以 tenEight 和 alsoTenEight 实际上引用的是相同的 VideoMode 实例。换句话说，它们是 同一个实例的两种叫法。
+ 下面，通过查看 tenEighty 的 frameRate 属性，我们会发现它正确的显示了所引用的 VideoMode 实例的新帧 率，其值为 30.0 :
+ print("The frameRate property of tenEighty is now \(tenEighty.frameRate)") // 打印 "The frameRate property of theEighty is now 30.0"
+ 需要注意的是 tenEighty 和 alsoTenEighty 被声明为常量而不是变量。然而你依然可以改变 tenEighty.frameRate 和 alsoTenEighty.frameRate ，因为 tenEighty 和 alsoTenEighty 这两个常量的值并未改变。它们并不“存储”这 个 VideoMode 实例，而仅仅是对 VideoMode 实例的引用。所以，改变的是被引用的 VideoMode 的 frameRate 属 性，而不是引用 VideoMode 的常量的值。
+ 恒等运算符
+ 因为类是引用类型，有可能有多个常量和变量在幕后同时引用同一个类实例。(对于结构体和枚举来说，这并不
+ 成立。因为它们作为值类型，在被赋予到常量、变量或者传递到函数时，其值总是会被拷贝。)
+ 如果能够判定两个常量或者变量是否引用同一个类实例将会很有帮助。为了达到这个目的，Swift 内建了两个恒 等运算符:
+ • 等价于(===)
+ • 不等价于( !== )
+ 运用这两个运算符检测两个常量或者变量是否引用同一个实例:
+ if tenEighty === alsoTenEighty {
+ print("tenEighty and alsoTenEighty refer to the same Resolution instance.")
+ }
+ //打印 "tenEighty and alsoTenEighty refer to the same Resolution instance."
+ 请注意，“等价于”(用三个等号表示， === )与“等于”(用两个等号表示， == )的不同: • “等价于”表示两个类类型(class type)的常量或者变量引用同一个类实例。
+ 
+ 第 2 章 Swift 教程 | 153
+ • “等于”表示两个实例的值“相等”或“相同”，判定时要遵照设计者定义的评判标准，因此相对于“相 等”来说，这是一种更加合适的叫法。
+ 当你在定义你的自定义类和结构体的时候，你有义务来决定判定两个实例“相等”的标准。在章节等价操作符 (页 0)中将会详细介绍实现自定义“等于”和“不等于”运算符的流程。
+ 指针
+ 如果你有 C，C++ 或者 Objective-C 语言的经验，那么你也许会知道这些语言使用指针来引用内存中的地址。一 个引用某个引用类型实例的 Swift 常量或者变量，与 C 语言中的指针类似，但是并不直接指向某个内存地 址，也不要求你使用星号( * )来表明你在创建一个引用。Swift 中的这些引用与其它的常量或变量的定义方式 相同。
+ 类和结构体的选择
+ 在你的代码中，你可以使用类和结构体来定义你的自定义数据类型。
+ 然而，结构体实例总是通过值传递，类实例总是通过引用传递。这意味两者适用不同的任务。当你在考虑一个工
+ 程项目的数据结构和功能的时候，你需要决定每个数据结构是定义成类还是结构体。
+ 按照通用的准则，当符合一条或多条以下条件时，请考虑构建结构体:
+ • 该数据结构的主要目的是用来封装少量相关简单数据值。
+ • 有理由预计该数据结构的实例在被赋值或传递时，封装的数据将会被拷贝而不是被引用。 • 该数据结构中储存的值类型属性，也应该被拷贝，而不是被引用。
+ • 该数据结构不需要去继承另一个既有类型的属性或者行为。
+ 举例来说，以下情境中适合使用结构体:
+ • 几何形状的大小，封装一个 width 属性和 height 属性，两者均为 Double 类型。 • 一定范围内的路径，封装一个 start 属性和 length 属性，两者均为 Int 类型。 • 三维坐标系内一点，封装 x ， y 和 z 属性，三者均为 Double 类型。
+ 在所有其它案例中，定义一个类，生成一个它的实例，并通过引用来管理和传递。实际中，这意味着绝大部分的
+ 自定义数据构造都应该是类，而非结构体。
+ 
+ 第 2 章 Swift 教程 | 154
+ 字符串、数组、和字典类型的赋值与复制行为
+ Swift 中，许多基本类型，诸如 String ， Array 和 Dictionary 类型均以结构体的形式实现。这意味着被赋值给 新的常量或变量，或者被传入函数或方法中时，它们的值会被拷贝。
+ Objective-C 中 NSString ， NSArray 和 NSDictionary 类型均以类的形式实现，而并非结构体。它们在被赋值或 者被传入函数或方法时，不会发生值拷贝，而是传递现有实例的引用。
+ 注意 以上是对字符串、数组、字典的“拷贝”行为的描述。在你的代码中，拷贝行为看起来似乎总会发生。然而，Sw ift 在幕后只在绝对必要时才执行实际的拷贝。Swift 管理所有的值拷贝以确保性能最优化，所以你没必要去回 避赋值来保证性能最优化。
+ 
+ 
+ 
  */
 import UIKit
 
@@ -24,204 +183,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        /*lzy170918注:
-
-         本页内容包含:
-         • 枚举语法 (页 0)
-         • 使用 Switch 语句匹配枚举值 (页 0) • 关联值 (页 0)
-         • 原始值 (页 0)
-         • 递归枚举 (页 0)
-         枚举为一组相关的值定义了一个共同的类型，使你可以在你的代码中以类型安全的方式来使用这些值。
-         如果你熟悉 C 语言，你会知道在 C 语言中，枚举会为一组整型值分配相关联的名称。Swift 中的枚举更加灵 活，不必给每一个枚举成员提供一个值。如果给枚举成员提供一个值(称为“原始”值)，则该值的类型可以是 字符串，字符，或是一个整型值或浮点数。
-         此外，枚举成员可以指定任意类型的关联值存储到枚举成员中，就像其他语言中的联合体(unions)和变体(var iants)。你可以在一个枚举中定义一组相关的枚举成员，每一个枚举成员都可以有适当类型的关联值。
-         在 Swift 中，枚举类型是一等(first-class)类型。它们采用了很多在传统上只被类(class)所支持的特 性，例如计算属性(computed properties)，用于提供枚举值的附加信息，实例方法(instance methods)，用 于提供和枚举值相关联的功能。枚举也可以定义构造函数(initializers)来提供一个初始值;可以在原始实现 的基础上扩展它们的功能;还可以遵循协议(protocols)来提供标准的功能。
-         想了解更多相关信息，请参见属性，方法，构造过程，扩展和协议。
-         
-         第 2 章 Swift 教程 | 140
-         枚举语法
-         使用 enum 关键词来创建枚举并且把它们的整个定义放在一对大括号内:
-         enum SomeEnumeration { // 枚举定义放在这里
-         }
-         下面是用枚举表示指南针四个方向的例子:
-         enum CompassPoint {
-         case north
-         case south
-         case east
-         case west
-         }
-         枚举中定义的值(如 north ， south ， east 和 west )是这个枚举的成员值(或成员)。你可以使用 case 关键 字来定义一个新的枚举成员值。
-         注意
-         与 C 和 Objective-C 不同，Swift 的枚举成员在被创建时不会被赋予一个默认的整型值。在上面的
-         nt 例子中， north ， south ， east 和 west 不会被隐式地赋值为 0 ， 1 ， 2 和 3 。相反，这些枚举成员本身 就是完备的值，这些值的类型是已经明确定义好的 CompassPoint 类型。
-         多个成员值可以出现在同一行上，用逗号隔开:
-         CompassPoi
-         enum Planet {
-         case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
-         }
-         每个枚举定义了一个全新的类型。像 Swift 中其他类型一样，它们的名字(例如 CompassPoint 和 Planet )应该 以一个大写字母开头。给枚举类型起一个单数名字而不是复数名字，以便于读起来更加容易理解:
-         var directionToHead = CompassPoint.west
-         directionToHead 的类型可以在它被 CompassPoint 的某个值初始化时推断出来。一旦 directionToHead 被声明为 CompassPoint 类型，你可以使用更简短的点语法将其设置为另一个 CompassPoint 的值:
-         directionToHead = .east
-         当 directionToHead 的类型已知时，再次为其赋值可以省略枚举类型名。在使用具有显式类型的枚举值时，这种 写法让代码具有更好的可读性。
-         第 2 章 Swift 教程 | 141
-         使用 Switch 语句匹配枚举值 你可以使用 switch 语句匹配单个枚举值:
-         directionToHead = .south
-         switch directionToHead {
-         case .north:
-         print("Lots of planets have a north")
-         case .south:
-         print("Watch out for penguins")
-         case .east:
-         print("Where the sun rises")
-         case .west:
-         print("Where the skies are blue")
-         }
-         // 打印 "Watch out for penguins”
-         你可以这样理解这段代码:
-         “判断 directionToHead 的值。当它等于 .north ，打印 “Lots of planets have a north” 。当它等于 .sout
-         h ，打印 “Watch out for penguins” 。”
-         ......以此类推。
-         正如在控制流中介绍的那样，在判断一个枚举类型的值时， switch 语句必须穷举所有情况。如果忽略了 .west 这 种情况，上面那段代码将无法通过编译，因为它没有考虑到 CompassPoint 的全部成员。强制穷举确保了枚举成员 不会被意外遗漏。
-         当不需要匹配每个枚举成员的时候，你可以提供一个 default 分支来涵盖所有未明确处理的枚举成员:
-         let somePlanet = Planet.earth
-         switch somePlanet {
-         case .earth:
-         print("Mostly harmless")
-         default:
-         print("Not a safe place for humans")
-         }
-         // 打印 "Mostly harmless”
-         关联值
-         上一小节的例子演示了如何定义和分类枚举的成员。你可以为 Planet.earth 设置一个常量或者变量，并在赋值之 后查看这个值。然而，有时候能够把其他类型的关联值和成员值一起存储起来会很有用。这能让你连同成员值一 起存储额外的自定义信息，并且你每次在代码中使用该枚举成员时，还可以修改这个关联值。
-         
-         第 2 章 Swift 教程 | 142
-         你可以定义 Swift 枚举来存储任意类型的关联值，如果需要的话，每个枚举成员的关联值类型可以各不相同。枚 举的这种特性跟其他语言中的可识别联合(discriminated unions)，标签联合(tagged unions)，或者变 体(variants)相似。
-         例如，假设一个库存跟踪系统需要利用两种不同类型的条形码来跟踪商品。有些商品上标有使用 0 到 9 的数字的 UPC 格式的一维条形码。每一个条形码都有一个代表“数字系统”的数字，该数字后接五位代表“厂商代码”的 数字，接下来是五位代表“产品代码”的数字。最后一个数字是“检查”位，用来验证代码是否被正确扫描:
-         其他商品上标有 QR 码格式的二维码，它可以使用任何 ISO 8859-1 字符，并且可以编码一个最多拥有 2,953 个 字符的字符串:
-         这便于库存跟踪系统用包含四个整型值的元组存储 UPC 码，以及用任意长度的字符串储存 QR 码。
-         在 Swift 中，使用如下方式定义表示两种商品条形码的枚举:
-         enum Barcode {
-         case upc(Int, Int, Int, Int)
-         case qrCode(String)
-         } 以上代码可以这么理解:
-         “定义一个名为 Barcode 的枚举类型，它的一个成员值是具有 (Int，Int，Int，Int) 类型关联值的 upc ，另一个 成员值是具有 String 类型关联值的 qrCode 。”
-         这个定义不提供任何 Int 或 String 类型的关联值，它只是定义了，当 Barcode 常量和变量等于 Barcode.upc 或 B arcode.qrCode 时，可以存储的关联值的类型。
-         然后可以使用任意一种条形码类型创建新的条形码，例如: var productBarcode = Barcode.upc(8, 85909, 51226, 3)
-         上面的例子创建了一个名为 productBarcode 的变量，并将 Barcode.upc 赋值给它，关联的元组值为 (8, 85909, 51 226, 3) 。
-         同一个商品可以被分配一个不同类型的条形码，例如: productBarcode = .qrCode("ABCDEFGHIJKLMNOP")
-         
-         第 2 章 Swift 教程 | 143
-         这时，原始的 Barcode.upc 和其整数关联值被新的 Barcode.qrCode 和其字符串关联值所替代。 Barcode 类型的常 量和变量可以存储一个 .upc 或者一个 .qrCode (连同它们的关联值)，但是在同一时间只能存储这两个值中的一 个。
-         像先前那样，可以使用一个 switch 语句来检查不同的条形码类型。然而，这一次，关联值可以被提取出来作为 switch 语句的一部分。你可以在 switch 的 case 分支代码中提取每个关联值作为一个常量(用 let 前缀)或者 作为一个变量(用 var 前缀)来使用:
-         switch productBarcode {
-         case .upc(let numberSystem, let manufacturer, let product, let check):
-         print("UPC: \(numberSystem), \(manufacturer), \(product), \(check).")
-         case .qrCode(let productCode):
-         print("QR code: \(productCode).")
-         }
-         // 打印 "QR code: ABCDEFGHIJKLMNOP." 如果一个枚举成员的所有关联值都被提取为常量，或者都被提取为变量，为了简洁，你可以只在成员名称前标注
-         一个let或者var:
-         switch productBarcode {
-         case let .upc(numberSystem, manufacturer, product, check):
-         print("UPC: \(numberSystem), \(manufacturer), \(product), \(check).")
-         case let .qrCode(productCode):
-         print("QR code: \(productCode).")
-         }
-         // 输出 "QR code: ABCDEFGHIJKLMNOP."
-         原始值
-         在关联值 (页 0)小节的条形码例子中，演示了如何声明存储不同类型关联值的枚举成员。作为关联值的替代选 择，枚举成员可以被默认值(称为原始值)预填充，这些原始值的类型必须相同。
-         这是一个使用 ASCII 码作为原始值的枚举:
-         enum ASCIIControlCharacter: Character {
-         case tab = "\t"
-         case lineFeed = "\n"
-         case carriageReturn = "\r"
-         }
-         枚举类型 ASCIIControlCharacter 的原始值类型被定义为 Character ，并设置了一些比较常见的 ASCII 控制字 符。 Character 的描述详见字符串和字符部分。
-         原始值可以是字符串，字符，或者任意整型值或浮点型值。每个原始值在枚举声明中必须是唯一的。
-         注意
-         原始值和关联值是不同的。原始值是在定义枚举时被预先填充的值，像上述三个 ASCII 码。对于一个特定的枚
-         
-         第 2 章 Swift 教程 | 144
-         举成员，它的原始值始终不变。关联值是创建一个基于枚举成员的常量或变量时才设置的值，枚举成员的关联值
-         可以变化。
-         原始值的隐式赋值
-         在使用原始值为整数或者字符串类型的枚举时，不需要显式地为每一个枚举成员设置原始值，Swift 将会自动为 你赋值。
-         例如，当使用整数作为原始值时，隐式赋值的值依次递增 1 。如果第一个枚举成员没有设置原始值，其原始值将 为0。
-         下面的枚举是对之前 Planet 这个枚举的一个细化，利用整型的原始值来表示每个行星在太阳系中的顺序:
-         enum Planet: Int {
-         case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
-         }
-         在上面的例子中， Plant.mercury 的显式原始值为 1 ， Planet.venus 的隐式原始值为 2 ，依次类推。
-         当使用字符串作为枚举类型的原始值时，每个枚举成员的隐式原始值为该枚举成员的名称。
-         下面的例子是 CompassPoint 枚举的细化，使用字符串类型的原始值来表示各个方向的名称:
-         enum CompassPoint: String {
-         case north, south, east, west
-         }
-         上面例子中， CompassPoint.south 拥有隐式原始值 south ，依次类推。
-         使用枚举成员的 rawValue 属性可以访问该枚举成员的原始值:
-         let earthsOrder = Planet.earth.rawValue // earthsOrder 值为 3
-         let sunsetDirection = CompassPoint.west.rawValue // sunsetDirection 值为 "west"
-         使用原始值初始化枚举实例
-         如果在定义枚举类型的时候使用了原始值，那么将会自动获得一个初始化方法，这个方法接收一个叫做 rawValue 的参数，参数类型即为原始值类型，返回值则是枚举成员或 nil 。你可以使用这个初始化方法来创建一个新的枚 举实例。
-         这个例子利用原始值 7 创建了枚举成员 uranus :
-         第 2 章 Swift 教程 | 145
-         let possiblePlanet = Planet(rawValue: 7)
-         // possiblePlanet 类型为 Planet? 值为 Planet.uranus
-         然而，并非所有 Int 值都可以找到一个匹配的行星。因此，原始值构造器总是返回一个可选的枚举成员。在上面 的例子中， possiblePlanet 是 Planet? 类型，或者说“可选的 Planet ”。
-         注意 原始值构造器是一个可失败构造器，因为并不是每一个原始值都有与之对应的枚举成员。更多信息请参见可失败 构造器 (页 0)
-         如果你试图寻找一个位置为 11 的行星，通过原始值构造器返回的可选 Planet 值将是 nil :
-         let positionToFind = 11
-         if let somePlanet = Planet(rawValue: positionToFind) {
-         switch somePlanet {
-         case .earth:
-         print("Mostly harmless")
-         default:
-         print("Not a safe place for humans")
-         }
-         } else {
-         print("There isn't a planet at position \(positionToFind)")
-         }
-         // 输出 "There isn't a planet at position 11
-         这个例子使用了可选绑定(optional binding)，试图通过原始值 11 来访问一个行星。
-         anet(rawValue: 11) 语句创建了一个可选 Planet ，如果可选 Planet 的值存在，就会赋值给 somePlanet 。在这个 例子中，无法检索到位置为 11 的行星，所以 else 分支被执行。
-         递归枚举 递归枚举是一种枚举类型，它有一个或多个枚举成员使用该枚举类型的实例作为关联值。使用递归枚举时，编译
-         器会插入一个间接层。你可以在枚举成员前加上 indirect 来表示该成员可递归。 例如，下面的例子中，枚举类型存储了简单的算术表达式:
-         if let somePlanet = Pl
-         enum ArithmeticExpression {
-         case number(Int)
-         indirect case addition(ArithmeticExpression, ArithmeticExpression)
-         indirect case multiplication(ArithmeticExpression, ArithmeticExpression)
-         }
-         你也可以在枚举类型开头加上 indirect 关键字来表明它的所有成员都是可递归的:
-         indirect enum ArithmeticExpression {
-         case number(Int)
-         case addition(ArithmeticExpression, ArithmeticExpression)
-         case multiplication(ArithmeticExpression, ArithmeticExpression)
-         }
-         第 2 章 Swift 教程 | 146
-         上面定义的枚举类型可以存储三种算术表达式:纯数字、两个表达式相加、两个表达式相乘。枚举成员 addition 和 multiplication 的关联值也是算术表达式——这些关联值使得嵌套表达式成为可能。例如，表达式 (5 + 4) * 2 ，乘号右边是一个数字，左边则是另一个表达式。因为数据是嵌套的，因而用来存储数据的枚举类型也需要支 持这种嵌套——这意味着枚举类型需要支持递归。下面的代码展示了使用 ArithmeticExpression 这个递归枚举创 建表达式 (5 + 4) * 2
-         let five = ArithmeticExpression.number(5)
-         let four = ArithmeticExpression.number(4)
-         let sum = ArithmeticExpression.addition(five, four)
-         let product = ArithmeticExpression.multiplication(sum, ArithmeticExpression.number(2))
-         要操作具有递归性质的数据结构，使用递归函数是一种直截了当的方式。例如，下面是一个对算术表达式求值的
-         函数:
-         func evaluate(_ expression: ArithmeticExpression) -> Int {
-         switch expression {
-         case let .number(value):
-         return value
-         case let .addition(left, right):
-         return evaluate(left) + evaluate(right)
-         case let .multiplication(left, right):
-         return evaluate(left) * evaluate(right)
-         }
-         }
-         print(evaluate(product)) // 打印 "18"
-         该函数如果遇到纯数字，就直接返回该数字的值。如果遇到的是加法或乘法运算，则分别计算左边表达式和右边
-         表达式的值，然后相加或相乘。
-         */
+        // Do any additional setup after loading the view.
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
 
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
 
 }
