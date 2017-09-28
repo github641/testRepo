@@ -5,28 +5,26 @@
 //  Created by admin on 2017/9/27.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
-
+/*lzy170920注:
+ 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
+ 构造过程
+ 
+ 本页包含内容:
+ • 存储属性的初始赋值 (页 0)
+ • 自定义构造过程 (页 0)
+ • 默认构造器 (页 0)
+ • 值类型的构造器代理 (页 0)
+ • 类的继承和构造过程 (页 0)
+ • 可失败构造器 (页 0)
+ • 必要构造器 (页 0)
+ • 通过闭包或函数设置属性的默认值 (页 0)
+ */
 import UIKit
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        /*
-         
-         构造过程
-
-         本页包含内容:
-         • 存储属性的初始赋值 (页 0)
-         • 自定义构造过程 (页 0)
-         • 默认构造器 (页 0)
-         • 值类型的构造器代理 (页 0)
-         • 类的继承和构造过程 (页 0)
-         • 可失败构造器 (页 0)
-         • 必要构造器 (页 0)
-         • 通过闭包或函数设置属性的默认值 (页 0)
-         */
         
         /*
          构造过程是使用类、结构体或枚举类型的实例之前的准备过程。在新实例可用前必须执行这个过程，具体操作包
@@ -38,7 +36,6 @@ class ViewController: UIViewController {
          */
         // MARK: - 存储属性的初始赋值
         /*
-         
          类和结构体在创建实例时，必须为所有存储型属性设置合适的初始值。存储型属性的值不能处于一个未知的状
          态。
          你可以在构造器中为存储型属性赋初值，也可以在定义属性时为其设置默认值。以下小节将详细介绍这两种方
@@ -46,166 +43,216 @@ class ViewController: UIViewController {
          注意
          当你为存储型属性设置默认值或者在构造器中为其赋值时，它们的值是被直接设置的，不会触发任何属性观察
          者。
-         构造器
-         构造器在创建某个特定类型的新实例时被调用。它的最简形式类似于一个不带任何参数的实例方法，以关键字 it 命名:
-         in
+         */
+        // MARK:  ====构造器====
+        /*lzy170927:
+         构造器在创建某个特定类型的新实例时被调用。它的最简形式类似于一个不带任何参数的实例方法，以关键字 init 命名:
+         
          init() {
          // 在此处执行构造过程
          }
-         下面例子中定义了一个用来保存华氏温度的结构体 Fahrenheit ，它拥有一个 Double 类型的存储型属性 re:
-         temperatu
-         struct Fahrenheit {
-         var temperature: Double
-         init() {
-         temperature = 32.0
-         }
-         }
-         var f = Fahrenheit()
-         print("The default temperature is \(f.temperature)° Fahrenheit") // 打印 "The default temperature is 32.0° Fahrenheit”
-         这个结构体定义了一个不带参数的构造器 init ，并在里面将存储型属性 temperature 的值初始化为 32.0 (华氏 温度下水的冰点)。
-         默认属性值
+         下面例子中定义了一个用来保存华氏温度的结构体 Fahrenheit ，它拥有一个 Double 类型的存储型属性 temperature:
+
+         */
+        struct Fahrenheit {
+            var temperature: Double
+            init() {
+                temperature = 32.0
+            }
+        }
+        
+        var f = Fahrenheit()
+        print("The default temperature is \(f.temperature)° Fahrenheit")
+        // 打印 "The default temperature is 32.0° Fahrenheit”
+        // 这个结构体定义了一个不带参数的构造器 init ，并在里面将存储型属性 temperature 的值初始化为 32.0 (华氏 温度下水的冰点)。
+        
+        // MARK:  ====默认属性值====
+        /*lzy170927:
          如前所述，你可以在构造器中为存储型属性设置初始值。同样，你也可以在属性声明时为其设置默认值。
+         
          注意
          如果一个属性总是使用相同的初始值，那么为其设置一个默认值比每次都在构造器中赋值要好。两种方法的效果
-         
-         第 2 章 Swift 教程 | 184
          是一样的，只不过使用默认值让属性的初始化和声明结合得更紧密。使用默认值能让你的构造器更简洁、更清
          晰，且能通过默认值自动推导出属性的类型;同时，它也能让你充分利用默认构造器、构造器继承等特性，后续
          章节将讲到。
-         你可以使用更简单的方式在定义结构体 Fahrenheit 时为属性 temperature 设置默认值:
-         struct Fahrenheit {
-         var temperature = 32.0
-         }
-         你可以通过输入参数和可选类型的属性来自定义构造过程，也可以在构造过程中修改常量属性。这些都将在后面
-         章节中提到。
-         构造参数
-         自定义 构造过程 时，可以在定义中提供构造参数，指定所需值的类型和名字。构造参数的功能和语法跟函数和方 法的参数相同。
-         下面例子中定义了一个包含摄氏度温度的结构体 Celsius 。它定义了两个不同的构造器: init(fromFahrenhei t:) 和 init(fromKelvin:) ，二者分别通过接受不同温标下的温度值来创建新的实例:
+        
          */
+        struct Fahrenheit2 {
+            var temperature = 32.0
+        }
+        
+
         // MARK: - 自定义构造过程
         /*
-         struct Celsius {
-         var temperatureInCelsius: Double
-         init(fromFahrenheit fahrenheit: Double) {
-         temperatureInCelsius = (fahrenheit - 32.0) / 1.8
-         }
-         init(fromKelvin kelvin: Double) {
-         temperatureInCelsius = kelvin - 273.15
-         } }
-         let boilingPointOfWater = Celsius(fromFahrenheit: 212.0) // boilingPointOfWater.temperatureInCelsius 是 100.0
-         let freezingPointOfWater = Celsius(fromKelvin: 273.15) // freezingPointOfWater.temperatureInCelsius 是 0.0
-         第一个构造器拥有一个构造参数，其外部名字为 fromFahrenheit ，内部名字为 fahrenheit ;第二个构造器也拥 有一个构造参数，其外部名字为 fromKelvin ，内部名字为 kelvin 。这两个构造器都将唯一的参数值转换成摄氏 温度值，并保存在属性 temperatureInCelsius 中。
+         你可以使用更简单的方式在定义结构体 Fahrenheit 时为属性 temperature 设置默认值:
+         你可以通过输入参数和可选类型的属性来自定义构造过程，也可以在构造过程中修改常量属性。这些都将在后面
+         章节中提到。
          
-         第 2 章 Swift 教程 | 185
-         参数的内部名称和外部名称
-         跟函数和方法参数相同，构造参数也拥有一个在构造器内部使用的参数名字和一个在调用构造器时使用的外部参
+         自定义构造过程时，可以在定义中提供构造参数，指定所需值的类型和名字。构造参数的功能和语法跟函数和方 法的参数相同。
+         下面例子中定义了一个包含摄氏度温度的结构体 Celsius 。它定义了两个不同的构造器: init(fromFahrenhei t:) 和 init(fromKelvin:) ，二者分别通过接受不同温标下的温度值来创建新的实例:
+         
+         */
+        struct Celsius {
+            var temperatureIncelsius: Double
+            
+            init(fromFahrenheit fahrenheit: Double){
+                temperatureIncelsius = (fahrenheit - 32.0) / 1.8
+            }
+                
+            init(fromKelvin kelvin: Double) {
+                temperatureIncelsius = kelvin - 273.15
+            }
+        }
+        
+        let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
+        print("\(boilingPointOfWater.temperatureIncelsius)")
+        let freezingPointOfWater = Celsius(fromKelvin: 273.15)
+        print("\(freezingPointOfWater.temperatureIncelsius)")
+        
+        /*
+         第一个构造器拥有一个构造参数，其外部名字为 fromFahrenheit ，内部名字为 fahrenheit ;
+         第二个构造器也拥 有一个构造参数，其外部名字为 fromKelvin ，内部名字为 kelvin 。这两个构造器都将唯一的参数值转换成摄氏 温度值，并保存在属性 temperatureInCelsius 中。
+         */
+        
+        
+        // MARK: ====参数的内部名称和外部名称====
+        /*跟函数和方法参数相同，构造参数也拥有一个在构造器内部使用的参数名字和一个在调用构造器时使用的外部参
          数名字。
-         然而，构造器并不像函数和方法那样在括号前有一个可辨别的名字。因此在调用构造器时，主要通过构造器中的 参数名和类型来确定应该被调用的构造器。正因为参数如此重要，如果你在定义构造器时没有提供参数的外部名 字，Swift 会为构造器的每个参数自动生成一个跟内部名字相同的外部名。
+         然而，构造器并不像函数和方法那样在括号前有一个可辨别的名字。因此在调用构造器时，主要通过构造器中的 参数名和类型来确定应该被调用的构造器。
+         正因为参数如此重要，如果你在定义构造器时没有提供参数的外部名字，Swift 会为构造器的每个参数自动生成一个跟内部名字相同的外部名。
          以下例子中定义了一个结构体 Color ，它包含了三个常量: red 、 green 和 blue 。这些属性可以存储 0.0 到 1.0 之间的值，用来指示颜色中红、绿、蓝成分的含量。
          Color 提供了一个构造器，其中包含三个 Double 类型的构造参数。 Color 也可以提供第二个构造器，它只包含 名为 white 的 Double 类型的参数，它被用于给上述三个构造参数赋予同样的值。
-         struct Color {
-         let red, green, blue: Double
-         init(red: Double, green: Double, blue: Double) {
-         self.red   = red
-         self.green = green
-         self.blue  = blue
-         }
-         init(white: Double) {
-         red   = white
-         green = white
-         blue  = white
-         } }
-         两种构造器都能用于创建一个新的 Color 实例，你需要为构造器每个外部参数传值:
-         let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
-         let halfGray = Color(white: 0.5)
+         */
+        struct Color {
+            let red, green, blue: Double
+            init(red: Double, green: Double, blue: Double) {
+                self.red = red
+                self.green = green
+                self.blue = blue
+            }
+            
+            init(white: Double) {
+                red = white
+                green = white
+                blue = white
+                
+            }
+        }
+        // 两种构造器都能用于创建一个新的 Color 实例，你需要为构造器每个外部参数传值:
+        
+        let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
+        let halfGray = Color(white: 0.5)
+        
+        /*
          注意，如果不通过外部参数名字传值，你是没法调用这个构造器的。只要构造器定义了某个外部参数名，你就必
-         须使用它，忽略它将导致编译错误:
-         let veryGreen = Color(0.0, 1.0, 0.0) // 报编译时错误，需要外部名称
-         不带外部名的构造器参数
+         须使用它，忽略它将导致编译错误:*/
+//        let veryGreen = Color(0.0, 1.0, 0.0) // 报编译时错误，需要外部名称
+        //Missing argument labels 'red:green:blue' in call
+        
+        // MARK: ====不带外部名的构造器参数====
+        /*
          如果你不希望为构造器的某个参数提供外部名字，你可以使用下划线( _ )来显式描述它的外部名，以此重写上面 所说的默认行为。
          下面是之前 Celsius 例子的扩展，跟之前相比添加了一个带有 Double 类型参数的构造器，其外部名用 _ 代替:
-         第 2 章 Swift 教程 | 186
-         struct Celsius {
-         var temperatureInCelsius: Double
-         init(fromFahrenheit fahrenheit: Double) {
-         temperatureInCelsius = (fahrenheit - 32.0) / 1.8
-         }
-         init(fromKelvin kelvin: Double) {
-         temperatureInCelsius = kelvin - 273.15
-         }
-         init(_ celsius: Double){
-         temperatureInCelsius = celsius
-         }
-         }
-         let bodyTemperature = Celsius(37.0)
-         // bodyTemperature.temperatureInCelsius 为 37.0
-         调用 Celsius(37.0) 意图明确，不需要外部参数名称。因此适合使用 init(_ celsius: Double) 这样的构造器，从 而可以通过提供 Double 类型的参数值调用构造器，而不需要加上外部名。
-         可选属性类型
-         如果你定制的类型包含一个逻辑上允许取值为空的存储型属性——无论是因为它无法在初始化时赋值，还是因为 它在之后某个时间点可以赋值为空——你都需要将它定义为 可选类型 。可选类型的属性将自动初始化为 nil ，表 示这个属性是有意在初始化时设置为空的。
-         下面例子中定义了类 SurveyQuestion ，它包含一个可选字符串属性 response :
-         class SurveyQuestion {
-         var text: String
-         var response: String?
-         init(text: String) {
-         self.text = text
-         }
-         func ask() {
-         print(text)
-         } }
-         let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?") cheeseQuestion.ask()
-         // 打印 "Do you like cheese?"
-         cheeseQuestion.response = "Yes, I do like cheese."
-         调查问题的答案在回答前是无法确定的，因此我们将属性 response 声明为 String? 类型，或者说是 可选字符串类 型 。当 SurveyQuestion 实例化时，它将自动赋值为 nil ，表明此字符串暂时还没有值。
-         构造过程中常量属性的修改
-         你可以在构造过程中的任意时间点给常量属性指定一个值，只要在构造过程结束时是一个确定的值。一旦常量属
-         性被赋值，它将永远不可更改。
-         第 2 章 Swift 教程 | 187
-         注意
-         对于类的实例来说，它的常量属性只能在定义它的类的构造过程中修改;不能在子类中修改。
-         你可以修改上面的 SurveyQuestion 示例，用常量属性替代变量属性 text ，表示问题内容 text 在 SurveyQuestio n 的实例被创建之后不会再被修改。尽管 text 属性现在是常量，我们仍然可以在类的构造器中设置它的值:
-         class SurveyQuestion {
-         let text: String
-         var response: String?
-         init(text: String) {
-         self.text = text
-         }
-         func ask() {
-         print(text)
-         } }
-         let beetsQuestion = SurveyQuestion(text: "How about beets?") beetsQuestion.ask()
-         // 打印 "How about beets?"
-         beetsQuestion.response = "I also like beets. (But not with cheese.)"
          */
+        struct Celsius2 {
+            var temperatureInCelsius: Double
+            init(fromFahrenheit fahrenheit: Double) {
+                temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+            }
+            init(fromKelvin kelvin: Double) {
+                temperatureInCelsius = kelvin - 273.15
+            }
+            init(_ celsius: Double){
+                temperatureInCelsius = celsius
+            }
+        }
+        let bodyTemperature = Celsius2(37.0)
+        // bodyTemperature.temperatureInCelsius 为 37.0
+        // lzy170928注：从这个『不带外部名的构造参数』的例子可以看出，构造器虽然是特殊的函数，部分函数规则是适用的。
+        
+        /*调用 Celsius(37.0) 意图明确，不需要外部参数名称。因此适合使用 init(_ celsius: Double) 这样的构造器，从而可以通过提供 Double 类型的参数值调用构造器，而不需要加上外部名。*/
+        
+        
+        // MARK: ====可选属性类型====
+        /*如果你定制的类型包含一个逻辑上允许取值为空的存储型属性——无论是因为它无法在初始化时赋值，还是因为 它在之后某个时间点可以赋值为空——你都需要将它定义为 可选类型 。可选类型的属性将自动初始化为 nil ，表 示这个属性是有意在初始化时设置为空的。
+         下面例子中定义了类 SurveyQuestion ，它包含一个可选字符串属性 response :*/
+        class SurveyQuestion {
+            var text: String
+            var response: String?
+            init(text: String) {
+                self.text = text
+            }
+            func ask() {
+                print(text)
+            }
+        }
+        
+        let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
+        cheeseQuestion.ask()
+        cheeseQuestion.response = "Yes, I do like cheese."
+        
+        /*调查问题的答案在回答前是无法确定的，因此我们将属性 response 声明为 String? 类型，或者说是 可选字符串类 型 。当 SurveyQuestion 实例化时，它将自动赋值为 nil ，表明此字符串暂时还没有值。*/
+        
+        // MARK: ====构造过程中常量属性的修改====
+        /*你可以在 构造过程中的任意时间点
+         给常量属性指定一个值，只要在构造过程结束时是一个确定的值。一旦常量属
+         性被赋值，它将永远不可更改。
+         注意
+         对于类的实例来说，它的常量属性只能在定义它的类的构造过程中修改,不能在子类中修改。
+         
+         你可以修改上面的 SurveyQuestion 示例，用常量属性替代变量属性 text ，表示问题内容 text 在 SurveyQuestion 的实例被创建之后不会再被修改。尽管 text 属性现在是常量，我们仍然可以在类的构造器中设置它的值:
+         */
+        class SurveyQuestion2 {
+            let text: String
+            var response: String?
+            init(text: String) {
+                self.text = text
+            }
+            
+            func ask() {
+                print(text)
+            }
+        }
+        let beetsQuestion = SurveyQuestion2(text: "How about beets?")
+        beetsQuestion.ask()
+        // 打印 "How about beets?"
+        beetsQuestion.response = "I also like beets. (But not with cheese.)"
+
+        
+        
         // MARK: - 默认构造器
         /*
          如果结构体或类的所有属性都有默认值，同时没有自定义的构造器，那么 Swift 会给这些结构体或类提供一个默 认构造器(default initializers)。这个默认构造器将简单地创建一个所有属性值都设置为默认值的实例。
          下面例子中创建了一个类 ShoppingListItem ，它封装了购物清单中的某一物品的属性:名字( name )、数 量( quantity )和购买状态 purchase state :
-         class ShoppingListItem {
-         var name: String?
-         var quantity = 1
-         var purchased = false
-         }
-         var item = ShoppingListItem()
-         ShoppingListItem
-         name name nil ShoppingListItem
-         item
-         ShoppingListIte
-         m()
-         由于   类中的所有属性都有默认值，且它是没有父类的基类，它将自动获得一个可以为所有属性 设置默认值的默认构造器(尽管代码中没有显式为   属性设置默认值，但由于   是可选字符串类型，它将 默认设置为 )。上面例子中使用默认构造器创造了一个   类的实例(使用
-         形式的构造器语法)，并将其赋值给变量   。
-         结构体的逐一成员构造器
+         */
+        class ShoppingListItem {
+            var name: String?
+            var quantity = 1
+            var purchased = false
+        }
+        var item = ShoppingListItem()
+        
+        /*
+         
+         由于ShoppingListItem类中的所有属性都有默认值，且它是没有父类的基类，它将自动获得一个可以为所有属性 设置默认值的默认构造器(尽管代码中没有显式为name属性设置默认值，但由于name是可选字符串类型，它将 默认设置为 nil)。上面例子中使用默认构造器创造了一个ShoppingListItem类的实例(使用ShoppingListItem()形式的构造器语法)，并将其赋值给变量item。
+         */
+        
+        // MARK: ====结构体的逐一成员构造器====
+        /*
          除了上面提到的默认构造器，如果结构体没有提供自定义的构造器，它们将自动获得一个逐一成员构造器，即使
          结构体的存储型属性没有默认值。
-         第 2 章 Swift 教程 | 188
+     
          逐一成员构造器是用来初始化结构体新实例里成员属性的快捷方法。我们在调用逐一成员构造器时，通过与成员
          属性名相同的参数名进行传值来完成对成员属性的初始赋值。
          下面例子中定义了一个结构体 Size ，它包含两个属性 width 和 height 。Swift 可以根据这两个属性的初始赋值 0.0 自动推导出它们的类型为 Double 。
          结构体 Size 自动获得了一个逐一成员构造器 init(width:height:) 。你可以用它来为 Size 创建新的实例:
          struct Size {
-         var width = 0.0, height = 0.0
+             var width = 0.0, height = 0.0
          }
          let twoByTwo = Size(width: 2.0, height: 2.0)
          */
+
+        
         // MARK: - 值类型的构造器代理
         /*
          构造器可以通过调用其它构造器来完成实例的部分构造过程。这一过程称为构造器代理，它能减少多个构造器间
@@ -214,51 +261,67 @@ class ViewController: UIViewController {
          对于值类型，你可以使用 self.init 在自定义的构造器中引用相同类型中的其它构造器。并且你只能在构造器内 部调用 self.init 。
          如果你为某个值类型定义了一个自定义的构造器，你将无法访问到默认构造器(如果是结构体，还将无法访问逐 一成员构造器)。这种限制可以防止你为值类型增加了一个额外的且十分复杂的构造器之后,仍然有人错误的使用 自动生成的构造器
          注意 假如你希望默认构造器、逐一成员构造器以及你自己的自定义构造器都能用来创建实例，可以将自定义的构造器 写到扩展( extension )中，而不是写在值类型的原始定义中。想查看更多内容，请查看扩展章节。
-         下面例子将定义一个结构体 Rect ，用来代表几何矩形。这个例子需要两个辅助的结构体 Size 和 Point ，它们各 自为其所有的属性提供了初始值 0.0 。
-         struct Size {
-         var width = 0.0, height = 0.0
-         }
-         struct Point {
-         var x = 0.0, y = 0.0
-         }
-         第 2 章 Swift 教程 | 189
+         下面例子将定义一个结构体 Rect ，用来代表几何矩形。这个例子需要两个辅助的结构体 Size 和 Point ，它们各 自为其所有的属性提供了初始值 0.0 。*/
+        struct Size {
+            var width = 0.0, height = 0.0
+        }
+        struct Point {
+            var x = 0.0, y = 0.0
+        }
+        /*
          你可以通过以下三种方式为 Rect 创建实例——使用被初始化为默认值的 origin 和 size 属性来初始化;提供指 定的 origin 和 size 实例来初始化;提供指定的 center 和 size 来初始化。在下面 Rect 结构体定义中，我们为 这三种方式提供了三个自定义的构造器:
-         struct Rect {
-         var origin = Point()
-         var size = Size()
-         init() {}
-         init(origin: Point, size: Size) {
-         self.origin = origin
-         self.size = size
-         }
-         init(center: Point, size: Size) {
-         let originX = center.x - (size.width / 2)
-         let originY = center.y - (size.height / 2)
-         self.init(origin: Point(x: originX, y: originY), size: size)
-         } }
+         */
+        struct Rect{
+            var origin = Point()
+            var size = Size()
+            init(){}
+            init(origin: Point, size:Size) {
+                self.origin = origin
+                self.size = size
+            }
+            
+            init(center: Point, size: Size) {
+                let originX = center.x - (size.width / 2)
+                let originY = center.y - (size.height / 2)
+                self.init(origin: Point(x: originX, y: originY), size: size)
+            }
+        }
+        /*
          第一个 Rect 构造器 init() ，在功能上跟没有自定义构造器时自动获得的默认构造器是一样的。这个构造器是一 个空函数，使用一对大括号 {} 来表示，它没有执行任何构造过程。调用这个构造器将返回一个 Rect 实例，它的
          origin 和 size 属性都使用定义时的默认值 Point(x: 0.0, y: 0.0) 和 Size(width: 0.0, height: 0.0) :
-         let basicRect = Rect()
-         // basicRect 的 origin 是 (0.0, 0.0)，size 是 (0.0, 0.0)
+         */
+        let basicRect = Rect()
+        // basicRect 的 origin 是 (0.0, 0.0)，size 是 (0.0, 0.0)
+        
+        /*
          第二个 Rect 构造器 init(origin:size:) ，在功能上跟结构体在没有自定义构造器时获得的逐一成员构造器是一 样的。这个构造器只是简单地将 origin 和 size 的参数值赋给对应的存储型属性:
-         let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
-         size: Size(width: 5.0, height: 5.0))
-         // originRect 的 origin 是 (2.0, 2.0)，size 是 (5.0, 5.0)
+         */
+        let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
+                              size: Size(width: 5.0, height: 5.0))
+        // originRect 的 origin 是 (2.0, 2.0)，size 是 (5.0, 5.0)
+        
+        /*
          第三个 Rect 构造器 init(center:size:) 稍微复杂一点。它先通过 center 和 size 的值计算出 origin 的坐标，然 后再调用(或者说代理给) init(origin:size:) 构造器来将新的 origin 和 size 值赋值到对应的属性中:
-         let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
-         size: Size(width: 3.0, height: 3.0))
-         // centerRect 的 origin 是 (2.5, 2.5)，size 是 (3.0, 3.0)
+         */
+        let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+                              size: Size(width: 3.0, height: 3.0))
+        // centerRect 的 origin 是 (2.5, 2.5)，size 是 (3.0, 3.0)
+        
+        /*
          构造器 init(center:size:) 可以直接将 origin 和 size 的新值赋值到对应的属性中。然而，利用恰好提供了相关 功能的现有构造器会更为方便，构造器 init(center:size:) 的意图也会更加清晰。
          注意
          如果你想用另外一种不需要自己定义 init() 和 init(origin:size:) 的方式来实现这个例子，请参考扩展。
-         
-         第 2 章 Swift 教程 | 190
          */
+        
+        
         // MARK: - 类的继承和构造过程
         /*
          类里面的所有存储型属性——包括所有继承自父类的属性——都必须在构造过程中设置初始值。
          Swift 为类类型提供了两种构造器来确保实例中所有存储型属性都能获得初始值，它们分别是指定构造器和便利 构造器。
-         指定构造器和便利构造器
+         */
+        
+        // MARK: ====指定构造器和便利构造器====
+        /*
          指定构造器是类中最主要的构造器。一个指定构造器将初始化类中提供的所有属性，并根据父类链往上调用父类
          的构造器来实现父类的初始化。
          每一个类都必须拥有至少一个指定构造器。在某些情况下，许多类通过继承了父类中的指定构造器而满足了这个 条件。具体内容请参考后续章节构造器的自动继承 (页 0)。
@@ -266,38 +329,50 @@ class ViewController: UIViewController {
          其参数提供默认值。你也可以定义便利构造器来创建一个特殊用途或特定输入值的实例。
          你应当只在必要的时候为类提供便利构造器，比方说某种情况下通过使用便利构造器来快捷调用某个指定构造
          器，能够节省更多开发时间并让类的构造过程更清晰明了。
-         指定构造器和便利构造器的语法 类的指定构造器的写法跟值类型简单构造器一样:
+         
+         */
+        
+        // MARK:====指定构造器和便利构造器的语法====
+        /*
+         类的指定构造器的写法跟值类型简单构造器一样:
          init(parameters) {
-         statements
+             statements
          }
-         便利构造器也采用相同样式的写法，但需要在 init 关键字之前放置 convenience 关键字，并使用空格将它们俩分 开:
+         便利构造器也采用相同样式的写法，但需要在 init 关键字之前放置 convenience 关键字，并使用空格将它们俩分开:
          convenience init(parameters) {
-         statements
+             statements
          }
-         类的构造器代理规则
+         */
+        
+        
+        // MARK: ====类的构造器代理规则====
+        /*
          为了简化指定构造器和便利构造器之间的调用关系，Swift 采用以下三条规则来限制构造器之间的代理调用:
-         第 2 章 Swift 教程 | 191
+
          规则 1 指定构造器必须调用其直接父类的的指定构造器。
          规则 2 便利构造器必须调用同类中定义的其它构造器。
          规则 3 便利构造器必须最终导致一个指定构造器被调用。
+         
          一个更方便记忆的方法是:
-         • 指定构造器必须总是向上代理 • 便利构造器必须总是横向代理
+         • 指定构造器必须总是向上代理
+         • 便利构造器必须总是横向代理
+         
          这些规则可以通过下面图例来说明:
          构造器代理图
          图片 2.14 构造器代理图
          如图所示，父类中包含一个指定构造器和两个便利构造器。其中一个便利构造器调用了另外一个便利构造器，而 后者又调用了唯一的指定构造器。这满足了上面提到的规则 2 和 3。这个父类没有自己的父类，所以规则 1 没 有用到。
          子类中包含两个指定构造器和一个便利构造器。便利构造器必须调用两个指定构造器中的任意一个，因为它只能 调用同一个类里的其他构造器。这满足了上面提到的规则 2 和 3。而两个指定构造器必须调用父类中唯一的指定 构造器，这满足了规则 1。
+         
          注意
-         这些规则不会影响类的实例如何创建。任何上图中展示的构造器都可以用来创建完全初始化的实例。这些规则只
-         影响类定义如何实现。
-         下面图例中展示了一种涉及四个类的更复杂的类层级结构。它演示了指定构造器是如何在类层级中充当“管
-         道”的作用，在类的构造器链上简化了类之间的相互关系。
+         这些规则不会影响类的实例如何创建。任何上图中展示的构造器都可以用来创建完全初始化的实例。这些规则只影响类定义如何实现。
+         
+         下面图例中展示了一种涉及四个类的更复杂的类层级结构。它演示了指定构造器是如何在类层级中充当“管道”的作用，在类的构造器链上简化了类之间的相互关系。
          复杂构造器代理图
          图片 2.15 复杂构造器代理图
-         
-         第 2 章 Swift 教程 | 192
-         两段式构造过程
-         Swift 中类的构造过程包含两个阶段。第一个阶段，每个存储型属性被引入它们的类指定一个初始值。当每个存 储型属性的初始值被确定后，第二阶段开始，它给每个类一次机会，在新实例准备使用之前进一步定制它们的存 储型属性。
+         */
+        
+        // MARK: ====两段式构造过程====
+        /*Swift 中类的构造过程包含两个阶段。第一个阶段，每个存储型属性被引入它们的类指定一个初始值。当每个存 储型属性的初始值被确定后，第二阶段开始，它给每个类一次机会，在新实例准备使用之前进一步定制它们的存 储型属性。
          两段式构造过程的使用让构造过程更安全，同时在整个类层级结构中给予了每个类完全的灵活性。两段式构造过
          程可以防止属性值在初始化之前被访问，也可以防止属性被另外一个构造器意外地赋予不同的值。
          注意
@@ -306,15 +381,18 @@ class ViewController: UIViewController {
          安全检查 1 指定构造器必须保证它所在类引入的所有属性都必须先初始化完成，之后才能将其它构造任务向上代理给父类中 的构造器。
          如上所述，一个对象的内存只有在其所有存储型属性确定之后才能完全初始化。为了满足这一规则，指定构造器
          必须保证它所在类引入的属性在它往上代理之前先完成初始化。
+         
          安全检查 2 指定构造器必须先向上代理调用父类构造器，然后再为继承的属性设置新值。如果没这么做，指定构造器赋予的 新值将被父类中的构造器所覆盖。
+         
          安全检查 3 便利构造器必须先代理调用同一类中的其它构造器，然后再为任意属性赋新值。如果没这么做，便利构造器赋予 的新值将被同一类中其它指定构造器所覆盖。
+         
          安全检查 4
          构造器在第一阶段构造完成之前，不能调用任何实例方法，不能读取任何实例属性的值，不能引用 self 作为一个 值。
-         类实例在第一阶段结束以前并不是完全有效的。只有第一阶段完成后，该实例才会成为有效实例，才能访问属性
-         和调用方法。
+         
+         类实例在第一阶段结束以前并不是完全有效的。只有第一阶段完成后，该实例才会成为有效实例，才能访问属性和调用方法。
          以下是两段式构造过程中基于上述安全检查的构造流程展示:
          
-         第 2 章 Swift 教程 | 193
+         
          阶段 1
          • 某个指定构造器或便利构造器被调用。
          • 完成新实例内存的分配，但此时内存还没有被初始化。
@@ -325,71 +403,71 @@ class ViewController: UIViewController {
          阶段 2
          • 从顶部构造器链一直往下，每个构造器链中类的指定构造器都有机会进一步定制实例。构造器此时可以访问 self 、修改它的属性并调用实例方法等等。
          • 最终，任意构造器链中的便利构造器可以有机会定制实例和使用 self 。 下图展示了在假定的子类和父类之间的构造阶段 1:
+         
+         
          构建过程阶段1
          图片 2.16 构建过程阶段1
-         在这个例子中，构造过程从对子类中一个便利构造器的调用开始。这个便利构造器此时没法修改任何属性，它把
-         构造任务代理给同一类中的指定构造器。
+         在这个例子中，构造过程从对子类中一个便利构造器的调用开始。这个便利构造器此时没法修改任何属性，它把构造任务代理给同一类中的指定构造器。
          如安全检查 1 所示，指定构造器将确保所有子类的属性都有值。然后它将调用父类的指定构造器，并沿着构造器 链一直往上完成父类的构造过程。
          父类中的指定构造器确保所有父类的属性都有值。由于没有更多的父类需要初始化，也就无需继续向上代理。 一旦父类中所有属性都有了初始值，实例的内存被认为是完全初始化，阶段 1 完成。 以下展示了相同构造过程的阶段 2:
+         
          构建过程阶段2
          图片 2.17 构建过程阶段2
          父类中的指定构造器现在有机会进一步来定制实例(尽管这不是必须的)。 一旦父类中的指定构造器完成调用，子类中的指定构造器可以执行更多的定制操作(这也不是必须的)。 最终，一旦子类的指定构造器完成调用，最开始被调用的便利构造器可以执行更多的定制操作。
-         第 2 章 Swift 教程 | 194
-         override
-         override
-         override
-         override
-         override
-         Vehicle nt numberOfWheels
-         Vehicle
-         0 Vehicle
-         numberOfWheels 0 descrpiption String
-         numberOfWheels
-         构造器的继承和重写
+
+         */
+        
+        // MARK:====构造器的继承和重写====
+        /*
          跟 Objective-C 中的子类不同，Swift 中的子类默认情况下不会继承父类的构造器。Swift 的这种机制可以防止 一个父类的简单构造器被一个更精细的子类继承，并被错误地用来创建子类的实例。
          注意
          父类的构造器仅会在安全和适当的情况下被继承。具体内容请参考后续章节构造器的自动继承 (页 0)。
-         假如你希望自定义的子类中能提供一个或多个跟父类相同的构造器，你可以在子类中提供这些构造器的自定义实
-         现。
-         当你在编写一个和父类中指定构造器相匹配的子类构造器时，你实际上是在重写父类的这个指定构造器。因 此，你必须在定义子类构造器时带上   修饰符。即使你重写的是系统自动提供的默认构造器，也需要带上
-         修饰符，具体内容请参考默认构造器 (页 0)。
-         正如重写属性，方法或者是下标，   修饰符会让编译器去检查父类中是否有相匹配的指定构造器，并验证
-         构造器参数是否正确。
-         注意
-         当你重写一个父类的指定构造器时，你总是需要写   修饰符，即使你的子类将父类的指定构造器重写为 了便利构造器。
-         相反，如果你编写了一个和父类便利构造器相匹配的子类构造器，由于子类不能直接调用父类的便利构造器(每 个规则都在上文类的构造器代理规则 (页 0)有所描述)，因此，严格意义上来讲，你的子类并未对一个父类构造 器提供重写。最后的结果就是，你在子类中“重写”一个父类便利构造器时，不需要加   前缀。
-         在下面的例子中定义了一个叫 的基类。基类中声明了一个存储型属性
-         类型的存储型属性。 属性用于创建名为   的   类型的计算型属性:
-         class Vehicle {
-         var numberOfWheels = 0
-         var description: String {
-         return "\(numberOfWheels) wheel(s)"
-         }
-         }
-         类只为存储型属性提供默认值，而不自定义构造器。因此，它会自动获得一个默认构造器，具体内容请 参考默认构造器 (页 0)。自动获得的默认构造器总会是类中的指定构造器，它可以用于创建   为
-         的   实例:
-         let vehicle = Vehicle()
-         print("Vehicle: \(vehicle.description)")
-         // Vehicle: 0 wheel(s)
-         ，它是值为 的I
+         假如你希望自定义的子类中能提供一个或多个跟父类相同的构造器，你可以在子类中提供这些构造器的自定义实现。
          
-         第 2 章 Swift 教程 | 195
-         下面例子中定义了一个 Vehicle 的子类 Bicycle :
-         class Bicycle: Vehicle {
-         override init() {
-         super.init()
-         numberOfWheels = 2
-         }
-         }
-         子类 Bicycle 定义了一个自定义指定构造器 init() 。这个指定构造器和父类的指定构造器相匹配，所以 Bicycle 中的指定构造器需要带上 override 修饰符。
-         Bicycle 的构造器 init() 以调用 super.init() 方法开始，这个方法的作用是调用 Bicycle 的父类 Vehicle 的默 认构造器。这样可以确保 Bicycle 在修改属性之前，它所继承的属性 numberOfWheels 能被 Vehicle 类初始化。在 调用 super.init() 之后，属性 numberOfWheels 的原值被新值 2 替换。
-         如果你创建一个 Bicycle 实例，你可以调用继承的 description 计算型属性去查看属性 numberOfWheels 是否有改 变:
-         let bicycle = Bicycle()
-         print("Bicycle: \(bicycle.description)") // 打印 "Bicycle: 2 wheel(s)"
+         当你在编写一个和父类中指定构造器相匹配的子类构造器时，你实际上是在重写父类的这个指定构造器。因此，你必须在定义子类构造器时带上   override修饰符。即使你重写的是系统自动提供的默认构造器，也需要带上override修饰符，具体内容请参考默认构造器 (页 0)。
+         正如重写属性，方法或者是下标，override修饰符会让编译器去检查父类中是否有相匹配的指定构造器，并验证构造器参数是否正确。
+         
+         注意
+         当你重写一个父类的指定构造器时，你总是需要写override修饰符，即使你的子类将父类的指定构造器重写成了便利构造器。
+         相反，如果你编写了一个和父类便利构造器相匹配的子类构造器，由于子类不能直接调用父类的便利构造器(每个规则都在上文类的构造器代理规则 (页 0)有所描述)，因此，严格意义上来讲，你的子类并未对一个父类构造 器提供重写。最后的结果就是，你在子类中“重写”一个父类便利构造器时，不需要加override前缀。
+         
+         在下面的例子中定义了一个叫Vehicle的基类。基类中声明了一个存储型属性numberOfWheels
+         类型的存储型属性。 属性用于创建名为0的 Int  类型的计算型属性:
+         */
+        class Vehicle {
+            var numberOfWheels = 0
+            var description: String {
+                return ("\(numberOfWheels) wheel(s)")
+            }
+        }
+        /*类只为存储型属性提供默认值，而不自定义构造器。因此，它会自动获得一个默认构造器，具体内容请 参考默认构造器 (页 0)。自动获得的默认构造器总会是类中的指定构造器，它可以用于创建numberOfWheel为0的  Vehicle 实例:
+         */
+        let vehicle = Vehicle()
+        print("Vehicle: \(vehicle.description)")// Vehicle: 0 wheel(s)
+        
+        
+        // 下面例子中定义了一个 Vehicle 的子类 Bicycle :
+        class Bicycle: Vehicle {
+            override init(){
+                super.init()
+                numberOfWheels = 2
+            }
+        }
+        
+        
+        /*子类 Bicycle 定义了一个自定义指定构造器 init() 。这个指定构造器和父类的指定构造器相匹配，所以 Bicycle 中的指定构造器需要带上 override 修饰符。
+         Bicycle 的构造器 init() 以调用 super.init() 方法开始，这个方法的作用是调用 Bicycle 的父类 Vehicle 的默认构造器。这样可以确保 Bicycle 在修改属性之前，它所继承的属性 numberOfWheels 能被 Vehicle 类初始化。在 调用 super.init() 之后，属性 numberOfWheels 的原值被新值 2 替换。
+         如果你创建一个 Bicycle 实例，你可以调用继承的 description 计算型属性去查看属性 numberOfWheels 是否有改变:
+         */
+        let bicycle = Bicycle()
+        print("Bicycle: \(bicycle.description)") // 打印 "Bicycle: 2 wheel(s)"
+        /*
          注意
          子类可以在初始化时修改继承来的变量属性，但是不能修改继承来的常量属性。
-         构造器的自动继承
-         如上所述，子类在默认情况下不会继承父类的构造器。但是如果满足特定条件，父类构造器是可以被自动继承
+         */
+        
+        // MARK:====构造器的自动继承====
+        /*如上所述，子类在默认情况下不会继承父类的构造器。但是如果满足特定条件，父类构造器是可以被自动继承
          的。在实践中，这意味着对于许多常见场景你不必重写父类的构造器，并且可以在安全的情况下以最小的代价继
          承父类的构造器。
          假设你为子类中引入的所有新属性都提供了默认值，以下 2 个规则适用:
@@ -397,140 +475,117 @@ class ViewController: UIViewController {
          规则 2
          如果子类提供了所有父类指定构造器的实现——无论是通过规则 1 继承过来的，还是提供了自定义实现——它将 自动继承所有父类的便利构造器。
          即使你在子类中添加了更多的便利构造器，这两条规则仍然适用。
+         
          注意
          对于规则 2，子类可以将父类的指定构造器实现为便利构造器。
-         
-         第 2 章 Swift 教程 | 196
-         指定构造器和便利构造器实践
-         接下来的例子将在实践中展示指定构造器、便利构造器以及构造器的自动继承。这个例子定义了包含三个类 Foo d 、 RecipeIngredient 以及 ShoppingListItem 的类层次结构，并将演示它们的构造器是如何相互作用的。
+         */
+        
+        
+        // MARK:====指定构造器和便利构造器实践====
+        /*接下来的例子将在实践中展示指定构造器、便利构造器以及构造器的自动继承。这个例子定义了包含三个类 Food 、 RecipeIngredient 以及 ShoppingListItem 的类层次结构，并将演示它们的构造器是如何相互作用的。
          类层次中的基类是 Food ，它是一个简单的用来封装食物名字的类。 Food 类引入了一个叫做 name 的 String 类型 的属性，并且提供了两个构造器来创建 Food 实例:
-         class Food {
-         var name: String
-         init(name: String) {
-         self.name = name
-         }
-         convenience init() {
-         self.init(name: "[Unnamed]")
-         } }
-         下图中展示了 Food 的构造器链:
+         */
+        class Food {
+            var name: String
+            init(name: String) {
+                self.name = name
+            }
+            convenience init() {
+                self.init(name: "[Unnamed]")
+            }
+        }
+        
+        /*下图中展示了 Food 的构造器链:
          Food构造器链
          图片 2.18 Food构造器链
          类类型没有默认的逐一成员构造器，所以 Food 类提供了一个接受单一参数 name 的指定构造器。这个构造器可以 使用一个特定的名字来创建新的 Food 实例:
-         let namedMeat = Food(name: "Bacon") // namedMeat 的名字是 "Bacon”
-         Food 类中的构造器 init(name: String) 被定义为一个指定构造器，因为它能确保 Food 实例的所有存储型属性都 被初始化。 Food 类没有父类，所以 init(name: String) 构造器不需要调用 super.init() 来完成构造过程。
-         Food 类同样提供了一个没有参数的便利构造器 init() 。这个 init() 构造器为新食物提供了一个默认的占位名 字，通过横向代理到指定构造器 init(name: String) 并给参数 name 传值 [Unnamed] 来实现:
-         let mysteryMeat = Food()
+         */
+        let namedMeat = Food(name: "Bacon")
+        // namedMeat 的名字是 "Bacon”
+        
+        /*
+         Food 类中的构造器 init(name: String) 被定义为一个指定构造器，因为它能确保 Food 实例的所有存储型属性都被初始化。 Food 类没有父类，所以 init(name: String) 构造器不需要调用 super.init() 来完成构造过程。
+         Food 类同样提供了一个没有参数的便利构造器 init() 。这个 init() 构造器为新食物提供了一个默认的占位名字，通过横向代理到指定构造器 init(name: String) 并给参数 name 传值 [Unnamed] 来实现:
+         */
+        let mysteryMeat = Food()
          // mysteryMeat 的名字是 [Unnamed]
-         类层级中的第二个类是 Food 的子类 RecipeIngredient 。 RecipeIngredient 类用来表示食谱中的一项原料。它引 入了 Int 类型的属性 quantity (以及从 Food 继承过来的 name 属性)，并且定义了两个构造器来创建 RecipeIng redient 实例:
-         class RecipeIngredient: Food {
-         var quantity: Int
-         init(name: String, quantity: Int) {
-         self.quantity = quantity
-         super.init(name: name)
-         }
-         
-         第 2 章 Swift 教程 | 197
-         RecipeIngredient
-         init(name: String) RecipeIngredient quantity
-         name
-         RecipeIngredient
-         quantity 1 quantity
-         init(name: String)
-         override
-         1
-         RecipeIngre
-         dient 1
-         RecipeIngredient
-         RecipeIngredient
-         RecipeIngredient
-         init(name: String)
-         init(name: String)
-         Food
-         RecipeIngredient
-         init()
-         Food
-         init()
-         RecipeIn
-         gredient nt
-         Food
-         RecipeIngredie
-         init(name: String) Food RecipeIngredient
-         RecipeIngredient
-         false ShoppingListItem
-         ShoppingListItem
-         purchased
-         oppingListItem
-         ShoppingListItem
-         description
-         Sh
-         override convenience init(name: String) {
-         self.init(name: name, quantity: 1)
-         } }
-         下图中展示了 RecipeIngredient 类的构造器链:
+        
+        /*类层级中的第二个类是 Food 的子类 RecipeIngredient 。 RecipeIngredient 类用来表示食谱中的一项原料。它引入了 Int 类型的属性 quantity (以及从 Food 继承过来的 name 属性)，并且定义了两个构造器来创建 RecipeIng redient 实例:
+         */
+        
+        class RecipeIngredient: Food {
+            var quantity: Int
+            init(name: String, quantity: Int) {
+                self.quantity = quantity
+                super.init(name: name)
+            }
+            
+            override convenience init(name: String) {
+                self.init(name: name, quantity: 1)
+            }
+        }
+        
+        /*下图中展示了 RecipeIngredient 类的构造器链:
          RecipeIngredient构造器
          图片 2.19 RecipeIngredient构造器
-         RecipeIngredient 类拥有一个指定构造器 init(name: String, quantity: Int) ，它可以用来填充 RecipeIngredie nt 实例的所有属性值。这个构造器一开始先将传入的 quantity 参数赋值给 quantity 属性，这个属性也是唯一在
-         RecipeIngredient 中新引入的属性。随后，构造器向上代理到父类 Food 的 init(name: String) 。这个过程满足
-         两段式构造过程 (页 0)中的安全检查 1。
-         还定义了一个便利构造器 ，它只通过   来创建   的实 例。这个便利构造器假设任意 实例的   为 ，所以不需要显式指明数量即可创建出实
-         例。这个便利构造器的定义可以更加方便和快捷地创建实例，并且避免了创建多个
+         RecipeIngredient 类拥有一个指定构造器 init(name: String, quantity: Int) ，它可以用来填充 RecipeIngredient 实例的所有属性值。这个构造器一开始先将传入的 quantity 参数赋值给 quantity 属性，这个属性也是唯一在RecipeIngredient 中新引入的属性。随后，构造器向上代理到父类 Food 的 init(name: String) 。这个过程满足两段式构造过程 (页 0)中的安全检查 1。
+         RecipeIngredient还定义了一个便利构造器 init(name: Sring)，它只通过name来创建RecipeIngredient的实例。这个便利构造器假设任意实例的quantity为 1，所以不需要显式指明数量即可创建出实例。这个便利构造器的定义可以更加方便和快捷地创建实例，并且避免了创建多个
          实例时的代码重复。这个便利构造器只是简单地横向代理到类中的指定构造器，并为
          。
-         注意，   的便利构造器 使用了跟   中指定构造器
-         为 的 参数传递
-         同的参数。由于这个便利构造器重写了父类的指定构造器 饰符(参见构造器的继承和重写 (页 0))。
-         ，因此必须在前面使用
-         相 修
-         尽管 现。因此，
-         将父类的指定构造器重写为了便利构造器，它依然提供了父类的所有指定构造器的实
-         会自动继承父类的所有便利构造器。
-         在这个例子中，
-         继承。这个继承版本的
-         的父类是   ，它有一个便利构造器   。这个便利构造器会被 在功能上跟 提供的版本是一样的，只是它会代理到
-         版本的   而不是
-         所有的这三种构造器都可以用来创建新的
-         提供的版本。
-         let oneMysteryItem = RecipeIngredient()
-         let oneBacon = RecipeIngredient(name: "Bacon")
-         let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
-         类层级中第三个也是最后一个类是   的子类，叫做 现的某一种食谱原料。
-         购物单中的每一项总是从未购买状态开始的。为了呈现这一事实， ，它的默认值是   。   还添加了一个计算型属性
-         。这个类构建了购物单中出
-         引入了一个布尔类型的属性
-         ，它提供了关于
-         实例的一些文字描述:
-         实例:
-         第 2 章 Swift 教程 | 198
-         class ShoppingListItem: RecipeIngredient {
-         var purchased = false
-         var description: String {
-         var output = "\(quantity) x \(name)"
-         output += purchased ? " ?" : " ?"
-         return output
-         } }
-         注意
-         ShoppingListItem 没有定义构造器来为 purchased 提供初始值，因为添加到购物单的物品的初始状态总是未购
-         买。
-         由于它为自己引入的所有属性都提供了默认值，并且自己没有定义任何构造器， ShoppingListItem 将自动继承所 有父类中的指定构造器和便利构造器。
+         注意，  RecipeIngredient 的便利构造器 init(name: Sring)使用了跟  Food 中指定构造器init(name: Sring)相同的参数。
+         由于这个便利构造器重写了父类的指定构造器 ，因此必须在前面使用override饰符(参见构造器的继承和重写 (页 0))。
+         
+     
+         尽管 RecipeIngredient将父类的指定构造器重写为了便利构造器，它依然提供了父类的所有指定构造器的实现。因此，
+         RecipeIngredient会自动继承父类的所有便利构造器。
+         
+         在这个例子中，RecipeIngredient的父类是Food，它有一个便利构造器  init() 。这个便利构造器会被RecipeIngredient 继承。这个继承版本的init()在功能上跟 Food提供的版本是一样的，只是它会代理到RecipeIngredient版本的 init(name: String)  而不是 Food 提供的版本。
+         */
+        
+//        所有的这三种构造器都可以用来创建新的RecipeIngredient
+        let oneMysteryItem = RecipeIngredient()
+        let oneBacon = RecipeIngredient(name: "Bacon")
+        let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
+        
+        /*
+         类层级中第三个也是最后一个类是RecipeIngredient的子类，叫做ShoppingListItem 。这个类构建了购物单中出现的某一种食谱原料。
+         购物单中的每一项总是从未购买状态开始的。为了呈现这一事实，ShoppingListItem引入了一个布尔类型的属性 purchased，它的默认值是 false  。
+         还添加了一个计算型属性description，它提供了关于ShoppingListItem实例的一些文字描述:
+         */
+        class ShoppingListItem2: RecipeIngredient {
+            var purchased = false
+            var description: String {
+                var output = "\(quantity) x \(name)"
+                output += purchased ? " ✔" : " ✘"
+                return output
+            }
+        }
+        /*注意
+         ShoppingListItem 没有定义构造器来为 purchased 提供初始值，因为添加到购物单的物品的初始状态总是未购买。
+         由于它为自己引入的所有属性都提供了默认值，并且自己没有定义任何构造器， ShoppingListItem 将自动继承所有父类中的指定构造器和便利构造器。
          下图展示了这三个类的构造器链:
          三类构造器图
          图片 2.20 三类构造器图
          你可以使用全部三个继承来的构造器来创建 ShoppingListItem 的新实例:
-         var breakfastList = [
-         ShoppingListItem(),
-         ShoppingListItem(name: "Bacon"),
-         ShoppingListItem(name: "Eggs", quantity: 6),
-         ]
-         breakfastList[0].name = "Orange juice"
-         breakfastList[0].purchased = true
-         for item in breakfastList {
-         print(item.description)
-         }
-         // 1 x orange juice ?
-         // 1 x bacon ?
-         // 6 x eggs ?
-         如上所述，例子中通过字面量方式创建了一个数组 breakfastList ，它包含了三个 ShoppingListItem 实例，因此 数组的类型也能被自动推导为 [ShoppingListItem] 。在数组创建完之后，数组中第一个 ShoppingListItem 实例的 名字从 [Unnamed] 更改为 Orange juice ，并标记为已购买。打印数组中每个元素的描述显示了它们都已按照预期 被赋值。
          */
+        var breakfastList = [
+        ShoppingListItem2(),
+        ShoppingListItem2(name: "Bacon"),
+        ShoppingListItem2(name: "Eggs", quantity: 6),
+        ]
+        
+        breakfastList[0].name = "Orange juice"
+        breakfastList[0].purchased = true
+        
+        for item in breakfastList {
+            print(item.description)
+        }
+        
+        /*
+         如上所述，例子中通过字面量方式创建了一个数组 breakfastList ，它包含了三个 ShoppingListItem 实例，因此 数组的类型也能被自动推导为 [ShoppingListItem] 。在数组创建完之后，数组中第一个 ShoppingListItem 实例的 名字从 [Unnamed] 更改为 Orange juice ，并标记为已购买。打印数组中每个元素的描述显示了它们都已按照预期被赋值。
+         */
+        
+        
         // MARK: - 可失败构造器
         /*
          如果一个类、结构体或枚举类型的对象，在构造过程中有可能失败，则为其定义一个可失败构造器。这里所指

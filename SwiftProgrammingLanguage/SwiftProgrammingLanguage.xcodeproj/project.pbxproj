@@ -49,6 +49,13 @@
 		845EA6F91F6299410089284C /* StringsAndCharacters_04_CollectionTypes_05.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringsAndCharacters_04_CollectionTypes_05.swift; sourceTree = "<group>"; };
 		845EA6FA1F6299410089284C /* ASwiftTour_01.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASwiftTour_01.swift; sourceTree = "<group>"; };
 		845EA6FB1F6299410089284C /* TheBasics_02_BasicOperators_03.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheBasics_02_BasicOperators_03.swift; sourceTree = "<group>"; };
+		8464E9BF1F7CEA7400EFFF24 /* 构造器代理图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "构造器代理图.jpg"; sourceTree = "<group>"; };
+		8464E9C01F7CEB1700EFFF24 /* 复杂构造器代理图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "复杂构造器代理图.jpg"; sourceTree = "<group>"; };
+		8464E9C11F7CEE6200EFFF24 /* 构建过程阶段2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "构建过程阶段2.jpg"; sourceTree = "<group>"; };
+		8464E9C21F7CEE6200EFFF24 /* 构建过程阶段1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "构建过程阶段1.jpg"; sourceTree = "<group>"; };
+		8464E9C31F7CF40200EFFF24 /* Food构造器链.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Food构造器链.jpg"; sourceTree = "<group>"; };
+		8464E9C41F7CF40200EFFF24 /* RecipeIngredient构造器.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "RecipeIngredient构造器.jpg"; sourceTree = "<group>"; };
+		8464E9C51F7CF82800EFFF24 /* 三类构造器图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "三类构造器图.jpg"; sourceTree = "<group>"; };
 		8464FABA1F7273AB003F88FF /* ClassAndStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassAndStruct.swift; sourceTree = "<group>"; };
 		8464FABC1F7273D9003F88FF /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		847CA5271F6B6C1E00663472 /* (x,y)斜边图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "(x,y)斜边图.jpg"; sourceTree = "<group>"; };
@@ -93,6 +100,13 @@
 			children = (
 				6CCC364A1F541A690062D606 /* AppDelegate.swift */,
 				849437211F7B7E130007B8CF /* ViewController.swift */,
+				8464E9BF1F7CEA7400EFFF24 /* 构造器代理图.jpg */,
+				8464E9C01F7CEB1700EFFF24 /* 复杂构造器代理图.jpg */,
+				8464E9C21F7CEE6200EFFF24 /* 构建过程阶段1.jpg */,
+				8464E9C11F7CEE6200EFFF24 /* 构建过程阶段2.jpg */,
+				8464E9C31F7CF40200EFFF24 /* Food构造器链.jpg */,
+				8464E9C41F7CF40200EFFF24 /* RecipeIngredient构造器.jpg */,
+				8464E9C51F7CF82800EFFF24 /* 三类构造器图.jpg */,
 				8493B5171F7A0BA70040E086 /* Inheritance.swift */,
 				84D9160A1F78EE7200C27EE2 /* Subscripts.swift */,
 				849D89EB1F74E19000AABDE1 /* Methods.swift */,
