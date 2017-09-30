@@ -23,11 +23,13 @@
 		845EA6FE1F6299410089284C /* TheBasics_02_BasicOperators_03.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845EA6FB1F6299410089284C /* TheBasics_02_BasicOperators_03.swift */; };
 		8464FABB1F7273AB003F88FF /* ClassAndStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464FABA1F7273AB003F88FF /* ClassAndStruct.swift */; };
 		8464FABD1F7273D9003F88FF /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464FABC1F7273D9003F88FF /* Properties.swift */; };
+		847A47851F7F4D70006DA5C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A47841F7F4D70006DA5C0 /* ViewController.swift */; };
 		847CA5281F6B6C1E00663472 /* (x,y)斜边图.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 847CA5271F6B6C1E00663472 /* (x,y)斜边图.jpg */; };
 		847CA52A1F6B724C00663472 /* Functions07.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847CA5291F6B724C00663472 /* Functions07.swift */; };
 		8493B5181F7A0BA70040E086 /* Inheritance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493B5171F7A0BA70040E086 /* Inheritance.swift */; };
-		849437221F7B7E130007B8CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849437211F7B7E130007B8CF /* ViewController.swift */; };
+		849437221F7B7E130007B8CF /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849437211F7B7E130007B8CF /* Initialization.swift */; };
 		849D89EC1F74E19000AABDE1 /* Methods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849D89EB1F74E19000AABDE1 /* Methods.swift */; };
+		84AE409F1F7F47AD00FEEF91 /* Deinitialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */; };
 		84CC92F61F73B0BF003B1AA0 /* Computed Properties sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84CC92F51F73B0BF003B1AA0 /* Computed Properties sample.jpg */; };
 		84D9160B1F78EE7200C27EE2 /* Subscripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D9160A1F78EE7200C27EE2 /* Subscripts.swift */; };
 /* End PBXBuildFile section */
@@ -58,12 +60,15 @@
 		8464E9C51F7CF82800EFFF24 /* 三类构造器图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "三类构造器图.jpg"; sourceTree = "<group>"; };
 		8464FABA1F7273AB003F88FF /* ClassAndStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassAndStruct.swift; sourceTree = "<group>"; };
 		8464FABC1F7273D9003F88FF /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
+		847A47841F7F4D70006DA5C0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		847CA5271F6B6C1E00663472 /* (x,y)斜边图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "(x,y)斜边图.jpg"; sourceTree = "<group>"; };
 		847CA5291F6B724C00663472 /* Functions07.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions07.swift; sourceTree = "<group>"; };
 		8493B5171F7A0BA70040E086 /* Inheritance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inheritance.swift; sourceTree = "<group>"; };
-		849437211F7B7E130007B8CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		849437211F7B7E130007B8CF /* Initialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
 		849D89EA1F74C0A800AABDE1 /* Static Properties VUMeter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Static Properties VUMeter.jpg"; sourceTree = "<group>"; };
 		849D89EB1F74E19000AABDE1 /* Methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Methods.swift; sourceTree = "<group>"; };
+		84AE409D1F7F44DC00FEEF91 /* 西洋跳棋棋盘.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "西洋跳棋棋盘.jpg"; sourceTree = "<group>"; };
+		84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deinitialization.swift; sourceTree = "<group>"; };
 		84CC92F51F73B0BF003B1AA0 /* Computed Properties sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Computed Properties sample.jpg"; sourceTree = "<group>"; };
 		84D9160A1F78EE7200C27EE2 /* Subscripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscripts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,7 +104,10 @@
 			isa = PBXGroup;
 			children = (
 				6CCC364A1F541A690062D606 /* AppDelegate.swift */,
-				849437211F7B7E130007B8CF /* ViewController.swift */,
+				847A47841F7F4D70006DA5C0 /* ViewController.swift */,
+				84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */,
+				849437211F7B7E130007B8CF /* Initialization.swift */,
+				84AE409D1F7F44DC00FEEF91 /* 西洋跳棋棋盘.jpg */,
 				8464E9BF1F7CEA7400EFFF24 /* 构造器代理图.jpg */,
 				8464E9C01F7CEB1700EFFF24 /* 复杂构造器代理图.jpg */,
 				8464E9C21F7CEE6200EFFF24 /* 构建过程阶段1.jpg */,
@@ -213,11 +221,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84AE409F1F7F47AD00FEEF91 /* Deinitialization.swift in Sources */,
 				843451251F6A746800A46E1B /* Control_Flow06.swift in Sources */,
 				8408226C1F6F68F5001208E7 /* Enumerations.swift in Sources */,
 				845EA6FC1F6299410089284C /* StringsAndCharacters_04_CollectionTypes_05.swift in Sources */,
 				8464FABB1F7273AB003F88FF /* ClassAndStruct.swift in Sources */,
-				849437221F7B7E130007B8CF /* ViewController.swift in Sources */,
+				849437221F7B7E130007B8CF /* Initialization.swift in Sources */,
 				849D89EC1F74E19000AABDE1 /* Methods.swift in Sources */,
 				845EA6FD1F6299410089284C /* ASwiftTour_01.swift in Sources */,
 				84D9160B1F78EE7200C27EE2 /* Subscripts.swift in Sources */,
@@ -226,6 +235,7 @@
 				845EA6FE1F6299410089284C /* TheBasics_02_BasicOperators_03.swift in Sources */,
 				8408226A1F6F68DA001208E7 /* Closures08.swift in Sources */,
 				6CCC364B1F541A690062D606 /* AppDelegate.swift in Sources */,
+				847A47851F7F4D70006DA5C0 /* ViewController.swift in Sources */,
 				847CA52A1F6B724C00663472 /* Functions07.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -2,823 +2,359 @@
 //  ViewController.swift
 //  SwiftProgrammingLanguage
 //
-//  Created by admin on 2017/9/27.
+//  Created by admin on 2017/9/30.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
-/*lzy170920注:
- 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
- 构造过程
- 
- 本页包含内容:
- • 存储属性的初始赋值 (页 0)
- • 自定义构造过程 (页 0)
- • 默认构造器 (页 0)
- • 值类型的构造器代理 (页 0)
- • 类的继承和构造过程 (页 0)
- • 可失败构造器 (页 0)
- • 必要构造器 (页 0)
- • 通过闭包或函数设置属性的默认值 (页 0)
- */
+
 import UIKit
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /*
-         构造过程是使用类、结构体或枚举类型的实例之前的准备过程。在新实例可用前必须执行这个过程，具体操作包
-         括设置实例中每个存储型属性的初始值和执行其他必须的设置或初始化工作。
-         通过定义构造器来实现构造过程，这些构造器可以看做是用来创建特定类型新实例的特殊方法。与 Objective-C 中的构造器不同，Swift 的构造器无需返回值，它们的主要任务是保证新实例在第一次使用前完成正确的初始化。
-         类的实例也可以通过定义析构器在实例释放之前执行特定的清除工作。想了解更多关于析构器的内容，请参考析
-         构过程。
-         
-         */
-        // MARK: - 存储属性的初始赋值
-        /*
-         类和结构体在创建实例时，必须为所有存储型属性设置合适的初始值。存储型属性的值不能处于一个未知的状
-         态。
-         你可以在构造器中为存储型属性赋初值，也可以在定义属性时为其设置默认值。以下小节将详细介绍这两种方
-         法。
-         注意
-         当你为存储型属性设置默认值或者在构造器中为其赋值时，它们的值是被直接设置的，不会触发任何属性观察
-         者。
-         */
-        // MARK:  ====构造器====
-        /*lzy170927:
-         构造器在创建某个特定类型的新实例时被调用。它的最简形式类似于一个不带任何参数的实例方法，以关键字 init 命名:
-         
-         init() {
-         // 在此处执行构造过程
-         }
-         下面例子中定义了一个用来保存华氏温度的结构体 Fahrenheit ，它拥有一个 Double 类型的存储型属性 temperature:
 
-         */
-        struct Fahrenheit {
-            var temperature: Double
-            init() {
-                temperature = 32.0
-            }
-        }
-        
-        var f = Fahrenheit()
-        print("The default temperature is \(f.temperature)° Fahrenheit")
-        // 打印 "The default temperature is 32.0° Fahrenheit”
-        // 这个结构体定义了一个不带参数的构造器 init ，并在里面将存储型属性 temperature 的值初始化为 32.0 (华氏 温度下水的冰点)。
-        
-        // MARK:  ====默认属性值====
-        /*lzy170927:
-         如前所述，你可以在构造器中为存储型属性设置初始值。同样，你也可以在属性声明时为其设置默认值。
-         
+        /*lzy170930注:
+         自动引用计数
+         1.0 翻译:TimothyYe 校对:Hawstein
+         2.0 翻译+校对:Channe
+         2.1 翻译:Channe 校对:shanks，Realank ，2016-01-23
+         2.2 翻译+校对:SketchK 2016-05-14 3.0.1，shanks，2016-11-13
+         本页包含内容:
+         • 自动引用计数的工作机制 (页 0) • 自动引用计数实践 (页 0)
+         • 类实例之间的循环强引用 (页 0) • 解决实例之间的循环强引用 (页 0) • 闭包引起的循环强引用 (页 0)
+         • 解决闭包引起的循环强引用 (页 0)
+         Swift 使用自动引用计数(ARC)机制来跟踪和管理你的应用程序的内存。通常情况下，Swift 内存管理机制会一
+         直起作用，你无须自己来考虑内存的管理。ARC 会在类的实例不再被使用时，自动释放其占用的内存。
+         然而在少数情况下，为了能帮助你管理内存，ARC 需要更多的，代码之间关系的信息。本章描述了这些情况，并 且为你示范怎样才能使 ARC 来管理你的应用程序的所有内存。在 Swift 使用 ARC 与在 Obejctive-C 中使用 AR C 非常类似，具体请参考过渡到 ARC 的发布说明
          注意
-         如果一个属性总是使用相同的初始值，那么为其设置一个默认值比每次都在构造器中赋值要好。两种方法的效果
-         是一样的，只不过使用默认值让属性的初始化和声明结合得更紧密。使用默认值能让你的构造器更简洁、更清
-         晰，且能通过默认值自动推导出属性的类型;同时，它也能让你充分利用默认构造器、构造器继承等特性，后续
-         章节将讲到。
-        
-         */
-        struct Fahrenheit2 {
-            var temperature = 32.0
-        }
-        
-
-        // MARK: - 自定义构造过程
-        /*
-         你可以使用更简单的方式在定义结构体 Fahrenheit 时为属性 temperature 设置默认值:
-         你可以通过输入参数和可选类型的属性来自定义构造过程，也可以在构造过程中修改常量属性。这些都将在后面
-         章节中提到。
+         引用计数仅仅应用于类的实例。结构体和枚举类型是值类型，不是引用类型，也不是通过引用的方式存储和传
+         递。
+         自动引用计数的工作机制
+         当你每次创建一个类的新的实例的时候，ARC 会分配一块内存来储存该实例信息。内存中会包含实例的类型信 息，以及这个实例所有相关的存储型属性的值。
          
-         自定义构造过程时，可以在定义中提供构造参数，指定所需值的类型和名字。构造参数的功能和语法跟函数和方 法的参数相同。
-         下面例子中定义了一个包含摄氏度温度的结构体 Celsius 。它定义了两个不同的构造器: init(fromFahrenhei t:) 和 init(fromKelvin:) ，二者分别通过接受不同温标下的温度值来创建新的实例:
-         
-         */
-        struct Celsius {
-            var temperatureIncelsius: Double
-            
-            init(fromFahrenheit fahrenheit: Double){
-                temperatureIncelsius = (fahrenheit - 32.0) / 1.8
-            }
-                
-            init(fromKelvin kelvin: Double) {
-                temperatureIncelsius = kelvin - 273.15
-            }
-        }
-        
-        let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
-        print("\(boilingPointOfWater.temperatureIncelsius)")
-        let freezingPointOfWater = Celsius(fromKelvin: 273.15)
-        print("\(freezingPointOfWater.temperatureIncelsius)")
-        
-        /*
-         第一个构造器拥有一个构造参数，其外部名字为 fromFahrenheit ，内部名字为 fahrenheit ;
-         第二个构造器也拥 有一个构造参数，其外部名字为 fromKelvin ，内部名字为 kelvin 。这两个构造器都将唯一的参数值转换成摄氏 温度值，并保存在属性 temperatureInCelsius 中。
-         */
-        
-        
-        // MARK: ====参数的内部名称和外部名称====
-        /*跟函数和方法参数相同，构造参数也拥有一个在构造器内部使用的参数名字和一个在调用构造器时使用的外部参
-         数名字。
-         然而，构造器并不像函数和方法那样在括号前有一个可辨别的名字。因此在调用构造器时，主要通过构造器中的 参数名和类型来确定应该被调用的构造器。
-         正因为参数如此重要，如果你在定义构造器时没有提供参数的外部名字，Swift 会为构造器的每个参数自动生成一个跟内部名字相同的外部名。
-         以下例子中定义了一个结构体 Color ，它包含了三个常量: red 、 green 和 blue 。这些属性可以存储 0.0 到 1.0 之间的值，用来指示颜色中红、绿、蓝成分的含量。
-         Color 提供了一个构造器，其中包含三个 Double 类型的构造参数。 Color 也可以提供第二个构造器，它只包含 名为 white 的 Double 类型的参数，它被用于给上述三个构造参数赋予同样的值。
-         */
-        struct Color {
-            let red, green, blue: Double
-            init(red: Double, green: Double, blue: Double) {
-                self.red = red
-                self.green = green
-                self.blue = blue
-            }
-            
-            init(white: Double) {
-                red = white
-                green = white
-                blue = white
-                
-            }
-        }
-        // 两种构造器都能用于创建一个新的 Color 实例，你需要为构造器每个外部参数传值:
-        
-        let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
-        let halfGray = Color(white: 0.5)
-        
-        /*
-         注意，如果不通过外部参数名字传值，你是没法调用这个构造器的。只要构造器定义了某个外部参数名，你就必
-         须使用它，忽略它将导致编译错误:*/
-//        let veryGreen = Color(0.0, 1.0, 0.0) // 报编译时错误，需要外部名称
-        //Missing argument labels 'red:green:blue' in call
-        
-        // MARK: ====不带外部名的构造器参数====
-        /*
-         如果你不希望为构造器的某个参数提供外部名字，你可以使用下划线( _ )来显式描述它的外部名，以此重写上面 所说的默认行为。
-         下面是之前 Celsius 例子的扩展，跟之前相比添加了一个带有 Double 类型参数的构造器，其外部名用 _ 代替:
-         */
-        struct Celsius2 {
-            var temperatureInCelsius: Double
-            init(fromFahrenheit fahrenheit: Double) {
-                temperatureInCelsius = (fahrenheit - 32.0) / 1.8
-            }
-            init(fromKelvin kelvin: Double) {
-                temperatureInCelsius = kelvin - 273.15
-            }
-            init(_ celsius: Double){
-                temperatureInCelsius = celsius
-            }
-        }
-        let bodyTemperature = Celsius2(37.0)
-        // bodyTemperature.temperatureInCelsius 为 37.0
-        // lzy170928注：从这个『不带外部名的构造参数』的例子可以看出，构造器虽然是特殊的函数，部分函数规则是适用的。
-        
-        /*调用 Celsius(37.0) 意图明确，不需要外部参数名称。因此适合使用 init(_ celsius: Double) 这样的构造器，从而可以通过提供 Double 类型的参数值调用构造器，而不需要加上外部名。*/
-        
-        
-        // MARK: ====可选属性类型====
-        /*如果你定制的类型包含一个逻辑上允许取值为空的存储型属性——无论是因为它无法在初始化时赋值，还是因为 它在之后某个时间点可以赋值为空——你都需要将它定义为 可选类型 。可选类型的属性将自动初始化为 nil ，表 示这个属性是有意在初始化时设置为空的。
-         下面例子中定义了类 SurveyQuestion ，它包含一个可选字符串属性 response :*/
-        class SurveyQuestion {
-            var text: String
-            var response: String?
-            init(text: String) {
-                self.text = text
-            }
-            func ask() {
-                print(text)
-            }
-        }
-        
-        let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
-        cheeseQuestion.ask()
-        cheeseQuestion.response = "Yes, I do like cheese."
-        
-        /*调查问题的答案在回答前是无法确定的，因此我们将属性 response 声明为 String? 类型，或者说是 可选字符串类 型 。当 SurveyQuestion 实例化时，它将自动赋值为 nil ，表明此字符串暂时还没有值。*/
-        
-        // MARK: ====构造过程中常量属性的修改====
-        /*你可以在 构造过程中的任意时间点
-         给常量属性指定一个值，只要在构造过程结束时是一个确定的值。一旦常量属
-         性被赋值，它将永远不可更改。
-         注意
-         对于类的实例来说，它的常量属性只能在定义它的类的构造过程中修改,不能在子类中修改。
-         
-         你可以修改上面的 SurveyQuestion 示例，用常量属性替代变量属性 text ，表示问题内容 text 在 SurveyQuestion 的实例被创建之后不会再被修改。尽管 text 属性现在是常量，我们仍然可以在类的构造器中设置它的值:
-         */
-        class SurveyQuestion2 {
-            let text: String
-            var response: String?
-            init(text: String) {
-                self.text = text
-            }
-            
-            func ask() {
-                print(text)
-            }
-        }
-        let beetsQuestion = SurveyQuestion2(text: "How about beets?")
-        beetsQuestion.ask()
-        // 打印 "How about beets?"
-        beetsQuestion.response = "I also like beets. (But not with cheese.)"
-
-        
-        
-        // MARK: - 默认构造器
-        /*
-         如果结构体或类的所有属性都有默认值，同时没有自定义的构造器，那么 Swift 会给这些结构体或类提供一个默 认构造器(default initializers)。这个默认构造器将简单地创建一个所有属性值都设置为默认值的实例。
-         下面例子中创建了一个类 ShoppingListItem ，它封装了购物清单中的某一物品的属性:名字( name )、数 量( quantity )和购买状态 purchase state :
-         */
-        class ShoppingListItem {
-            var name: String?
-            var quantity = 1
-            var purchased = false
-        }
-        var item = ShoppingListItem()
-        
-        /*
-         
-         由于ShoppingListItem类中的所有属性都有默认值，且它是没有父类的基类，它将自动获得一个可以为所有属性 设置默认值的默认构造器(尽管代码中没有显式为name属性设置默认值，但由于name是可选字符串类型，它将 默认设置为 nil)。上面例子中使用默认构造器创造了一个ShoppingListItem类的实例(使用ShoppingListItem()形式的构造器语法)，并将其赋值给变量item。
-         */
-        
-        // MARK: ====结构体的逐一成员构造器====
-        /*
-         除了上面提到的默认构造器，如果结构体没有提供自定义的构造器，它们将自动获得一个逐一成员构造器，即使
-         结构体的存储型属性没有默认值。
-     
-         逐一成员构造器是用来初始化结构体新实例里成员属性的快捷方法。我们在调用逐一成员构造器时，通过与成员
-         属性名相同的参数名进行传值来完成对成员属性的初始赋值。
-         下面例子中定义了一个结构体 Size ，它包含两个属性 width 和 height 。Swift 可以根据这两个属性的初始赋值 0.0 自动推导出它们的类型为 Double 。
-         结构体 Size 自动获得了一个逐一成员构造器 init(width:height:) 。你可以用它来为 Size 创建新的实例:
-         struct Size {
-             var width = 0.0, height = 0.0
-         }
-         let twoByTwo = Size(width: 2.0, height: 2.0)
-         */
-
-        
-        // MARK: - 值类型的构造器代理
-        /*
-         构造器可以通过调用其它构造器来完成实例的部分构造过程。这一过程称为构造器代理，它能减少多个构造器间
-         的代码重复。
-         构造器代理的实现规则和形式在值类型和类类型中有所不同。值类型(结构体和枚举类型)不支持继承，所以构 造器代理的过程相对简单，因为它们只能代理给自己的其它构造器。类则不同，它可以继承自其它类(请参考继 承)，这意味着类有责任保证其所有继承的存储型属性在构造时也能正确的初始化。这些责任将在后续章节类的 继承和构造过程 (页 0)中介绍。
-         对于值类型，你可以使用 self.init 在自定义的构造器中引用相同类型中的其它构造器。并且你只能在构造器内 部调用 self.init 。
-         如果你为某个值类型定义了一个自定义的构造器，你将无法访问到默认构造器(如果是结构体，还将无法访问逐 一成员构造器)。这种限制可以防止你为值类型增加了一个额外的且十分复杂的构造器之后,仍然有人错误的使用 自动生成的构造器
-         注意 假如你希望默认构造器、逐一成员构造器以及你自己的自定义构造器都能用来创建实例，可以将自定义的构造器 写到扩展( extension )中，而不是写在值类型的原始定义中。想查看更多内容，请查看扩展章节。
-         下面例子将定义一个结构体 Rect ，用来代表几何矩形。这个例子需要两个辅助的结构体 Size 和 Point ，它们各 自为其所有的属性提供了初始值 0.0 。*/
-        struct Size {
-            var width = 0.0, height = 0.0
-        }
-        struct Point {
-            var x = 0.0, y = 0.0
-        }
-        /*
-         你可以通过以下三种方式为 Rect 创建实例——使用被初始化为默认值的 origin 和 size 属性来初始化;提供指 定的 origin 和 size 实例来初始化;提供指定的 center 和 size 来初始化。在下面 Rect 结构体定义中，我们为 这三种方式提供了三个自定义的构造器:
-         */
-        struct Rect{
-            var origin = Point()
-            var size = Size()
-            init(){}
-            init(origin: Point, size:Size) {
-                self.origin = origin
-                self.size = size
-            }
-            
-            init(center: Point, size: Size) {
-                let originX = center.x - (size.width / 2)
-                let originY = center.y - (size.height / 2)
-                self.init(origin: Point(x: originX, y: originY), size: size)
-            }
-        }
-        /*
-         第一个 Rect 构造器 init() ，在功能上跟没有自定义构造器时自动获得的默认构造器是一样的。这个构造器是一 个空函数，使用一对大括号 {} 来表示，它没有执行任何构造过程。调用这个构造器将返回一个 Rect 实例，它的
-         origin 和 size 属性都使用定义时的默认值 Point(x: 0.0, y: 0.0) 和 Size(width: 0.0, height: 0.0) :
-         */
-        let basicRect = Rect()
-        // basicRect 的 origin 是 (0.0, 0.0)，size 是 (0.0, 0.0)
-        
-        /*
-         第二个 Rect 构造器 init(origin:size:) ，在功能上跟结构体在没有自定义构造器时获得的逐一成员构造器是一 样的。这个构造器只是简单地将 origin 和 size 的参数值赋给对应的存储型属性:
-         */
-        let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
-                              size: Size(width: 5.0, height: 5.0))
-        // originRect 的 origin 是 (2.0, 2.0)，size 是 (5.0, 5.0)
-        
-        /*
-         第三个 Rect 构造器 init(center:size:) 稍微复杂一点。它先通过 center 和 size 的值计算出 origin 的坐标，然 后再调用(或者说代理给) init(origin:size:) 构造器来将新的 origin 和 size 值赋值到对应的属性中:
-         */
-        let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
-                              size: Size(width: 3.0, height: 3.0))
-        // centerRect 的 origin 是 (2.5, 2.5)，size 是 (3.0, 3.0)
-        
-        /*
-         构造器 init(center:size:) 可以直接将 origin 和 size 的新值赋值到对应的属性中。然而，利用恰好提供了相关 功能的现有构造器会更为方便，构造器 init(center:size:) 的意图也会更加清晰。
-         注意
-         如果你想用另外一种不需要自己定义 init() 和 init(origin:size:) 的方式来实现这个例子，请参考扩展。
-         */
-        
-        
-        // MARK: - 类的继承和构造过程
-        /*
-         类里面的所有存储型属性——包括所有继承自父类的属性——都必须在构造过程中设置初始值。
-         Swift 为类类型提供了两种构造器来确保实例中所有存储型属性都能获得初始值，它们分别是指定构造器和便利 构造器。
-         */
-        
-        // MARK: ====指定构造器和便利构造器====
-        /*
-         指定构造器是类中最主要的构造器。一个指定构造器将初始化类中提供的所有属性，并根据父类链往上调用父类
-         的构造器来实现父类的初始化。
-         每一个类都必须拥有至少一个指定构造器。在某些情况下，许多类通过继承了父类中的指定构造器而满足了这个 条件。具体内容请参考后续章节构造器的自动继承 (页 0)。
-         便利构造器是类中比较次要的、辅助型的构造器。你可以定义便利构造器来调用同一个类中的指定构造器，并为
-         其参数提供默认值。你也可以定义便利构造器来创建一个特殊用途或特定输入值的实例。
-         你应当只在必要的时候为类提供便利构造器，比方说某种情况下通过使用便利构造器来快捷调用某个指定构造
-         器，能够节省更多开发时间并让类的构造过程更清晰明了。
-         
-         */
-        
-        // MARK:====指定构造器和便利构造器的语法====
-        /*
-         类的指定构造器的写法跟值类型简单构造器一样:
-         init(parameters) {
-             statements
-         }
-         便利构造器也采用相同样式的写法，但需要在 init 关键字之前放置 convenience 关键字，并使用空格将它们俩分开:
-         convenience init(parameters) {
-             statements
-         }
-         */
-        
-        
-        // MARK: ====类的构造器代理规则====
-        /*
-         为了简化指定构造器和便利构造器之间的调用关系，Swift 采用以下三条规则来限制构造器之间的代理调用:
-
-         规则 1 指定构造器必须调用其直接父类的的指定构造器。
-         规则 2 便利构造器必须调用同类中定义的其它构造器。
-         规则 3 便利构造器必须最终导致一个指定构造器被调用。
-         
-         一个更方便记忆的方法是:
-         • 指定构造器必须总是向上代理
-         • 便利构造器必须总是横向代理
-         
-         这些规则可以通过下面图例来说明:
-         构造器代理图
-         图片 2.14 构造器代理图
-         如图所示，父类中包含一个指定构造器和两个便利构造器。其中一个便利构造器调用了另外一个便利构造器，而 后者又调用了唯一的指定构造器。这满足了上面提到的规则 2 和 3。这个父类没有自己的父类，所以规则 1 没 有用到。
-         子类中包含两个指定构造器和一个便利构造器。便利构造器必须调用两个指定构造器中的任意一个，因为它只能 调用同一个类里的其他构造器。这满足了上面提到的规则 2 和 3。而两个指定构造器必须调用父类中唯一的指定 构造器，这满足了规则 1。
-         
-         注意
-         这些规则不会影响类的实例如何创建。任何上图中展示的构造器都可以用来创建完全初始化的实例。这些规则只影响类定义如何实现。
-         
-         下面图例中展示了一种涉及四个类的更复杂的类层级结构。它演示了指定构造器是如何在类层级中充当“管道”的作用，在类的构造器链上简化了类之间的相互关系。
-         复杂构造器代理图
-         图片 2.15 复杂构造器代理图
-         */
-        
-        // MARK: ====两段式构造过程====
-        /*Swift 中类的构造过程包含两个阶段。第一个阶段，每个存储型属性被引入它们的类指定一个初始值。当每个存 储型属性的初始值被确定后，第二阶段开始，它给每个类一次机会，在新实例准备使用之前进一步定制它们的存 储型属性。
-         两段式构造过程的使用让构造过程更安全，同时在整个类层级结构中给予了每个类完全的灵活性。两段式构造过
-         程可以防止属性值在初始化之前被访问，也可以防止属性被另外一个构造器意外地赋予不同的值。
-         注意
-         Swift 的两段式构造过程跟 Objective-C 中的构造过程类似。最主要的区别在于阶段 1，Objective-C 给每一 个属性赋值 0 或空值(比如说 0 或 nil )。Swift 的构造流程则更加灵活，它允许你设置定制的初始值，并自 如应对某些属性不能以 0 或 nil 作为合法默认值的情况。
-         Swift 编译器将执行 4 种有效的安全检查，以确保两段式构造过程能不出错地完成:
-         安全检查 1 指定构造器必须保证它所在类引入的所有属性都必须先初始化完成，之后才能将其它构造任务向上代理给父类中 的构造器。
-         如上所述，一个对象的内存只有在其所有存储型属性确定之后才能完全初始化。为了满足这一规则，指定构造器
-         必须保证它所在类引入的属性在它往上代理之前先完成初始化。
-         
-         安全检查 2 指定构造器必须先向上代理调用父类构造器，然后再为继承的属性设置新值。如果没这么做，指定构造器赋予的 新值将被父类中的构造器所覆盖。
-         
-         安全检查 3 便利构造器必须先代理调用同一类中的其它构造器，然后再为任意属性赋新值。如果没这么做，便利构造器赋予 的新值将被同一类中其它指定构造器所覆盖。
-         
-         安全检查 4
-         构造器在第一阶段构造完成之前，不能调用任何实例方法，不能读取任何实例属性的值，不能引用 self 作为一个 值。
-         
-         类实例在第一阶段结束以前并不是完全有效的。只有第一阶段完成后，该实例才会成为有效实例，才能访问属性和调用方法。
-         以下是两段式构造过程中基于上述安全检查的构造流程展示:
-         
-         
-         阶段 1
-         • 某个指定构造器或便利构造器被调用。
-         • 完成新实例内存的分配，但此时内存还没有被初始化。
-         • 指定构造器确保其所在类引入的所有存储型属性都已赋初值。存储型属性所属的内存完成初始化。
-         • 指定构造器将调用父类的构造器，完成父类属性的初始化。
-         • 这个调用父类构造器的过程沿着构造器链一直往上执行，直到到达构造器链的最顶部。
-         • 当到达了构造器链最顶部，且已确保所有实例包含的存储型属性都已经赋值，这个实例的内存被认为已经完 全初始化。此时阶段 1 完成。
-         阶段 2
-         • 从顶部构造器链一直往下，每个构造器链中类的指定构造器都有机会进一步定制实例。构造器此时可以访问 self 、修改它的属性并调用实例方法等等。
-         • 最终，任意构造器链中的便利构造器可以有机会定制实例和使用 self 。 下图展示了在假定的子类和父类之间的构造阶段 1:
-         
-         
-         构建过程阶段1
-         图片 2.16 构建过程阶段1
-         在这个例子中，构造过程从对子类中一个便利构造器的调用开始。这个便利构造器此时没法修改任何属性，它把构造任务代理给同一类中的指定构造器。
-         如安全检查 1 所示，指定构造器将确保所有子类的属性都有值。然后它将调用父类的指定构造器，并沿着构造器 链一直往上完成父类的构造过程。
-         父类中的指定构造器确保所有父类的属性都有值。由于没有更多的父类需要初始化，也就无需继续向上代理。 一旦父类中所有属性都有了初始值，实例的内存被认为是完全初始化，阶段 1 完成。 以下展示了相同构造过程的阶段 2:
-         
-         构建过程阶段2
-         图片 2.17 构建过程阶段2
-         父类中的指定构造器现在有机会进一步来定制实例(尽管这不是必须的)。 一旦父类中的指定构造器完成调用，子类中的指定构造器可以执行更多的定制操作(这也不是必须的)。 最终，一旦子类的指定构造器完成调用，最开始被调用的便利构造器可以执行更多的定制操作。
-
-         */
-        
-        // MARK:====构造器的继承和重写====
-        /*
-         跟 Objective-C 中的子类不同，Swift 中的子类默认情况下不会继承父类的构造器。Swift 的这种机制可以防止 一个父类的简单构造器被一个更精细的子类继承，并被错误地用来创建子类的实例。
-         注意
-         父类的构造器仅会在安全和适当的情况下被继承。具体内容请参考后续章节构造器的自动继承 (页 0)。
-         假如你希望自定义的子类中能提供一个或多个跟父类相同的构造器，你可以在子类中提供这些构造器的自定义实现。
-         
-         当你在编写一个和父类中指定构造器相匹配的子类构造器时，你实际上是在重写父类的这个指定构造器。因此，你必须在定义子类构造器时带上   override修饰符。即使你重写的是系统自动提供的默认构造器，也需要带上override修饰符，具体内容请参考默认构造器 (页 0)。
-         正如重写属性，方法或者是下标，override修饰符会让编译器去检查父类中是否有相匹配的指定构造器，并验证构造器参数是否正确。
-         
-         注意
-         当你重写一个父类的指定构造器时，你总是需要写override修饰符，即使你的子类将父类的指定构造器重写成了便利构造器。
-         相反，如果你编写了一个和父类便利构造器相匹配的子类构造器，由于子类不能直接调用父类的便利构造器(每个规则都在上文类的构造器代理规则 (页 0)有所描述)，因此，严格意义上来讲，你的子类并未对一个父类构造 器提供重写。最后的结果就是，你在子类中“重写”一个父类便利构造器时，不需要加override前缀。
-         
-         在下面的例子中定义了一个叫Vehicle的基类。基类中声明了一个存储型属性numberOfWheels
-         类型的存储型属性。 属性用于创建名为0的 Int  类型的计算型属性:
-         */
-        class Vehicle {
-            var numberOfWheels = 0
-            var description: String {
-                return ("\(numberOfWheels) wheel(s)")
-            }
-        }
-        /*类只为存储型属性提供默认值，而不自定义构造器。因此，它会自动获得一个默认构造器，具体内容请 参考默认构造器 (页 0)。自动获得的默认构造器总会是类中的指定构造器，它可以用于创建numberOfWheel为0的  Vehicle 实例:
-         */
-        let vehicle = Vehicle()
-        print("Vehicle: \(vehicle.description)")// Vehicle: 0 wheel(s)
-        
-        
-        // 下面例子中定义了一个 Vehicle 的子类 Bicycle :
-        class Bicycle: Vehicle {
-            override init(){
-                super.init()
-                numberOfWheels = 2
-            }
-        }
-        
-        
-        /*子类 Bicycle 定义了一个自定义指定构造器 init() 。这个指定构造器和父类的指定构造器相匹配，所以 Bicycle 中的指定构造器需要带上 override 修饰符。
-         Bicycle 的构造器 init() 以调用 super.init() 方法开始，这个方法的作用是调用 Bicycle 的父类 Vehicle 的默认构造器。这样可以确保 Bicycle 在修改属性之前，它所继承的属性 numberOfWheels 能被 Vehicle 类初始化。在 调用 super.init() 之后，属性 numberOfWheels 的原值被新值 2 替换。
-         如果你创建一个 Bicycle 实例，你可以调用继承的 description 计算型属性去查看属性 numberOfWheels 是否有改变:
-         */
-        let bicycle = Bicycle()
-        print("Bicycle: \(bicycle.description)") // 打印 "Bicycle: 2 wheel(s)"
-        /*
-         注意
-         子类可以在初始化时修改继承来的变量属性，但是不能修改继承来的常量属性。
-         */
-        
-        // MARK:====构造器的自动继承====
-        /*如上所述，子类在默认情况下不会继承父类的构造器。但是如果满足特定条件，父类构造器是可以被自动继承
-         的。在实践中，这意味着对于许多常见场景你不必重写父类的构造器，并且可以在安全的情况下以最小的代价继
-         承父类的构造器。
-         假设你为子类中引入的所有新属性都提供了默认值，以下 2 个规则适用:
-         规则 1 如果子类没有定义任何指定构造器，它将自动继承所有父类的指定构造器。
-         规则 2
-         如果子类提供了所有父类指定构造器的实现——无论是通过规则 1 继承过来的，还是提供了自定义实现——它将 自动继承所有父类的便利构造器。
-         即使你在子类中添加了更多的便利构造器，这两条规则仍然适用。
-         
-         注意
-         对于规则 2，子类可以将父类的指定构造器实现为便利构造器。
-         */
-        
-        
-        // MARK:====指定构造器和便利构造器实践====
-        /*接下来的例子将在实践中展示指定构造器、便利构造器以及构造器的自动继承。这个例子定义了包含三个类 Food 、 RecipeIngredient 以及 ShoppingListItem 的类层次结构，并将演示它们的构造器是如何相互作用的。
-         类层次中的基类是 Food ，它是一个简单的用来封装食物名字的类。 Food 类引入了一个叫做 name 的 String 类型 的属性，并且提供了两个构造器来创建 Food 实例:
-         */
-        class Food {
-            var name: String
-            init(name: String) {
-                self.name = name
-            }
-            convenience init() {
-                self.init(name: "[Unnamed]")
-            }
-        }
-        
-        /*下图中展示了 Food 的构造器链:
-         Food构造器链
-         图片 2.18 Food构造器链
-         类类型没有默认的逐一成员构造器，所以 Food 类提供了一个接受单一参数 name 的指定构造器。这个构造器可以 使用一个特定的名字来创建新的 Food 实例:
-         */
-        let namedMeat = Food(name: "Bacon")
-        // namedMeat 的名字是 "Bacon”
-        
-        /*
-         Food 类中的构造器 init(name: String) 被定义为一个指定构造器，因为它能确保 Food 实例的所有存储型属性都被初始化。 Food 类没有父类，所以 init(name: String) 构造器不需要调用 super.init() 来完成构造过程。
-         Food 类同样提供了一个没有参数的便利构造器 init() 。这个 init() 构造器为新食物提供了一个默认的占位名字，通过横向代理到指定构造器 init(name: String) 并给参数 name 传值 [Unnamed] 来实现:
-         */
-        let mysteryMeat = Food()
-         // mysteryMeat 的名字是 [Unnamed]
-        
-        /*类层级中的第二个类是 Food 的子类 RecipeIngredient 。 RecipeIngredient 类用来表示食谱中的一项原料。它引入了 Int 类型的属性 quantity (以及从 Food 继承过来的 name 属性)，并且定义了两个构造器来创建 RecipeIng redient 实例:
-         */
-        
-        class RecipeIngredient: Food {
-            var quantity: Int
-            init(name: String, quantity: Int) {
-                self.quantity = quantity
-                super.init(name: name)
-            }
-            
-            override convenience init(name: String) {
-                self.init(name: name, quantity: 1)
-            }
-        }
-        
-        /*下图中展示了 RecipeIngredient 类的构造器链:
-         RecipeIngredient构造器
-         图片 2.19 RecipeIngredient构造器
-         RecipeIngredient 类拥有一个指定构造器 init(name: String, quantity: Int) ，它可以用来填充 RecipeIngredient 实例的所有属性值。这个构造器一开始先将传入的 quantity 参数赋值给 quantity 属性，这个属性也是唯一在RecipeIngredient 中新引入的属性。随后，构造器向上代理到父类 Food 的 init(name: String) 。这个过程满足两段式构造过程 (页 0)中的安全检查 1。
-         RecipeIngredient还定义了一个便利构造器 init(name: Sring)，它只通过name来创建RecipeIngredient的实例。这个便利构造器假设任意实例的quantity为 1，所以不需要显式指明数量即可创建出实例。这个便利构造器的定义可以更加方便和快捷地创建实例，并且避免了创建多个
-         实例时的代码重复。这个便利构造器只是简单地横向代理到类中的指定构造器，并为
-         。
-         注意，  RecipeIngredient 的便利构造器 init(name: Sring)使用了跟  Food 中指定构造器init(name: Sring)相同的参数。
-         由于这个便利构造器重写了父类的指定构造器 ，因此必须在前面使用override饰符(参见构造器的继承和重写 (页 0))。
-         
-     
-         尽管 RecipeIngredient将父类的指定构造器重写为了便利构造器，它依然提供了父类的所有指定构造器的实现。因此，
-         RecipeIngredient会自动继承父类的所有便利构造器。
-         
-         在这个例子中，RecipeIngredient的父类是Food，它有一个便利构造器  init() 。这个便利构造器会被RecipeIngredient 继承。这个继承版本的init()在功能上跟 Food提供的版本是一样的，只是它会代理到RecipeIngredient版本的 init(name: String)  而不是 Food 提供的版本。
-         */
-        
-//        所有的这三种构造器都可以用来创建新的RecipeIngredient
-        let oneMysteryItem = RecipeIngredient()
-        let oneBacon = RecipeIngredient(name: "Bacon")
-        let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
-        
-        /*
-         类层级中第三个也是最后一个类是RecipeIngredient的子类，叫做ShoppingListItem 。这个类构建了购物单中出现的某一种食谱原料。
-         购物单中的每一项总是从未购买状态开始的。为了呈现这一事实，ShoppingListItem引入了一个布尔类型的属性 purchased，它的默认值是 false  。
-         还添加了一个计算型属性description，它提供了关于ShoppingListItem实例的一些文字描述:
-         */
-        class ShoppingListItem2: RecipeIngredient {
-            var purchased = false
-            var description: String {
-                var output = "\(quantity) x \(name)"
-                output += purchased ? " ✔" : " ✘"
-                return output
-            }
-        }
-        /*注意
-         ShoppingListItem 没有定义构造器来为 purchased 提供初始值，因为添加到购物单的物品的初始状态总是未购买。
-         由于它为自己引入的所有属性都提供了默认值，并且自己没有定义任何构造器， ShoppingListItem 将自动继承所有父类中的指定构造器和便利构造器。
-         下图展示了这三个类的构造器链:
-         三类构造器图
-         图片 2.20 三类构造器图
-         你可以使用全部三个继承来的构造器来创建 ShoppingListItem 的新实例:
-         */
-        var breakfastList = [
-        ShoppingListItem2(),
-        ShoppingListItem2(name: "Bacon"),
-        ShoppingListItem2(name: "Eggs", quantity: 6),
-        ]
-        
-        breakfastList[0].name = "Orange juice"
-        breakfastList[0].purchased = true
-        
-        for item in breakfastList {
-            print(item.description)
-        }
-        
-        /*
-         如上所述，例子中通过字面量方式创建了一个数组 breakfastList ，它包含了三个 ShoppingListItem 实例，因此 数组的类型也能被自动推导为 [ShoppingListItem] 。在数组创建完之后，数组中第一个 ShoppingListItem 实例的 名字从 [Unnamed] 更改为 Orange juice ，并标记为已购买。打印数组中每个元素的描述显示了它们都已按照预期被赋值。
-         */
-        
-        
-        // MARK: - 可失败构造器
-        /*
-         如果一个类、结构体或枚举类型的对象，在构造过程中有可能失败，则为其定义一个可失败构造器。这里所指
-         的“失败”是指，如给构造器传入无效的参数值，或缺少某种所需的外部资源，又或是不满足某种必要的条件
-         等。
-         
-         第 2 章 Swift 教程 | 199
-         为了妥善处理这种构造过程中可能会失败的情况。你可以在一个类，结构体或是枚举类型的定义中，添加一个或 多个可失败构造器。其语法为在 init 关键字后面添加问号( init? )。
-         注意
-         可失败构造器的参数名和参数类型，不能与其它非可失败构造器的参数名，及其参数类型相同。
-         可失败构造器会创建一个类型为自身类型的可选类型的对象。你通过 return nil 语句来表明可失败构造器在何种 情况下应该“失败”。
-         注意 严格来说，构造器都不支持返回值。因为构造器本身的作用，只是为了确保对象能被正确构造。因此你只是用 r eturn nil 表明可失败构造器构造失败，而不要用关键字 return 来表明构造成功。
-         下例中，定义了一个名为 Animal 的结构体，其中有一个名为 species 的 String 类型的常量属性。同时该结构体 还定义了一个接受一个名为 species 的 String 类型参数的可失败构造器。这个可失败构造器检查传入的参数是否 为一个空字符串。如果为空字符串，则构造失败。否则， species 属性被赋值，构造成功。
-         struct Animal {
-         let species: String
-         init?(species: String) {
-         if species.isEmpty { return nil }
-         self.species = species
-         }
-         }
-         你可以通过该可失败构造器来构建一个 Animal 的实例，并检查构造过程是否成功:
-         let someCreature = Animal(species: "Giraffe") // someCreature 的类型是 Animal? 而不是 Animal
-         if let giraffe = someCreature {
-         print("An animal was initialized with a species of \(giraffe.species)")
-         }
-         // 打印 "An animal was initialized with a species of Giraffe"
-         如果你给该可失败构造器传入一个空字符串作为其参数，则会导致构造失败:
-         let anonymousCreature = Animal(species: "")
-         // anonymousCreature 的类型是 Animal?, 而不是 Animal
-         if anonymousCreature == nil {
-         print("The anonymous creature could not be initialized")
-         }
-         // 打印 "The anonymous creature could not be initialized"
-         注意
-         空字符串(如 "" ，而不是 "Giraffe" )和一个值为 nil 的可选类型的字符串是两个完全不同的概念。上例中的 空字符串( "" )其实是一个有效的，非可选类型的字符串。这里我们之所以让 Animal 的可失败构造器构造失 败，只是因为对于 Animal 这个类的 species 属性来说，它更适合有一个具体的值，而不是空字符串。
-         
-         第 2 章 Swift 教程 | 200
-         枚举类型的可失败构造器
-         你可以通过一个带一个或多个参数的可失败构造器来获取枚举类型中特定的枚举成员。如果提供的参数无法匹配
-         任何枚举成员，则构造失败。
-         下例中，定义了一个名为 TemperatureUnit 的枚举类型。其中包含了三个可能的枚举成员( Kelvin ， Celsiu s ，和 Fahrenheit )，以及一个根据 Character 值找出所对应的枚举成员的可失败构造器:
-         enum TemperatureUnit {
-         case Kelvin, Celsius, Fahrenheit
-         init?(symbol: Character) {
-         switch symbol {
-         case "K":
-         self = .Kelvin
-         case "C":
-         self = .Celsius
-         case "F":
-         self = .Fahrenheit
-         default:
-         return nil }
-         } }
-         你可以利用该可失败构造器在三个枚举成员中获取一个相匹配的枚举成员，当参数的值不能与任何枚举成员相匹
-         配时，则构造失败:
-         let fahrenheitUnit = TemperatureUnit(symbol: "F")
-         if fahrenheitUnit != nil {
-         print("This is a defined temperature unit, so initialization succeeded.")
-         }
-         // 打印 "This is a defined temperature unit, so initialization succeeded."
-         let unknownUnit = TemperatureUnit(symbol: "X")
-         if unknownUnit == nil {
-         print("This is not a defined temperature unit, so initialization failed.")
-         }
-         // 打印 "This is not a defined temperature unit, so initialization failed." 带原始值的枚举类型的可失败构造器
-         带原始值的枚举类型会自带一个可失败构造器 init?(rawValue:) ，该可失败构造器有一个名为 rawValue 的参 数，其类型和枚举类型的原始值类型一致，如果该参数的值能够和某个枚举成员的原始值匹配，则该构造器会构 造相应的枚举成员，否则构造失败。
-         因此上面的 TemperatureUnit 的例子可以重写为:
-         enum TemperatureUnit: Character {
-         case Kelvin = "K", Celsius = "C", Fahrenheit = "F"
-         }
-         
-         第 2 章 Swift 教程 | 201
-         let fahrenheitUnit = TemperatureUnit(rawValue: "F")
-         if fahrenheitUnit != nil {
-         print("This is a defined temperature unit, so initialization succeeded.")
-         }
-         // 打印 "This is a defined temperature unit, so initialization succeeded."
-         let unknownUnit = TemperatureUnit(rawValue: "X")
-         if unknownUnit == nil {
-         print("This is not a defined temperature unit, so initialization failed.")
-         }
-         // 打印 "This is not a defined temperature unit, so initialization failed." 构造失败的传递
-         类，结构体，枚举的可失败构造器可以横向代理到类型中的其他可失败构造器。类似的，子类的可失败构造器也
-         能向上代理到父类的可失败构造器。
-         无论是向上代理还是横向代理，如果你代理到的其他可失败构造器触发构造失败，整个构造过程将立即终止，接
-         下来的任何构造代码不会再被执行。
-         注意
-         可失败构造器也可以代理到其它的非可失败构造器。通过这种方式，你可以增加一个可能的失败状态到现有的构
-         造过程中。
-         下面这个例子，定义了一个名为 CartItem 的 Product 类的子类。这个类建立了一个在线购物车中的物品的模 型，它有一个名为 quantity 的常量存储型属性，并确保该属性的值至少为 1 :
-         class Product {
+         第 2 章 Swift 教程 | 210
+         此外，当实例不再被使用时，ARC 释放实例所占用的内存，并让释放的内存能挪作他用。这确保了不再被使用的 实例，不会一直占用内存空间。
+         然而，当 ARC 收回和释放了正在被使用中的实例，该实例的属性和方法将不能再被访问和调用。实际上，如果你 试图访问这个实例，你的应用程序很可能会崩溃。
+         为了确保使用中的实例不会被销毁，ARC 会跟踪和计算每一个实例正在被多少属性，常量和变量所引用。哪怕实 例的引用数为1，ARC都不会销毁这个实例。
+         为了使上述成为可能，无论你将实例赋值给属性、常量或变量，它们都会创建此实例的强引用。之所以称之
+         为“强”引用，是因为它会将实例牢牢地保持住，只要强引用还在，实例是不允许被销毁的。
+         自动引用计数实践
+         下面的例子展示了自动引用计数的工作机制。例子以一个简单的 Person 类开始，并定义了一个叫 name 的常量属 性:
+         class Person {
          let name: String
-         init?(name: String) {
-         if name.isEmpty { return nil }
+         init(name: String) {
          self.name = name
+         print("\(name) is being initialized")
          }
-         }
-         class CartItem: Product {
-         let quantity: Int
-         init?(name: String, quantity: Int) {
-         if quantity < 1 { return nil }
-         self.quantity = quantity
-         super.init(name: name)
+         deinit {
+         print("\(name) is being deinitialized")
          } }
-         CartItem 可失败构造器首先验证接收的 quantity 值是否大于等于 1 。倘若 quantity 值无效，则立即终止 整个构造过程，返回失败结果，且不再执行余下代码。同样地，Product 的可失败构造器首先检查 name 值，假如 name 值为空字符串，则构造器立即执行失败。
-         如果你通过传入一个非空字符串 name 以及一个值大于等于 1 的 quantity 来创建一个 CartItem 实例，那 么构造方法能够成功被执行:
-         
-         第 2 章 Swift 教程 | 202
-         if let twoSocks = CartItem(name: "sock", quantity: 2) {
-         print("Item: \(twoSocks.name), quantity: \(twoSocks.quantity)")
+         Person 类有一个构造函数，此构造函数为实例的 name 属性赋值，并打印一条消息以表明初始化过程生效。 on 类也拥有一个析构函数，这个析构函数会在实例被销毁时打印一条消息。
+         接下来的代码片段定义了三个类型为 Person? 的变量，用来按照代码片段中的顺序，为新的 Person 实例建立多个 引用。由于这些变量是被定义为可选类型( Person? ，而不是 Person )，它们的值会被自动初始化为 nil ，目 前还不会引用到 Person 类的实例。
+         Pers
+         var reference1: Person?
+         var reference2: Person?
+         var reference3: Person?
+         现在你可以创建 Person 类的新实例，并且将它赋值给三个变量中的一个:
+         reference1 = Person(name: "John Appleseed")
+         // 打印 "John Appleseed is being initialized”
+         应当注意到当你调用 Person 类的构造函数的时候， “John Appleseed is being initialized” 会被打印出来。由 此可以确定构造函数被执行。
+         第 2 章 Swift 教程 | 211
+         由于 Person 类的新实例被赋值给了 reference1 变量，所以 reference1 到 Person 类的新实例之间建立了一个强 引用。正是因为这一个强引用，ARC 会保证 Person 实例被保持在内存中不被销毁。
+         如果你将同一个 Person 实例也赋值给其他两个变量，该实例又会多出两个强引用: reference2 = reference1
+         reference3 = reference1
+         现在这一个 Person 实例已经有三个强引用了。
+         如果你通过给其中两个变量赋值 nil 的方式断开两个强引用(包括最先的那个强引用)，只留下一个强引用， rson 实例不会被销毁:
+         reference1 = nil
+         reference2 = nil
+         在你清楚地表明不再使用这个 Person 实例时，即第三个也就是最后一个强引用被断开时，ARC 会销毁它: reference3 = nil
+         // 打印 “John Appleseed is being deinitialized”
+         类实例之间的循环强引用
+         在上面的例子中，ARC 会跟踪你所新创建的 Person 实例的引用数量，并且会在 Person 实例不再被需要时销毁 它。
+         然而，我们可能会写出一个类实例的强引用数永远不能变成 0 的代码。如果两个类实例互相持有对方的强引 用，因而每个实例都让对方一直存在，就是这种情况。这就是所谓的循环强引用。
+         你可以通过定义类之间的关系为弱引用或无主引用，以替代强引用，从而解决循环强引用的问题。具体的过程在 解决类实例之间的循环强引用 (页 0)中有描述。不管怎样，在你学习怎样解决循环强引用之前，很有必要了解一 下它是怎样产生的。
+         下面展示了一个不经意产生循环强引用的例子。例子定义了两个类: Person 和 Apartment ，用来建模公寓和它其 中的居民:
+         Pe
+         class Person {
+         let name: String
+         init(name: String) { self.name = name }
+         var apartment: Apartment?
+         deinit { print("\(name) is being deinitialized") }
          }
-         // 打印 "Item: sock, quantity: 2”
-         倘若你以一个值为 0 的 quantity 来创建一个 CartItem 实例，那么将导致 CartItem 构造器失败:
-         if let zeroShirts = CartItem(name: "shirt", quantity: 0) {
-         print("Item: \(zeroShirts.name), quantity: \(zeroShirts.quantity)")
-         } else {
-         print("Unable to initialize zero shirts")
+         class Apartment {
+         let unit: String
+         init(unit: String) { self.unit = unit }
+         var tenant: Person?
+         第 2 章 Swift 教程 | 212
+         deinit { print("Apartment \(unit) is being deinitialized") }
          }
-         // 打印 "Unable to initialize zero shirts”
-         同样地，如果你尝试传入一个值为空字符串的 name 来创建一个 CartItem 实例，那么将导致父类 Product 的 构造过程失败:
-         if let oneUnnamed = CartItem(name: "", quantity: 1) {
-         print("Item: \(oneUnnamed.name), quantity: \(oneUnnamed.quantity)")
-         } else {
-         print("Unable to initialize one unnamed product")
-         }
-         // 打印 "Unable to initialize one unnamed product”
-         重写一个可失败构造器
-         如同其它的构造器，你可以在子类中重写父类的可失败构造器。或者你也可以用子类的非可失败构造器重写一个
-         父类的可失败构造器。这使你可以定义一个不会构造失败的子类，即使父类的构造器允许构造失败。
-         注意，当你用子类的非可失败构造器重写父类的可失败构造器时，向上代理到父类的可失败构造器的唯一方式是
-         对父类的可失败构造器的返回值进行强制解包。
+         每一个 Person 实例有一个类型为 String ，名字为 name 的属性，并有一个可选的初始化为 nil 的 apartment 属 性。 apartment 属性是可选的，因为一个人并不总是拥有公寓。
+         类似的，每个 Apartment 实例有一个叫 unit ，类型为 String 的属性，并有一个可选的初始化为 nil 的 tenant 属性。 tenant 属性是可选的，因为一栋公寓并不总是有居民。
+         这两个类都定义了析构函数，用以在类实例被析构的时候输出信息。这让你能够知晓 Person 和 Apartment 的实例 是否像预期的那样被销毁。
+         接下来的代码片段定义了两个可选类型的变量 john 和 unit4A ，并分别被设定为下面的 Apartment 和 Person 的 实例。这两个变量都被初始化为 nil ，这正是可选类型的优点:
+         var john: Person?
+         var unit4A: Apartment?
+         现在你可以创建特定的 Person 和 Apartment 实例并将赋值给 john 和 unit4A 变量:
+         john = Person(name: "John Appleseed")
+         unit4A = Apartment(unit: "4A")
+         在两个实例被创建和赋值后，下图表现了强引用的关系。变量 john 现在有一个指向 Person 实例的强引用，而变 量 unit4A 有一个指向 Apartment 实例的强引用:
+         现在你能够将这两个实例关联在一起，这样人就能有公寓住了，而公寓也有了房客。注意感叹号是用来展开和访 问可选变量 john 和 unit4A 中的实例，这样实例的属性才能被赋值:
+         john!.apartment = unit4A
+         unit4A!.tenant = john
+         在将两个实例联系在一起之后，强引用的关系如图所示:
+         不幸的是，这两个实例关联后会产生一个循环强引用。 Person 实例现在有了一个指向 Apartment 实例的强引 用，而 Apartment 实例也有了一个指向 Person 实例的强引用。因此，当你断开 john 和 unit4A 变量所持有的强 引用时，引用计数并不会降为 0 ，实例也不会被 ARC 销毁:
+         john = nil
+         unit4A = nil
+         注意，当你把这两个变量设为 nil 时，没有任何一个析构函数被调用。循环强引用会一直阻止 Person 和 Apartme nt 类实例的销毁，这就在你的应用程序中造成了内存泄漏。
+         第 2 章 Swift 教程 | 213
+         在你将 john 和 unit4A 赋值为 nil 后，强引用关系如下图:
+         Person 和 Apartment 实例之间的强引用关系保留了下来并且不会被断开。
+         解决实例之间的循环强引用
+         Swift 提供了两种办法用来解决你在使用类的属性时所遇到的循环强引用问题:弱引用(weak reference)和无 主引用(unowned reference)。
+         弱引用和无主引用允许循环引用中的一个实例引用而另外一个实例不保持强引用。这样实例能够互相引用而不产
+         生循环强引用。
+         当其他的实例有更短的生命周期时，使用弱引用，也就是说，当其他实例析构在先时。在上面公寓的例子中，很
+         显然一个公寓在它的生命周期内会在某个时间段没有它的主人，所以一个弱引用就加在公寓类里面，避免循环引
+         用。相比之下，当其他实例有相同的或者更长生命周期时，请使用无主引用。
+         弱引用
+         弱引用不会对其引用的实例保持强引用，因而不会阻止 ARC 销毁被引用的实例。这个特性阻止了引用变为循环强
+         引用。声明属性或者变量时，在前面加上 weak 关键字表明这是一个弱引用。
+         因为弱引用不会保持所引用的实例，即使引用存在，实例也有可能被销毁。因此，ARC 会在引用的实例被销毁后 自动将其赋值为 nil 。并且因为弱引用可以允许它们的值在运行时被赋值为 nil ，所以它们会被定义为可选类型 变量，而不是常量。
+         你可以像其他可选值一样，检查弱引用的值是否存在，你将永远不会访问已销毁的实例的引用。
          注意
-         你可以用非可失败构造器重写可失败构造器，但反过来却不行。
-         下例定义了一个名为 Document 的类， name 属性的值必须为一个非空字符串或 nil ，但不能是一个空字符串:
-         class Document {
-         var name: String?
-         // 该构造器创建了一个 name 属性的值为 nil 的 document 实例 init() {}
-         // 该构造器创建了一个 name 属性的值为非空字符串的 document 实例 init?(name: String) {
+         当 ARC 设置弱引用为 nil 时，属性观察不会被触发。
+         下面的例子跟上面 Person 和 Apartment 的例子一致，但是有一个重要的区别。这一次， Apartment 的 tenant 属 性被声明为弱引用:
+         class Person {
+         let name: String
+         init(name: String) { self.name = name }
+         var apartment: Apartment?
+         deinit { print("\(name) is being deinitialized") }
+         }
+         class Apartment {
+         第 2 章 Swift 教程 | 214
+         let unit: String
+         init(unit: String) { self.unit = unit }
+         weak var tenant: Person?
+         deinit { print("Apartment \(unit) is being deinitialized") }
+         }
+         然后跟之前一样，建立两个变量( john 和 unit4A )之间的强引用，并关联两个实例:
+         var john: Person?
+         var unit4A: Apartment?
+         john = Person(name: "John Appleseed")
+         unit4A = Apartment(unit: "4A")
+         john!.apartment = unit4A
+         unit4A!.tenant = john
+         现在，两个关联在一起的实例的引用关系如下图所示:
+         Person 实例依然保持对 Apartment 实例的强引用，但是 Apartment 实例只持有对 Person 实例的弱引用。这意味 着当你断开 john 变量所保持的强引用时，再也没有指向 Person 实例的强引用了:
+         由于再也没有指向 Person 实例的强引用，该实例会被销毁:
+         john = nil
+         // 打印 “John Appleseed is being deinitialized”
+         唯一剩下的指向 Apartment 实例的强引用来自于变量 unit4A 。如果你断开这个强引用，再也没有指向 Apartment 实例的强引用了:
+         由于再也没有指向 Apartment 实例的强引用，该实例也会被销毁:
+         unit4A = nil
+         // 打印 “Apartment 4A is being deinitialized”
+         上面的两段代码展示了变量 john 和 unit4A 在被赋值为 nil 后， Person 实例和 Apartment 实例的析构函数都打 印出“销毁”的信息。这证明了引用循环被打破了。
+         注意 在使用垃圾收 的系统里，弱指针有时用来实现简单的缓冲机制，因为没有强引用的对象只会在内存压力触发垃 圾收 时才被销毁。但是在 ARC 中，一旦值的最后一个强引用被移除，就会被立即销毁，这导致弱引用并不适 合上面的用途。
+         
+         第 2 章 Swift 教程 | 215
+         无主引用
+         和弱引用类似，无主引用不会牢牢保持住引用的实例。和弱引用不同的是，无主引用在其他实例有相同或者更长 的生命周期时使用。你可以在声明属性或者变量时，在前面加上关键字 unowned 表示这是一个无主引用。
+         无主引用通常都被期望拥有值。不过 ARC 无法在实例被销毁后将无主引用设为 nil ，因为非可选类型的变量不允 许被赋值为 nil 。
+         重要
+         使用无主引用，你必须确保引用始终指向一个未销毁的实例。
+         如果你试图在实例被销毁后，访问该实例的无主引用，会触发运行时错误。
+         下面的例子定义了两个类， Customer 和 CreditCard ，模拟了银行客户和客户的信用卡。这两个类中，每一个都 将另外一个类的实例作为自身的属性。这种关系可能会造成循环强引用。
+         Customer 和 CreditCard 之间的关系与前面弱引用例子中 Apartment 和 Person 的关系略微不同。在这个数据模型 中，一个客户可能有或者没有信用卡，但是一张信用卡总是关联着一个客户。为了表示这种关系， Customer 类有 一个可选类型的 card 属性，但是 CreditCard 类有一个非可选类型的 customer 属性。
+         此外，只能通过将一个 number 值和 customer 实例传递给 CreditCard 构造函数的方式来创建 CreditCard 实 例。这样可以确保当创建 CreditCard 实例时总是有一个 customer 实例与之关联。
+         由于信用卡总是关联着一个客户，因此将 customer 属性定义为无主引用，用以避免循环强引用:
+         class Customer {
+         let name: String
+         var card: CreditCard?
+         init(name: String) {
          self.name = name
-         if name.isEmpty { return nil }
          }
+         deinit { print("\(name) is being deinitialized") }
          }
-         下面这个例子，定义了一个 Document 类的子类 AutomaticallyNamedDocument 。这个子类重写了父类的两个指定构 造器，确保了无论是使用 init() 构造器，还是使用 init(name:) 构造器并为参数传递空字符串，生成的实例中的
-         name 属性总有初始 "[Untitled]" :
-         第 2 章 Swift 教程 | 203
-         class AutomaticallyNamedDocument: Document {
-         override init() {
-         super.init()
-         self.name = "[Untitled]"
+         class CreditCard {
+         let number: UInt64
+         unowned let customer: Customer
+         init(number: UInt64, customer: Customer) {
+         self.number = number
+         self.customer = customer
          }
-         override init(name: String) {
-         super.init()
-         if name.isEmpty {
-         self.name = "[Untitled]"
-         } else {
-         self.name = name
-         } }
-         }
-         AutomaticallyNamedDocument 用一个非可失败构造器 init(name:) 重写了父类的可失败构造器 init?(name:) 。因 为子类用另一种方式处理了空字符串的情况，所以不再需要一个可失败构造器，因此子类用一个非可失败构造器 代替了父类的可失败构造器。
-         你可以在子类的非可失败构造器中使用强制解包来调用父类的可失败构造器。比如，下面的 UntitledDocument 子 类的 name 属性的值总是 "[Untitled]" ，它在构造过程中使用了父类的可失败构造器 init?(name:) :
-         class UntitledDocument: Document {
-         override init() {
-         super.init(name: "[Untitled]")!
-         }
-         }
-         在这个例子中，如果在调用父类的可失败构造器 init?(name:) 时传入的是空字符串，那么强制解包操作会引发运 行时错误。不过，因为这里是通过非空的字符串常量来调用它，所以并不会发生运行时错误。
-         可失败构造器 init!
-         通常来说我们通过在 init 关键字后添加问号的方式( init? )来定义一个可失败构造器，但你也可以通过在
-         t 后面添加惊叹号的方式来定义一个可失败构造器( init! )，该可失败构造器将会构建一个对应类型的隐式解 包可选类型的对象。
-         你可以在 init? 中代理到 init! ，反之亦然。你也可以用 init? 重写 init! ，反之亦然。你还可以用 init 代理 到 init! ，不过，一旦 init! 构造失败，则会触发一个断言。
-         */
-        // MARK: - 必要构造器
-        /*
-         在类的构造器前添加 required 修饰符表明所有该类的子类都必须实现该构造器:
-         ini
-         class SomeClass {
-         required init() {
-         // 构造器的实现代码
-         第 2 章 Swift 教程 | 204
-         } }
-         在子类重写父类的必要构造器时，必须在子类的构造器前也添加 required 修饰符，表明该构造器要求也应用于继 承链后面的子类。在重写父类中必要的指定构造器时，不需要添加 override 修饰符:
-         class SomeSubclass: SomeClass {
-         required init() {
-         // 构造器的实现代码 }
+         deinit { print("Card #\(number) is being deinitialized") }
          }
          注意
-         如果子类继承的构造器能满足必要构造器的要求，则无须在子类中显式提供必要构造器的实现。
-         */
-        // MARK: - 通过闭包或函数设置属性的默认值
-        /*
-         如果某个存储型属性的默认值需要一些定制或设置，你可以使用闭包或全局函数为其提供定制的默认值。每当某
-         个属性所在类型的新实例被创建时，对应的闭包或函数会被调用，而它们的返回值会当做默认值赋值给这个属
-         性。
-         这种类型的闭包或函数通常会创建一个跟属性类型相同的临时变量，然后修改它的值以满足预期的初始状态，最
-         后返回这个临时变量，作为属性的默认值。
-         下面介绍了如何用闭包为属性提供默认值:
-         class SomeClass {
-         let someProperty: SomeType = {
-         // 在这个闭包中给 someProperty 创建一个默认值 // someValue 必须和 SomeType 类型相同
-         return someValue
-         }() }
-         注意闭包结尾的大括号后面接了一对空的小括号。这用来告诉 Swift 立即执行此闭包。如果你忽略了这对括 号，相当于将闭包本身作为值赋值给了属性，而不是将闭包的返回值赋值给属性。
-         注意 如果你使用闭包来初始化属性，请记住在闭包执行时，实例的其它部分都还没有初始化。这意味着你不能在闭包 里访问其它属性，即使这些属性有默认值。同样，你也不能使用隐式的 self 属性，或者调用任何实例方法。
-         下面例子中定义了一个结构体 Checkerboard ，它构建了西洋跳棋游戏的棋盘:
-         西洋跳棋棋盘
-         图片 2.21 西洋跳棋棋盘
+         CreditCard 类的 number 属性被定义为 UInt64 类型而不是 Int 类型，以确保 number 属性的存储量在 32 位和
+         64 位系统上都能足够容纳 16 位的卡号。
          
-         第 2 章 Swift 教程 | 205
-         西洋跳棋游戏在一副黑白格交替的 10x10 的棋盘中进行。为了呈现这副游戏棋盘， Checkerboard 结构体定义了一 个属性 boardColors ，它是一个包含 100 个 Bool 值的数组。在数组中，值为 true 的元素表示一个黑格，值为 fa lse 的元素表示一个白格。数组中第一个元素代表棋盘上左上角的格子，最后一个元素代表棋盘上右下角的格 子。
-         boardColor 数组是通过一个闭包来初始化并设置颜色值的:
-         struct Checkerboard {
-         let boardColors: [Bool] = {
-         var temporaryBoard = [Bool]()
-         var isBlack = false
-         for i in 1...8 {
-         for j in 1...8 {
-         temporaryBoard.append(isBlack)
-         isBlack = !isBlack
+         第 2 章 Swift 教程 | 216
+         下面的代码片段定义了一个叫 john 的可选类型 Customer 变量，用来保存某个特定客户的引用。由于是可选类 型，所以变量被初始化为 nil :
+         var john: Customer?
+         现在你可以创建 Customer 类的实例，用它初始化 CreditCard 实例，并将新创建的 CreditCard 实例赋值为客户的 card 属性:
+         john = Customer(name: "John Appleseed")
+         john!.card = CreditCard(number: 1234_5678_9012_3456, customer: john!)
+         在你关联两个实例后，它们的引用关系如下图所示:
+         Customer 实例持有对 CreditCard 实例的强引用，而 CreditCard 实例持有对 Customer 实例的无主引用。 由于 customer 的无主引用，当你断开 john 变量持有的强引用时，再也没有指向 Customer 实例的强引用了:
+         由于再也没有指向 Customer 实例的强引用，该实例被销毁了。其后，再也没有指向 CreditCard 实例的强引 用，该实例也随之被销毁了:
+         john = nil
+         // 打印 “John Appleseed is being deinitialized”
+         // 打印 ”Card #1234567890123456 is being deinitialized”
+         最后的代码展示了在 john 变量被设为 nil 后 Customer 实例和 CreditCard 实例的构造函数都打印出了“销 毁”的信息。
+         注意 上面的例子展示了如何使用安全的无主引用。对于需要禁用运行时的安全检查的情况(例如，出于性能方面的原 因)，Swift还提供了不安全的无主引用。与所有不安全的操作一样，你需要负责检查代码以确保其安全性。 你 可以通过 unowned(unsafe) 来声明不安全无主引用。如果你试图在实例被销毁后，访问该实例的不安全无主引 用，你的程序会尝试访问该实例之前所在的内存地址，这是一个不安全的操作。
+         无主引用以及隐式解析可选属性
+         上面弱引用和无主引用的例子涵盖了两种常用的需要打破循环强引用的场景。
+         Person 和 Apartment 的例子展示了两个属性的值都允许为 nil ，并会潜在的产生循环强引用。这种场景最适合用 弱引用来解决。
+         
+         第 2 章 Swift 教程 | 217
+         Customer 和 CreditCard 的例子展示了一个属性的值允许为 nil ，而另一个属性的值不允许为 nil ，这也可能会 产生循环强引用。这种场景最适合通过无主引用来解决。
+         然而，存在着第三种场景，在这种场景中，两个属性都必须有值，并且初始化完成后永远不会为 nil 。在这种场 景中，需要一个类使用无主属性，而另外一个类使用隐式解析可选属性。
+         这使两个属性在初始化完成后能被直接访问(不需要可选展开)，同时避免了循环引用。这一节将为你展示如何
+         建立这种关系。
+         下面的例子定义了两个类， Country 和 City ，每个类将另外一个类的实例保存为属性。在这个模型中，每个国家 必须有首都，每个城市必须属于一个国家。为了实现这种关系， Country 类拥有一个 capitalCity 属性，而 City 类有一个 country 属性:
+         class Country {
+         let name: String
+         var capitalCity: City!
+         init(name: String, capitalName: String) {
+         self.name = name
+         self.capitalCity = City(name: capitalName, country: self)
          }
-         isBlack = !isBlack
          }
-         return temporaryBoard
-         }()
-         func squareIsBlackAtRow(row: Int, column: Int) -> Bool {
-         return boardColors[(row * 8) + column]
+         class City {
+         let name: String
+         unowned let country: Country
+         init(name: String, country: Country) {
+         self.name = name
+         self.country = country
+         }
+         }
+         为了建立两个类的依赖关系， City 的构造函数接受一个 Country 实例作为参数，并且将实例保存到 country 属 性。
+         Country 的构造函数调用了 City 的构造函数。然而，只有 Country 的实例完全初始化后， Country 的构造函数 才能把 self 传给 City 的构造函数。在两段式构造过程 (页 0)中有具体描述。
+         为了满足这种需求，通过在类型结尾处加上感叹号( City! )的方式，将 Country 的 capitalCity 属性声明为隐 式解析可选类型的属性。这意味着像其他可选类型一样， capitalCity 属性的默认值为 nil ，但是不需要展开它 的值就能访问它。在隐式解析可选类型 (页 0)中有描述。
+         由于 capitalCity 默认值为 nil ，一旦 Country 的实例在构造函数中给 name 属性赋值后，整个初始化过程就完 成了。这意味着一旦 name 属性被赋值后， Country 的构造函数就能引用并传递隐式的 self 。 Country 的构造函 数在赋值 capitalCity 时，就能将 self 作为参数传递给 City 的构造函数。
+         以上的意义在于你可以通过一条语句同时创建 Country 和 City 的实例，而不产生循环强引用，并且 的属性能被直接访问，而不需要通过感叹号来展开它的可选值:
+         capitalCity
+         第 2 章 Swift 教程 | 218
+         var country = Country(name: "Canada", capitalName: "Ottawa") print("\(country.name)'s capital city is called \(country.capitalCity.name)") // 打印 “Canada's capital city is called Ottawa”
+         在上面的例子中，使用隐式解析可选值意味着满足了类的构造函数的两个构造阶段的要求。 capitalCity 属性在 初始化完成后，能像非可选值一样使用和存取，同时还避免了循环强引用。
+         闭包引起的循环强引用
+         前面我们看到了循环强引用是在两个类实例属性互相保持对方的强引用时产生的，还知道了如何用弱引用和无主
+         引用来打破这些循环强引用。
+         循环强引用还会发生在当你将一个闭包赋值给类实例的某个属性，并且这个闭包体中又使用了这个类实例时。这 个闭包体中可能访问了实例的某个属性，例如 self.someProperty ，或者闭包中调用了实例的某个方法，例如 f.someMethod() 。这两种情况都导致了闭包“捕获” self ，从而产生了循环强引用。
+         循环强引用的产生，是因为闭包和类相似，都是引用类型。当你把一个闭包赋值给某个属性时，你是将这个闭包
+         的引用赋值给了属性。实质上，这跟之前的问题是一样的——两个强引用让彼此一直有效。但是，和两个类实例
+         不同，这次一个是类实例，另一个是闭包。
+         Swift 提供了一种优 的方法来解决这个问题，称之为 闭包捕获列表 (closure capture list)。同样的，在学 习如何用闭包捕获列表打破循环强引用之前，先来了解一下这里的循环强引用是如何产生的，这对我们很有帮 助。
+         下面的例子为你展示了当一个闭包引用了 self 后是如何产生一个循环强引用的。例子中定义了一个叫 t 的类，用一种简单的模型表示 HTML 文档中的一个单独的元素:
+         sel
+         HTMLElemen
+         class HTMLElement {
+         let name: String
+         let text: String?
+         lazy var asHTML: Void -> String = {
+         if let text = self.text {
+         return "<\(self.name)>\(text)</\(self.name)>"
+         } else {
+         return "<\(self.name) />"
+         }
+         }
+         init(name: String, text: String? = nil) {
+         self.name = name
+         self.text = text
+         }
+         deinit {
+         print("\(name) is being deinitialized")
+         }
+         第 2 章 Swift 教程 | 219
+         }
+         HTMLElement 类定义了一个 name 属性来表示这个元素的名称，例如代表头部元素的 "h1" ，代表段落
+         的 “p” ，或者代表换行的 “br” 。 HTMLElement 还定义了一个可选属性 text ，用来设置 HTML 元素呈现的文 本。
+         除了上面的两个属性， HTMLElement 还定义了一个 lazy 属性 asHTML 。这个属性引用了一个将 name 和 text 组合 成 HTML 字符串片段的闭包。该属性是 Void -> String 类型，或者可以理解为“一个没有参数，返回 String 的 函数”。
+         默认情况下，闭包赋值给了 asHTML 属性，这个闭包返回一个代表 HTML 标签的字符串。如果 text 值存在，该标 签就包含可选值 text ;如果 text 不存在，该标签就不包含文本。对于段落元素，根据 text 是 “some tex
+         t” 还是 nil ，闭包会返回 "<p>some text</p>" 或者 "<p />" 。
+         可以像实例方法那样去命名、使用 asHTML 属性。然而，由于 asHTML 是闭包而不是实例方法，如果你想改变特定 HTML 元素的处理方式的话，可以用自定义的闭包来取代默认值。
+         例如，可以将一个闭包赋值给 asHTML 属性，这个闭包能在 text 属性是 nil 时使用默认文本，这是为了避免返回 一个空的 HTML 标签:
+         let heading = HTMLElement(name: "h1")
+         let defaultText = "some default text"
+         heading.asHTML = {
+         return "<\(heading.name)>\(heading.text ?? defaultText)</\(heading.name)>"
+         }
+         print(heading.asHTML())
+         // 打印 “<h1>some default text</h1>”
+         注意
+         asHTML 声明为 lazy 属性，因为只有当元素确实需要被处理为 HTML 输出的字符串时，才需要使用 asHTML 。也
+         就是说，在默认的闭包中可以使用 self ，因为只有当初始化完成以及 self 确实存在后，才能访问 lazy 属性。
+         HTMLElement 类只提供了一个构造函数，通过 name 和 text (如果有的话)参数来初始化一个新元素。该类也定 义了一个析构函数，当 HTMLElement 实例被销毁时，打印一条消息。
+         下面的代码展示了如何用 HTMLElement 类创建实例并打印消息:
+         var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world") print(paragraph!.asHTML())
+         // 打印 “<p>hello, world</p>”
+         注意
+         上面的 paragraph 变量定义为可选类型的 HTMLElement ，因此我们可以赋值 nil 给它来演示循环强引用。
+         
+         第 2 章 Swift 教程 | 220
+         不幸的是，上面写的 HTMLElement 类产生了类实例和作为 asHTML 默认值的闭包之间的循环强引用。循环强引用如 下图所示:
+         实例的 asHTML 属性持有闭包的强引用。但是，闭包在其闭包体内使用了 self (引用了 self.name 和 self.tex
+         t )，因此闭包捕获了 self ，这意味着闭包又反过来持有了 HTMLElement 实例的强引用。这样两个对象就产生了 循环强引用。(更多关于闭包捕获值的信息，请参考值捕获 (页 0))。
+         注意
+         虽然闭包多次使用了 self ，它只捕获 HTMLElement 实例的一个强引用。
+         如果设置 paragraph 变量为 nil ，打破它持有的 HTMLElement 实例的强引用， HTMLElement 实例和它的闭包都不 会被销毁，也是因为循环强引用:
+         paragraph = nil
+         注意， HTMLElement 的析构函数中的消息并没有被打印，证明了 HTMLElement 实例并没有被销毁。
+         解决闭包引起的循环强引用
+         在定义闭包时同时定义捕获列表作为闭包的一部分，通过这种方式可以解决闭包和类实例之间的循环强引用。捕
+         获列表定义了闭包体内捕获一个或者多个引用类型的规则。跟解决两个类实例间的循环强引用一样，声明每个捕
+         获的引用为弱引用或无主引用，而不是强引用。应当根据代码关系来决定使用弱引用还是无主引用。
+         注意
+         Swift 有如下要求:只要在闭包内使用 self 的成员，就要用 self.someProperty 或者 self.someMethod() (而 不只是 someProperty 或 someMethod() )。这提醒你可能会一不小心就捕获了 self 。
+         定义捕获列表
+         捕获列表中的每一项都由一对元素组成，一个元素是 weak 或 unowned 关键字，另一个元素是类实例的引用(例如 self )或初始化过的变量(如 delegate = self.delegate! )。这些项在方括号中用逗号分开。
+         如果闭包有参数列表和返回类型，把捕获列表放在它们前面:
+         lazy var someClosure: (Int, String) -> String = {
+         [unowned self, weak delegate = self.delegate!] (index: Int, stringToProcess: String) -> String in // 这里是闭包的函数体
+         }
+         第 2 章 Swift 教程 | 221
+         如果闭包没有指明参数列表或者返回类型，即它们会通过上下文推断，那么可以把捕获列表和关键字 in 放在闭包 最开始的地方:
+         lazy var someClosure: Void -> String = {
+         [unowned self, weak delegate = self.delegate!] in // 这里是闭包的函数体
+         } 弱引用和无主引用
+         在闭包和捕获的实例总是互相引用并且总是同时销毁时，将闭包内的捕获定义为 无主引用 。
+         相反的，在被捕获的引用可能会变为 nil 时，将闭包内的捕获定义为 弱引用 。弱引用总是可选类型，并且当引用 的实例被销毁后，弱引用的值会自动置为 nil 。这使我们可以在闭包体内检查它们是否存在。
+         注意
+         如果被捕获的引用绝对不会变为 nil ，应该用无主引用，而不是弱引用。
+         前面的 HTMLElement 例子中，无主引用是正确的解决循环强引用的方法。这样编写 HTMLElement 类来避免循环强 引用:
+         class HTMLElement {
+         let name: String
+         let text: String?
+         lazy var asHTML: Void -> String = {
+         [unowned self] in
+         if let text = self.text {
+         return "<\(self.name)>\(text)</\(self.name)>"
+         } else {
+         return "<\(self.name) />"
+         }
+         }
+         init(name: String, text: String? = nil) {
+         self.name = name
+         self.text = text
+         }
+         deinit {
+         print("\(name) is being deinitialized")
          } }
-         每当一个新的 Checkerboard 实例被创建时，赋值闭包会被执行， boardColors 的默认值会被计算出来并返回。上 面例子中描述的闭包将计算出棋盘中每个格子对应的颜色，并将这些值保存到一个临时数组 temporaryBoard 中，最后在构建完成时将此数组作为闭包返回值返回。这个返回的数组会保存到 boardColors 中，并可以通过工 具函数 squareIsBlackAtRow 来查询:
-         let board = Checkerboard() print(board.squareIsBlackAtRow(0, column: 1)) // 打印 "true" print(board.squareIsBlackAtRow(7, column: 7)) // 打印 "false"
+         上面的 HTMLElement 实现和之前的实现一致，除了在 asHTML 闭包中多了一个捕获列表。这里，捕获列表是 [unown ed self] ，表示“将 self 捕获为无主引用而不是强引用”。
+         和之前一样，我们可以创建并打印 HTMLElement 实例:
          
+         第 2 章 Swift 教程 | 222
+         var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world") print(paragraph!.asHTML())
+         // 打印 “<p>hello, world</p>”
+         使用捕获列表后引用关系如下图所示:
+         这一次，闭包以无主引用的形式捕获 self ，并不会持有 HTMLElement 实例的强引用。如果将 paragraph 赋值为 n il ， HTMLElement 实例将会被销毁，并能看到它的析构函数打印出的消息:
+         paragraph = nil
+         // 打印 “p is being deinitialized”
+         你可以查看捕获列表章节，获取更多关于捕获列表的信息。
          
          */
     }
+
 
 
 }
