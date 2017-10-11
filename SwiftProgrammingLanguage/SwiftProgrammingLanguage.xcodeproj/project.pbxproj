@@ -112,20 +112,10 @@
 				6CCC364A1F541A690062D606 /* AppDelegate.swift */,
 				840FCD7B1F8CA42C00E0BC3C /* ViewController.swift */,
 				847A47841F7F4D70006DA5C0 /* AutoReferenceCounting.swift */,
-				840FCD7D1F8CA45F00E0BC3C /* 闭包捕获列表解决闭包引起的强引用.jpg */,
-				840FCD7A1F8CA09A00E0BC3C /* Customer 和 CreditCard 无主引用.jpg */,
-				840FCD791F8C9FA700E0BC3C /* john 和 unit4A弱引用关系.jpg */,
-				840FCD781F8C9EAD00E0BC3C /* john 和 unit4A强引用关系.jpg */,
+				84A8AA541F8DAFD600714673 /* AutoReferenceCounting图片 */,
 				84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */,
 				849437211F7B7E130007B8CF /* Initialization.swift */,
-				84AE409D1F7F44DC00FEEF91 /* 西洋跳棋棋盘.jpg */,
-				8464E9BF1F7CEA7400EFFF24 /* 构造器代理图.jpg */,
-				8464E9C01F7CEB1700EFFF24 /* 复杂构造器代理图.jpg */,
-				8464E9C21F7CEE6200EFFF24 /* 构建过程阶段1.jpg */,
-				8464E9C11F7CEE6200EFFF24 /* 构建过程阶段2.jpg */,
-				8464E9C31F7CF40200EFFF24 /* Food构造器链.jpg */,
-				8464E9C41F7CF40200EFFF24 /* RecipeIngredient构造器.jpg */,
-				8464E9C51F7CF82800EFFF24 /* 三类构造器图.jpg */,
+				84A8AA551F8DAFED00714673 /* Initialization图片 */,
 				8493B5171F7A0BA70040E086 /* Inheritance.swift */,
 				84D9160A1F78EE7200C27EE2 /* Subscripts.swift */,
 				849D89EB1F74E19000AABDE1 /* Methods.swift */,
@@ -137,9 +127,7 @@
 				840822691F6F68DA001208E7 /* Closures08.swift */,
 				847CA5291F6B724C00663472 /* Functions07.swift */,
 				843451241F6A746800A46E1B /* Control_Flow06.swift */,
-				843451261F6A7A7800A46E1B /* while循环：蛇和梯子.jpg */,
-				843451281F6A880700A46E1B /* (x,y).jpg */,
-				847CA5271F6B6C1E00663472 /* (x,y)斜边图.jpg */,
+				84A8AA561F8DAFF900714673 /* Control_Flow图片 */,
 				845EA6F91F6299410089284C /* StringsAndCharacters_04_CollectionTypes_05.swift */,
 				841E44171F6923580085CDA1 /* 集合操作.jpg */,
 				841E44191F6923AA0085CDA1 /* 集合成员关系和相等.jpg */,
@@ -151,6 +139,42 @@
 				6CCC36561F541A690062D606 /* Info.plist */,
 			);
 			path = SwiftProgrammingLanguage;
+			sourceTree = "<group>";
+		};
+		84A8AA541F8DAFD600714673 /* AutoReferenceCounting图片 */ = {
+			isa = PBXGroup;
+			children = (
+				840FCD7D1F8CA45F00E0BC3C /* 闭包捕获列表解决闭包引起的强引用.jpg */,
+				840FCD7A1F8CA09A00E0BC3C /* Customer 和 CreditCard 无主引用.jpg */,
+				840FCD791F8C9FA700E0BC3C /* john 和 unit4A弱引用关系.jpg */,
+				840FCD781F8C9EAD00E0BC3C /* john 和 unit4A强引用关系.jpg */,
+			);
+			path = "AutoReferenceCounting图片";
+			sourceTree = "<group>";
+		};
+		84A8AA551F8DAFED00714673 /* Initialization图片 */ = {
+			isa = PBXGroup;
+			children = (
+				84AE409D1F7F44DC00FEEF91 /* 西洋跳棋棋盘.jpg */,
+				8464E9BF1F7CEA7400EFFF24 /* 构造器代理图.jpg */,
+				8464E9C01F7CEB1700EFFF24 /* 复杂构造器代理图.jpg */,
+				8464E9C21F7CEE6200EFFF24 /* 构建过程阶段1.jpg */,
+				8464E9C11F7CEE6200EFFF24 /* 构建过程阶段2.jpg */,
+				8464E9C31F7CF40200EFFF24 /* Food构造器链.jpg */,
+				8464E9C41F7CF40200EFFF24 /* RecipeIngredient构造器.jpg */,
+				8464E9C51F7CF82800EFFF24 /* 三类构造器图.jpg */,
+			);
+			path = "Initialization图片";
+			sourceTree = "<group>";
+		};
+		84A8AA561F8DAFF900714673 /* Control_Flow图片 */ = {
+			isa = PBXGroup;
+			children = (
+				843451261F6A7A7800A46E1B /* while循环：蛇和梯子.jpg */,
+				843451281F6A880700A46E1B /* (x,y).jpg */,
+				847CA5271F6B6C1E00663472 /* (x,y)斜边图.jpg */,
+			);
+			path = "Control_Flow图片";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

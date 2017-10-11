@@ -6,6 +6,7 @@
 //  Copyright © 2017年 alldk. All rights reserved.
 //
 /*lzy170930注:
+ 这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
  自动引用计数
  本页包含内容:
  • 自动引用计数的工作机制 (页 0)
