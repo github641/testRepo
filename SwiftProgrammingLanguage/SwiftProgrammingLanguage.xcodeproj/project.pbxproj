@@ -13,7 +13,7 @@
 		6CCC36551F541A690062D606 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CCC36531F541A690062D606 /* LaunchScreen.storyboard */; };
 		8408226A1F6F68DA001208E7 /* Closures08.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840822691F6F68DA001208E7 /* Closures08.swift */; };
 		8408226C1F6F68F5001208E7 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408226B1F6F68F5001208E7 /* Enumerations.swift */; };
-		840FCD7C1F8CA42C00E0BC3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840FCD7B1F8CA42C00E0BC3C /* ViewController.swift */; };
+		840FCD7C1F8CA42C00E0BC3C /* OptionalChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840FCD7B1F8CA42C00E0BC3C /* OptionalChaining.swift */; };
 		841E44181F6923580085CDA1 /* 集合操作.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 841E44171F6923580085CDA1 /* 集合操作.jpg */; };
 		841E441A1F6923AA0085CDA1 /* 集合成员关系和相等.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 841E44191F6923AA0085CDA1 /* 集合成员关系和相等.jpg */; };
 		843451251F6A746800A46E1B /* Control_Flow06.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843451241F6A746800A46E1B /* Control_Flow06.swift */; };
@@ -31,6 +31,7 @@
 		849437221F7B7E130007B8CF /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849437211F7B7E130007B8CF /* Initialization.swift */; };
 		849D89EC1F74E19000AABDE1 /* Methods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849D89EB1F74E19000AABDE1 /* Methods.swift */; };
 		84AE409F1F7F47AD00FEEF91 /* Deinitialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */; };
+		84C943CA1F9052210052256B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C943C91F9052210052256B /* ViewController.swift */; };
 		84CC92F61F73B0BF003B1AA0 /* Computed Properties sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84CC92F51F73B0BF003B1AA0 /* Computed Properties sample.jpg */; };
 		84D9160B1F78EE7200C27EE2 /* Subscripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D9160A1F78EE7200C27EE2 /* Subscripts.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +48,7 @@
 		840FCD781F8C9EAD00E0BC3C /* john 和 unit4A强引用关系.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "john 和 unit4A强引用关系.jpg"; sourceTree = "<group>"; };
 		840FCD791F8C9FA700E0BC3C /* john 和 unit4A弱引用关系.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "john 和 unit4A弱引用关系.jpg"; sourceTree = "<group>"; };
 		840FCD7A1F8CA09A00E0BC3C /* Customer 和 CreditCard 无主引用.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Customer 和 CreditCard 无主引用.jpg"; sourceTree = "<group>"; };
-		840FCD7B1F8CA42C00E0BC3C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		840FCD7B1F8CA42C00E0BC3C /* OptionalChaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalChaining.swift; sourceTree = "<group>"; };
 		840FCD7D1F8CA45F00E0BC3C /* 闭包捕获列表解决闭包引起的强引用.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "闭包捕获列表解决闭包引起的强引用.jpg"; sourceTree = "<group>"; };
 		841E44171F6923580085CDA1 /* 集合操作.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "集合操作.jpg"; sourceTree = "<group>"; };
 		841E44191F6923AA0085CDA1 /* 集合成员关系和相等.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "集合成员关系和相等.jpg"; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		849D89EB1F74E19000AABDE1 /* Methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Methods.swift; sourceTree = "<group>"; };
 		84AE409D1F7F44DC00FEEF91 /* 西洋跳棋棋盘.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "西洋跳棋棋盘.jpg"; sourceTree = "<group>"; };
 		84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deinitialization.swift; sourceTree = "<group>"; };
+		84C943C91F9052210052256B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		84CC92F51F73B0BF003B1AA0 /* Computed Properties sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Computed Properties sample.jpg"; sourceTree = "<group>"; };
 		84D9160A1F78EE7200C27EE2 /* Subscripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscripts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,7 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				6CCC364A1F541A690062D606 /* AppDelegate.swift */,
-				840FCD7B1F8CA42C00E0BC3C /* ViewController.swift */,
+				84C943C91F9052210052256B /* ViewController.swift */,
+				840FCD7B1F8CA42C00E0BC3C /* OptionalChaining.swift */,
 				847A47841F7F4D70006DA5C0 /* AutoReferenceCounting.swift */,
 				84A8AA541F8DAFD600714673 /* AutoReferenceCounting图片 */,
 				84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */,
@@ -265,9 +268,10 @@
 				849D89EC1F74E19000AABDE1 /* Methods.swift in Sources */,
 				845EA6FD1F6299410089284C /* ASwiftTour_01.swift in Sources */,
 				84D9160B1F78EE7200C27EE2 /* Subscripts.swift in Sources */,
-				840FCD7C1F8CA42C00E0BC3C /* ViewController.swift in Sources */,
+				840FCD7C1F8CA42C00E0BC3C /* OptionalChaining.swift in Sources */,
 				8464FABD1F7273D9003F88FF /* Properties.swift in Sources */,
 				8493B5181F7A0BA70040E086 /* Inheritance.swift in Sources */,
+				84C943CA1F9052210052256B /* ViewController.swift in Sources */,
 				845EA6FE1F6299410089284C /* TheBasics_02_BasicOperators_03.swift in Sources */,
 				8408226A1F6F68DA001208E7 /* Closures08.swift in Sources */,
 				6CCC364B1F541A690062D606 /* AppDelegate.swift in Sources */,

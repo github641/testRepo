@@ -2,383 +2,294 @@
 //  ViewController.swift
 //  SwiftProgrammingLanguage
 //
-//  Created by admin on 2017/10/10.
+//  Created by admin on 2017/10/13.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
 /*lzy171011注:
  这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
- 可选链式调用
- 本页包含内容:
- • 使用可选链式调用代替强制展开 (页 0)
- • 为可选链式调用定义模型类 (页 0)
+ 错误处理
+
+ 2.1 翻译+校对：lyojo ray16897188 2015-10-23 校对：shanks 2015-10-24
  
- • 通过可选链式调用访问属性 (页 0)
- • 通过可选链式调用调用方法 (页 0)
- • 通过可选链式调用访问下标 (页 0)
+ 2.2 翻译+校对：SketchK 2016-05-15
  
- • 连接多层可选链式调用 (页 0)
- • 在方法的可选返回值上进行可选链式调用 (页 0)
+ 3.0 翻译+校对：shanks 2016-09-24
+ 3.0.1，shanks，2016-11-13
  
- 可选链式调用是一种可以在当前值可能为 nil 的可选值上请求和调用属性、方法及下标的方法。如果可选值有 值，那么调用就会成功;如果可选值是 nil ，那么调用将返回 nil 。多个调用可以连接在一起形成一个调用 链，如果其中任何一个节点为 nil ，整个调用链都会失败，即返回 nil 。
+ 4.0 翻译+校对：kemchenj 2017-09-21
+ 本页包含内容：
+ 
+ 1、表示并抛出错误
+ 2、处理错误
+ 3、指定清理操作
+ 
+ 错误处理（Error handling）是响应错误以及从错误中恢复的过程。Swift 提供了在运行时对可恢复错误的抛出、捕获、传递和操作的一等公民支持。
+ 
+ 某些操作无法保证总是执行完所有代码或总是生成有用的结果。可选类型可用来表示值缺失，但是当某个操作失败时，最好能得知失败的原因，从而可以作出相应的应对。
+ 
+ 举个例子，假如有个从磁盘上的某个文件读取数据并进行处理的任务，该任务会有多种可能失败的情况，包括指定路径下文件并不存在，文件不具有可读权限，或者文件编码格式不兼容。区分这些不同的失败情况可以让程序解决并处理某些错误，然后把它解决不了的错误报告给用户。
  
  注意
- Swift 的可选链式调用和 Objective-C 中向 nil 发送消息有些相像，但是 Swift 的可选链式调用可以应用于 任意类型，并且能检查调用是否成功。
- */
+ Swift 中的错误处理涉及到错误处理模式，这会用到 Cocoa 和 Objective-C 中的NSError。关于这个类的更多信息请参见 Using Swift with Cocoa and Objective-C (Swift 4) 中的错误处理。
+ 
+*/
+
 import UIKit
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // MARK: - 使用可选链式调用代替强制展开
-        /*
-         通过在想调用的属性、方法、或下标的可选值后面放一个问号（?），可以定义一个可选链。这一点很像在可选值后面放一个叹号（!）来强制展开它的值。它们的主要区别在于当可选值为空时可选链式调用只会调用失败，然而强制展开将会触发运行时错误。
-         
-         为了反映可选链式调用可以在空值（nil）上调用的事实，不论这个调用的属性、方法及下标返回的值是不是可选值，它的返回结果都是一个可选值。你可以利用这个返回值来判断你的可选链式调用是否调用成功，如果调用有返回值则说明调用成功，返回nil则说明调用失败。
-         
-         特别地，可选链式调用的返回结果与原本的返回结果具有相同的类型，但是被包装成了一个可选值。例如，使用可选链式调用访问属性，当可选链式调用成功时，如果属性原本的返回结果是Int类型，则会变为Int?类型。
-         
-         下面几段代码将解释可选链式调用和强制展开的不同。
-         
-         首先定义两个类Person和Residence：
-         */
-         class Person {
-         var residence: Residence?
-         }
-         
-         class Residence {
-         var numberOfRooms = 1
-         }
-        /*
-         Residence有一个Int类型的属性numberOfRooms，其默认值为1。Person具有一个可选的residence属性，其类型为Residence?。
-         
-         假如你创建了一个新的Person实例,它的residence属性由于是是可选型而将初始化为nil,在下面的代码中,john有一个值为nil的residence属性：
-         */
-         let john = Person()
-        /*
-         如果使用叹号（!）强制展开获得这个john的residence属性中的numberOfRooms值，会触发运行时错误，因为这时residence没有可以展开的值：
-         */
-//         let roomCount = john.residence!.numberOfRooms
-        // 这会引发运行时错误:fatal error: unexpectedly found nil while unwrapping an Optional value
 
-        /*
-         john.residence为非nil值的时候，上面的调用会成功，并且把roomCount设置为Int类型的房间数量。正如上面提到的，当residence为nil的时候上面这段代码会触发运行时错误。
+        // MARK: - 表示并抛出错误
+        /*lzy171013注:
+         在 Swift 中，错误用符合Error协议的类型的值来表示。这个空协议表明该类型可以用于错误处理。
          
-         可选链式调用提供了另一种访问numberOfRooms的方式，使用问号（?）来替代原来的叹号（!）：
+         Swift 的枚举类型尤为适合构建一组相关的错误状态，枚举的关联值还可以提供错误状态的额外信息。例如，你可以这样表示在一个游戏中操作自动贩卖机时可能会出现的错误状态：
          */
         
-        if let roomCount = john.residence?.numberOfRooms {
-            print("John's residence has \(roomCount) room(s).")
-        } else {
-            print("Unable to retrieve the number of rooms.")
-        }
-        // 打印 “Unable to retrieve the number of rooms.”
-        /*
-         在residence后面添加问号之后，Swift 就会在residence不为nil的情况下访问numberOfRooms。
-         
-         因为访问numberOfRooms有可能失败，可选链式调用会返回Int?类型，或称为“可选的 Int”。如上例所示，当residence为nil的时候，可选的Int将会为nil，表明无法访问numberOfRooms。访问成功时，可选的Int值会通过可选绑定展开，并赋值给非可选类型的roomCount常量。
-         
-         要注意的是，即使numberOfRooms是非可选的Int时，这一点也成立。只要使用可选链式调用就意味着numberOfRooms会返回一个Int?而不是Int。
-         
-         可以将一个Residence的实例赋给john.residence，这样它就不再是nil了：
-         */
-        john.residence = Residence()
-        /*john.residence现在包含一个实际的Residence实例，而不再是nil。如果你试图使用先前的可选链式调用访问numberOfRooms，它现在将返回值为1的Int?类型的值：
-         */
-        
-        if let roomCount = john.residence?.numberOfRooms {
-            print("John's residence has \(roomCount) room(s).")
-        } else {
-            print("Unable to retrieve the number of rooms.")
-        }
-        // 打印 “John's residence has 1 room(s).”
-        
-        // MARK: - 为可选链式调用定义模型类
-        /*通过使用可选链式调用可以调用多层属性、方法和下标。这样可以在复杂的模型中向下访问各种子属性，并且判断能否访问子属性的属性、方法或下标。
-         
-         下面这段代码定义了四个模型类，这些例子包括多层可选链式调用。为了方便说明，在Person和Residence的基础上增加了Room类和Address类，以及相关的属性、方法以及下标。
-         
-         Person类的定义基本保持不变：
-         */
-        class Person2 {
-            var residence: Residence2?
+        enum VendingMachineError: Error {
+            case invalidSelection                    //选择无效
+            case insufficientFunds(coinsNeeded: Int) //金额不足
+            case outOfStock                          //缺货
         }
         /*
+         抛出一个错误可以让你表明有意外情况发生，导致正常的执行流程无法继续执行。抛出错误使用throw关键字。例如，下面的代码抛出一个错误，提示贩卖机还需要5个硬币：
          
-         Residence类比之前复杂些，增加了一个名为rooms的变量属性，该属性被初始化为[Room]类型的空数组：
+         throw VendingMachineError. insufficientFunds(coinsNeeded: 5)
          
          */
-        class Residence2 {
-            var rooms = [Room]()
-            var numberOfRooms: Int {
-                return rooms.count
+        
+        // MARK: - 处理错误
+        /*
+         某个错误被抛出时，附近的某部分代码必须负责处理这个错误，例如纠正这个问题、尝试另外一种方式、或是向用户报告错误。
+         
+         Swift 中有4种处理错误的方式。你可以：
+         1、把函数抛出的错误传递给调用此函数的代码
+         2、用do-catch语句处理错误
+         3、将错误作为可选类型处理
+         4、或者断言此错误根本不会发生。
+         
+         每种方式在下面的小节中都有描述。
+         
+         当一个函数抛出一个错误时，你的程序流程会发生改变，所以重要的是你能迅速识别代码中会抛出错误的地方。为了标识出这些地方，在调用一个能抛出错误的函数、方法或者构造器之前，加上try关键字，或者try?或try!这种变体。这些关键字在下面的小节中有具体讲解。
+         
+         注意
+         Swift 中的错误处理和其他语言中用try，catch和throw进行异常处理很像。和其他语言中（包括 Objective-C ）的异常处理不同的是，Swift 中的错误处理并不涉及解除调用栈（这是一个计算代价高昂的过程）。就此而言，throw语句的性能特性是可以和return语句相媲美的。
+         
+         */
+        
+        // MARK:====用 throwing 函数传递错误====
+        /*
+         
+         为了表示一个函数、方法或构造器可以抛出错误，在  函数声明的参数列表之后  加上throws关键字。
+         如果这个函数指明了返回值类型，throws关键词需要写在箭头（->）的前面。
+         lzy注：参数列表之后，返回值箭头之前
+         
+         一个标有throws关键字的函数被称作throwing 函数。
+         
+         func canThrowErrors() throws -> String
+         func cannotThrowErrors() -> String
+         一个 throwing 函数可以在其内部抛出错误，并将错误传递到函数被调用时的作用域。
+         
+         注意
+         只有 throwing 函数可以传递错误。任何在某个非 throwing 函数内部抛出的错误只能在函数内部处理。
+         下面的例子中，VendingMachine类有一个vend(itemNamed:)方法，如果请求的物品不存在、缺货或者投入金额小于物品价格，该方法就会抛出一个相应的VendingMachineError：
+*/
+        
+        struct Item {
+            var price: Int
+            var count: Int
+        }
+        
+        class VendingMachine {
+            var inventory = [
+                "Candy Bar": Item(price: 12, count: 7),
+                "Chips": Item(price: 10, count: 4),
+                "Pretzels": Item(price: 7, count: 11)
+            ]
+            var coinsDeposited = 0
+            func dispenseSnack(snack: String) {
+                print("Dispensing \(snack)")
             }
-            subscript(i: Int) -> Room {
-                get {
-                    return rooms[i]
+            
+            func vend(itemNamed name: String) throws {
+                guard let item = inventory[name] else {
+                    throw VendingMachineError.invalidSelection
                 }
-                set {
-                    rooms[i] = newValue
+                
+                guard item.count > 0 else {
+                    throw VendingMachineError.outOfStock
                 }
+                
+                guard item.price <= coinsDeposited else {
+                    throw VendingMachineError.insufficientFunds(coinsNeeded: item.price - coinsDeposited)
+                }
+                
+                coinsDeposited -= item.price
+                
+                var newItem = item
+                newItem.count -= 1
+                inventory[name] = newItem
+                
+                print("Dispensing \(name)")
             }
-            func printNumberOfRooms() {
-                print("The number of rooms is \(numberOfRooms)")
-            }
-            var address: Address?
         }
         /*
-         现在Residence有了一个存储Room实例的数组，numberOfRooms属性被实现为计算型属性，而不是存储型属性。numberOfRooms属性简单地返回rooms数组的count属性的值。
+         在vend(itemNamed:)方法的实现中使用了guard语句来提前退出方法，确保在购买某个物品所需的条件中，有任一条件不满足时，能提前退出方法并抛出相应的错误。由于throw语句会立即退出方法，所以物品只有在所有条件都满足时才会被售出。
          
-         Residence还提供了访问rooms数组的快捷方式，即提供可读写的下标来访问rooms数组中指定位置的元素。
+         因为vend(itemNamed:)方法会传递出它抛出的任何错误，在你的代码中调用此方法的地方，必须:
          
-         此外，Residence还提供了printNumberOfRooms方法，这个方法的作用是打印numberOfRooms的值。
+         1、要么直接处理这些错误——使用do-catch语句，try?或try!；
          
-         最后，Residence还定义了一个可选属性address，其类型为Address?。Address类的定义在下面会说明。
+         2、要么继续将这些错误传递下去。
          
-         Room类是一个简单类，其实例被存储在rooms数组中。该类只包含一个属性name，以及一个用于将该属性设置为适当的房间名的初始化函数：
+         例如下面例子中，buyFavoriteSnack(person:vendingMachine:)同样是一个 throwing 函数，任何由vend(itemNamed:)方法抛出的错误会一直被传递到buyFavoriteSnack(person:vendingMachine:)函数被调用的地方。
+         
+         */
+        let favoriteSnacks = [
+            "Alice": "Chips",
+            "Bob": "Licorice",
+            "Eve": "Pretzels",
+            ]
+        func buyFavoriteSnack(person: String, vendingMachine: VendingMachine) throws {
+            let snackName = favoriteSnacks[person] ?? "Candy Bar"
+            try vendingMachine.vend(itemNamed: snackName)
+        }
+        /*
+         上例中，buyFavoriteSnack(person:vendingMachine:)函数会查找某人最喜欢的零食，并通过调用vend(itemNamed:)方法来尝试为他们购买。因为vend(itemNamed:)方法能抛出错误，所以在调用的它时候在它前面加了try关键字。
+         
+         throwing构造器 能像 throwing函数 一样传递错误。
+         
+         例如下面代码中的PurchasedSnack构造器在构造过程中调用了throwing函数，并且通过传递到它的调用者来处理这些错误。
          */
         
-        class Room {
+        struct PurchasedSnack {
             let name: String
-            init(name: String) { self.name = name }
-        }
-        /*
-         最后一个类是Address，这个类有三个String?类型的可选属性。buildingName以及buildingNumber属性分别表示某个大厦的名称和号码，第三个属性street表示大厦所在街道的名称：
-         
-         */
-        class Address {
-            var buildingName: String?
-            var buildingNumber: String?
-            var street: String?
-            func buildingIdentifier() -> String? {
-                if buildingName != nil {
-                    return buildingName
-                } else if buildingNumber != nil && street != nil {
-                    return "\(buildingNumber) \(street)"
-                } else {
-                    return nil
-                }
+            init(name: String, vendingMachine: VendingMachine) throws {
+                try vendingMachine.vend(itemNamed: name)
+                self.name = name
             }
         }
-        /*
-         Address类提供了buildingIdentifier()方法，返回值为String?。 如果buildingName有值则返回buildingName。或者，如果buildingNumber和street均有值则返回buildingNumber。否则，返回nil。
-         
-         */
         
-        // MARK: - 通过可选链式调用访问属性
+        // MARK:====用 Do-Catch 处理错误====
         /*
+         可以使用一个do-catch语句运行一段闭包代码来处理错误。如果在do子句中的代码抛出了一个错误，这个错误会与catch子句做匹配，从而决定哪条子句能处理它。
          
-         正如使用可选链式调用代替强制展开中所述，可以通过可选链式调用在一个可选值上访问它的属性，并判断访问是否成功。
+         下面是do-catch语句的一般形式：
          
-         下面的代码创建了一个Person实例，然后像之前一样，尝试访问numberOfRooms属性：
-         */
-        
-        
-        let john2 = Person2()
-        if let roomCount = john2.residence?.numberOfRooms {
-            print("John's residence has \(roomCount) room(s).")
-        } else {
-            print("Unable to retrieve the number of rooms.")
-        }
-        // 打印 “Unable to retrieve the number of rooms.”
-        /*
-         因为john.residence为nil，所以这个可选链式调用依旧会像先前一样失败。
-         
-         还可以通过可选链式调用来设置属性值：
-         */
-        
-        let someAddress = Address()
-        someAddress.buildingNumber = "29"
-        someAddress.street = "Acacia Road"
-        john2.residence?.address = someAddress
-        /*
-         在这个例子中，通过john.residence来设定address属性也会失败，因为john.residence当前为nil。
-         
-         上面代码中的赋值过程是可选链式调用的一部分，这意味着可选链式调用失败时，等号右侧的代码不会被执行。对于上面的代码来说，很难验证这一点，因为像这样赋值一个常量没有任何副作用。下面的代码完成了同样的事情，但是它使用一个函数来创建Address实例，然后将该实例返回用于赋值。该函数会在返回前打印“Function was called”，这使你能验证等号右侧的代码是否被执行。
-         
-        */
-        func createAddress() -> Address {
-            print("Function was called.")
-            
-            let someAddress = Address()
-            someAddress.buildingNumber = "29"
-            someAddress.street = "Acacia Road"
-            
-            return someAddress
-        }
-        john2.residence?.address = createAddress()
-       // 没有任何打印消息，可以看出createAddress()函数并未被执行。
-        
-        // MARK: - 通过可选链式调用调用方法
-        /*
-         可以通过可选链式调用来调用方法，并判断是否调用成功，即使这个方法没有返回值。
-         
-         Residence类中的printNumberOfRooms()方法打印当前的numberOfRooms值，如下所示：
-         
-         func printNumberOfRooms() {
-         print("The number of rooms is \(numberOfRooms)")
+         do {
+             try expression
+             statements
+         } catch pattern 1 {
+             statements
+         } catch pattern 2 where condition {
+             statements
          }
-         这个方法没有返回值。然而，没有返回值的方法具有隐式的返回类型Void，如无返回值函数中所述。这意味着没有返回值的方法也会返回()，或者说空的元组。
          
-         如果在可选值上通过可选链式调用来调用这个方法，该方法的返回类型会是Void?，而不是Void，因为通过可选链式调用得到的返回值都是可选的。这样我们就可以使用if语句来判断能否成功调用printNumberOfRooms()方法，即使方法本身没有定义返回值。通过判断返回值是否为nil可以判断调用是否成功：
-        */
+         在catch后面写一个匹配模式来表明这个子句能处理什么样的错误。如果一条catch子句没有指定匹配模式，那么这条子句可以匹配任何错误，并且把错误绑定到一个名字为error的局部常量。关于模式匹配的更多信息请参考 模式。
+         
+         catch子句 不必 将do子句中的代码所抛出的每一个可能的错误都作处理。
+         
+         如果所有catch子句都未处理错误，错误就会传递到周围的作用域。
+         
+         然而，错误还是必须要被某个周围的作用域处理的——要么是一个外围的do-catch错误处理语句，要么是一个 throwing 函数的内部。
+         
+         举例来说，下面的代码处理了VendingMachineError枚举类型的全部枚举值，但是所有其它的错误就必须由它周围的作用域处理：
+*/
         
-        
-        if john2.residence?.printNumberOfRooms() != nil {
-            print("It was possible to print the number of rooms.")
-        } else {
-            print("It was not possible to print the number of rooms.")
+        var vendingM = VendingMachine()
+        vendingM.coinsDeposited = 8
+        do {
+            try buyFavoriteSnack(person: "Alice", vendingMachine: vendingM)
+            // 报错Errors thrown from here are not handled because the enclosing catch is not exhaustive。需要在最后添加一个符合任意条件的catch字句
+        } catch VendingMachineError.invalidSelection {
+            print("Invalid Selection.")
+        } catch VendingMachineError.outOfStock {
+            print("Out of Stock.")
+        } catch VendingMachineError.insufficientFunds(let coinsNeeded) {
+            print("Insufficient funds. Please insert an additional \(coinsNeeded) coins.")
+        }catch{
+            
         }
-        // 打印 “It was not possible to print the number of rooms.”
+        // 打印 “Insufficient funds. Please insert an additional 2 coins.”
+        
         /*
-         同样的，可以据此判断通过可选链式调用为属性赋值是否成功。在上面的通过可选链式调用访问属性的例子中，我们尝试给john.residence中的address属性赋值，即使residence为nil。通过可选链式调用给属性赋值会返回Void?，通过判断返回值是否为nil就可以知道赋值是否成功：
+         上面的例子中，buyFavoriteSnack(person:vendingMachine:)函数在一个try表达式中调用，因为它能抛出错误。如果错误被抛出，相应的执行会马上转移到catch子句中，并判断这个错误是否要被继续传递下去。如果没有错误抛出，do子句中余下的语句就会被执行。
+         
+         
+         */
+        
+        // MARK:====将错误转换成可选值====
+        /*
+         可以使用try?通过将错误转换成一个可选值来处理错误。如果在评估try?表达式时一个错误被抛出，那么表达式的值就是nil。例如，在下面的代码中，x和y有着相同的数值和等价的含义：
+         
+         func someThrowingFunction() throws -> Int {
+         // ...
+         }
+         
+         let x = try? someThrowingFunction()
+         
+         let y: Int?
+         do {
+             y = try someThrowingFunction()
+             } catch {
+                 y = nil
+         }
+         如果someThrowingFunction()抛出一个错误，x和y的值是nil。否则x和y的值就是该函数的返回值。注意，无论someThrowingFunction()的返回值类型是什么类型，x和y都是这个类型的可选类型。例子中此函数返回一个整型，所以x和y是可选整型。
+         
+         如果你想对所有的错误都采用同样的方式来处理，用try?就可以让你写出简洁的错误处理代码。例如，下面的代码用几种方式来获取数据，如果所有方式都失败了则返回nil。
+         
+         func fetchData() -> Data? {
+         if let data = try? fetchDataFromDisk() { return data }
+         if let data = try? fetchDataFromServer() { return data }
+         return nil
+         }
+         
+         */
+        
+        // MARK:====禁用错误传递====
+        /*
+         有时你知道某个throwing函数实际上在运行时是不会抛出错误的，在这种情况下，你可以在表达式前面写try!来禁用错误传递，这会把调用包装在一个不会有错误抛出的运行时断言中。如果真的抛出了错误，你会得到一个运行时错误。
+         
+         例如，下面的代码使用了loadImage(atPath:)函数，该函数从给定的路径加载图片资源，如果图片无法载入则抛出一个错误。在这种情况下，因为图片是和应用绑定的，运行时不会有错误抛出，所以适合禁用错误传递。
+         
+         let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
+         
+         */
+        
+        // MARK:====指定清理操作====
+        /*
+         defer：延迟、推迟
+         可以使用defer语句  在即将离开当前代码块时  执行一系列语句。
+         
+         该语句让你能执行一些必要的清理工作，不管是以何种方式离开当前代码块的——无论是由于抛出错误而离开，或是由于诸如return、break的语句。例如，你可以用defer语句来确保文件描述符得以关闭，以及手动分配的内存得以释放。
+         
+         defer语句将代码的执行延迟到当前的作用域退出之前。该语句由defer关键字和要被延迟执行的语句组成。延迟执行的语句不能包含任何控制转移语句，例如break、return语句，或是抛出一个错误。延迟执行的操作会按照它们声明的顺序从后往前执行——也就是说，第一条defer语句中的代码最后才执行，第二条defer语句中的代码倒数第二个执行，以此类推。最后一条语句会第一个执行
+         
+         func processFile(filename: String) throws {
+         if exists(filename) {
+         let file = open(filename)
+         defer {
+         close(file)
+         }
+         while let line = try file.readline() {
+         // 处理文件。
+         }
+         // close(file) 会在这里被调用，即作用域的最后。
+         }
+         }
          */
         
         
-        if (john2.residence?.address = someAddress) != nil {
-            print("It was possible to set the address.")
-        } else {
-            print("It was not possible to set the address.")
-        }
-        // 打印 “It was not possible to set the address.”
-        
-        // MARK: - 通过可选链式调用访问下标
         /*
-         通过可选链式调用，我们可以在一个可选值上访问下标，并且判断下标调用是否成功。
+         上面的代码使用一条defer语句来确保open(_:)函数有一个相应的对close(_:)函数的调用。
          
          注意
-         通过可选链式调用访问可选值的下标时，应该将问号放在下标方括号的前面而不是后面。可选链式调用的问号一般直接跟在可选表达式的后面。
-         下面这个例子用下标访问john.residence属性存储的Residence实例的rooms数组中的第一个房间的名称，因为john.residence为nil，所以下标调用失败了：
-         */
-        
-        
-        if let firstRoomName = john2.residence?[0].name {
-            print("The first room name is \(firstRoomName).")
-        } else {
-            print("Unable to retrieve the first room name.")
-        }
-        // 打印 “Unable to retrieve the first room name.”
-        /*
-         在这个例子中，问号直接放在john.residence的后面，并且在方括号的前面，因为john.residence是可选值。
-         
-         类似的，可以通过下标，用可选链式调用来赋值：
-         */
-        
-        john2.residence?[0] = Room(name: "Bathroom")
-        // 这次赋值同样会失败，因为residence目前是nil。
-        /*
-         
-         如果你创建一个Residence实例，并为其rooms数组添加一些Room实例，然后将Residence实例赋值给john.residence，那就可以通过可选链和下标来访问数组中的元素：
-         */
-        
-        let johnsHouse = Residence2()
-        johnsHouse.rooms.append(Room(name: "Living Room"))
-        johnsHouse.rooms.append(Room(name: "Kitchen"))
-        john2.residence = johnsHouse
-        
-        if let firstRoomName = john2.residence?[0].name {
-            print("The first room name is \(firstRoomName).")
-        } else {
-            print("Unable to retrieve the first room name.")
-        }
-        // 打印 “The first room name is Living Room.”
-        
-        // MARK: - 访问可选类型的下标
-        /*
-         如果下标返回可选类型值，比如 Swift 中Dictionary类型的键的下标，可以在下标的结尾括号后面放一个问号来在其可选返回值上进行可选链式调用：
-         */
-        
-        var testScores = ["Dave": [86, 82, 84], "Bev": [79, 94, 81]]
-        testScores["Dave"]?[0] = 91
-        testScores["Bev"]?[0] += 1
-        testScores["Brian"]?[0] = 72
-        // "Dave" 数组现在是 [91, 82, 84]，"Bev" 数组现在是 [80, 94, 81]
-        /*
-         上面的例子中定义了一个testScores数组，包含了两个键值对，把String类型的键映射到一个Int值的数组。这个例子用可选链式调用把"Dave"数组中第一个元素设为91，把"Bev"数组的第一个元素+1，然后尝试把"Brian"数组中的第一个元素设为72。前两个调用成功，因为testScores字典中包含"Dave"和"Bev"这两个键。但是testScores字典中没有"Brian"这个键，所以第三个调用失败。
-         
-         
-         */
-        
-        // MARK: - 连接多层可选链式调用
-        /*
-         可以通过连接多个可选链式调用在更深的模型层级中访问属性、方法以及下标。然而，多层可选链式调用不会增加返回值的可选层级。
-         
-         也就是说：
-         
-         如果你访问的值不是可选的，可选链式调用将会返回可选值。
-         如果你访问的值就是可选的，可选链式调用不会让可选返回值变得“更可选”。
-         因此：
-         
-         通过可选链式调用访问一个Int值，将会返回Int?，无论使用了多少层可选链式调用。
-         类似的，通过可选链式调用访问Int?值，依旧会返回Int?值，并不会返回Int??。
-         下面的例子尝试访问john中的residence属性中的address属性中的street属性。这里使用了两层可选链式调用，residence以及address都是可选值：
-         
-         */
-        
-        if let johnsStreet = john2.residence?.address?.street {
-            print("John's street name is \(johnsStreet).")
-        } else {
-            print("Unable to retrieve the address.")
-        }
-        // 打印 “Unable to retrieve the address.”
-        /*
-         john.residence现在包含一个有效的Residence实例。然而，john.residence.address的值当前为nil。因此，调用john.residence?.address?.street会失败。
-         
-         需要注意的是，上面的例子中，street的属性为String?。john.residence?.address?.street的返回值也依然是String?，即使已经使用了两层可选链式调用。
-         
-         如果为john.residence.address赋值一个Address实例，并且为address中的street属性设置一个有效值，我们就能过通过可选链式调用来访问street属性：
-         */
-        
-        
-        let johnsAddress = Address()
-        johnsAddress.buildingName = "The Larches"
-        johnsAddress.street = "Laurel Street"
-        john2.residence?.address = johnsAddress
-        
-        if let johnsStreet = john2.residence?.address?.street {
-            print("John's street name is \(johnsStreet).")
-        } else {
-            print("Unable to retrieve the address.")
-        }
-        // 打印 “John's street name is Laurel Street.”
-        /*
-         在上面的例子中，因为john.residence包含一个有效的Address实例，所以对john.residence的address属性赋值将会成功。
-         
-         
-         */
-        
-        // MARK: - 在方法的可选返回值上进行可选链式调用
-        /*
-         上面的例子展示了如何在一个可选值上通过可选链式调用来获取它的属性值。我们还可以在一个可选值上通过可选链式调用来调用方法，并且可以根据需要继续在方法的可选返回值上进行可选链式调用。
-         
-         在下面的例子中，通过可选链式调用来调用Address的buildingIdentifier()方法。这个方法返回String?类型的值。如上所述，通过可选链式调用来调用该方法，最终的返回值依旧会是String?类型：
-         */
-        
-        
-        if let buildingIdentifier = john2.residence?.address?.buildingIdentifier() {
-            print("John's building identifier is \(buildingIdentifier).")
-        }
-        // 打印 “John's building identifier is The Larches.”
-        /*
-         如果要在该方法的返回值上进行可选链式调用，在方法的圆括号后面加上问号即可：
-         */
-        
-        
-        if let beginsWithThe =
-            john2.residence?.address?.buildingIdentifier()?.hasPrefix("The") {
-            if beginsWithThe {
-                print("John's building identifier begins with \"The\".")
-            } else {
-                print("John's building identifier does not begin with \"The\".")
-            }
-        }
-        // 打印 “John's building identifier begins with "The".”
-        /*
-         注意
-         在上面的例子中，在方法的圆括号后面加上问号是因为你要在buildingIdentifier()方法的可选返回值上进行可选链式调用，而不是方法本身。
+         即使没有涉及到错误处理，你也可以使用defer语句。
 
          */
+        
+        
     }
-    
-
 }
