@@ -2,18 +2,18 @@
 //  ViewController.swift
 //  SwiftProgrammingLanguage
 //
-//  Created by admin on 2017/10/16.
+//  Created by admin on 2017/10/17.
 //  Copyright © 2017年 alldk. All rights reserved.
 //
 /*lzy171016注:
  这个类，对应的是 The Swift Programming Language第二章（Language Guide）的内容：
- 类型转换 (Type Casting)
+ 扩展（Extensions）
  
- 1.0 翻译：xiehurricane 校对：happyming
+ 1.0 翻译：lyuka 校对：Hawstein
  
- 2.0 翻译+校对：yangsiy
+ 2.0 翻译+校对：shanks
  
- 2.1 校对：shanks，2015-11-01
+ 2.1 校对：shanks
  
  2.2 翻译+校对：SketchK 2016-05-16
  3.0.1，shanks，2016-11-13
@@ -21,209 +21,288 @@
  4.0 校对：kemchenj 2017-09-21
  本页包含内容：
  
- 定义一个类层次作为例子
- 检查类型
- 向下转型
- Any 和 AnyObject 的类型转换
+ 扩展语法
+ 计算型属性
+ 构造器
+ 方法
+ 下标
+ 嵌套类型
  
- 类型转换 可以判断实例的类型，也可以将实例看做是其父类或者子类的实例。
+ 扩展 就是为一个已有的类、结构体、枚举类型或者协议类型添加新功能。这包括在没有权限获取原始源代码的情况下扩展类型的能力（即 逆向建模 ）。扩展和 Objective-C 中的分类类似。（与 Objective-C 不同的是，Swift 的扩展没有名字。）
  
- 类型转换在 Swift 中使用 is 和 as 操作符实现。这两个操作符提供了一种简单达意的方式去检查:
+ Swift 中的扩展可以：
  
- 1、值的类型或者转换它的类型。
+ 添加计算型属性和计算型类型属性
+ 定义实例方法和类型方法
+ 提供新的构造器
+ 定义下标
+ 定义和使用新的嵌套类型
+ 使一个已有类型符合某个协议
+ 在 Swift 中，你甚至可以对协议进行扩展，提供协议要求的实现，或者添加额外的功能，从而可以让符合协议的类型拥有这些功能。你可以从协议扩展获取更多的细节。
  
- 2、一个类型是否实现了某个协议，就像在检验协议的一致性部分讲述的一样。
+ 注意
+ 扩展可以为一个类型添加新的功能，但是不能重写已有的功能。
  */
-
 import UIKit
 
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+}
+extension Rect {
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // MARK: - 定义一个类层次作为例子
-        
-        /*lzy171016注:
-         你可以将类型转换用在类和子类的层次结构上，检查特定类实例的类型并且转换这个类实例的类型成为这个层次结构中的其他类型。下面的三个代码段定义了一个类层次和一个包含了这些类实例的数组，作为类型转换的例子。
+        // MARK: -  扩展语法
+        /*lzy171017注:
+         用关键字 extension 来声明扩展：
          
-         第一个代码片段定义了一个新的基类 MediaItem。这个类为任何出现在数字媒体库的媒体项提供基础功能。特别的，它声明了一个 String 类型的 name 属性，和一个 init(name:) 初始化器。（假定所有的媒体项都有个名称。）
-         */
-        class MediaItem {
-            var name: String
-            init(name: String) {
-                self.name = name
-            }
-        }
-        /*下一个代码段定义了 MediaItem 的两个子类。第一个子类 Movie 封装了与电影相关的额外信息，在父类（或者说基类）的基础上增加了一个 director（导演）属性，和相应的初始化器。第二个子类 Song，在父类的基础上增加了一个 artist（艺术家）属性，和相应的初始化器：
-         */
-        class Movie: MediaItem {
-            var director: String
-            init(name: String, director: String) {
-                self.director = director
-                super.init(name: name)
-            }
-        }
-        
-        class Song: MediaItem {
-            var artist: String
-            init(name: String, artist: String) {
-                self.artist = artist
-                super.init(name: name)
-            }
-        }
-        /*最后一个代码段创建了一个数组常量 library，包含两个 Movie 实例和三个 Song 实例。library 的类型是在它被初始化时根据它数组中所包含的内容推断来的。Swift 的类型检测器能够推断出 Movie 和 Song 有共同的父类 MediaItem，所以它推断出 [MediaItem] 类作为 library 的类型：
-         */
-        let library = [
-            Movie(name: "Casablanca", director: "Michael Curtiz"),
-            Song(name: "Blue Suede Shoes", artist: "Elvis Presley"),
-            Movie(name: "Citizen Kane", director: "Orson Welles"),
-            Song(name: "The One And Only", artist: "Chesney Hawkes"),
-            Song(name: "Never Gonna Give You Up", artist: "Rick Astley")
-        ]
-        // 数组 library 的类型被推断为 [MediaItem]
-        /*
-
-         在幕后 library 里存储的媒体项依然是 Movie 和 Song 类型的。但是，若你迭代它，依次取出的实例会是 MediaItem 类型的，而不是 Movie 和 Song 类型。为了让它们作为原本的类型工作，你需要检查它们的类型或者向下转换它们到其它类型，就像下面描述的一样。
+         extension SomeType {
+         // 为 SomeType 添加的新功能写到这里
+         }
+         可以通过扩展来扩展一个已有类型，使其采纳一个或多个协议。在这种情况下，无论是类还是结构体，协议名字的书写方式完全一样：
          
-         */
-        
-        // MARK: - 检查类型
-        /*
-         
-         用类型检查操作符（is）来检查一个实例是否属于特定子类型。若实例属于那个子类型，类型检查操作符返回 true，否则返回 false。
-         
-         下面的例子定义了两个变量，movieCount 和 songCount，用来计算数组 library 中 Movie 和 Song 类型的实例数量：
-         */
-        
-        var movieCount = 0
-        var songCount = 0
-        for item in library {
-            if item is Movie {
-                movieCount += 1
-            }else if item is Song {
-                songCount += 1
-            }
-        }
-        
-        print("Media library contains \(movieCount) movies and \(songCount) songs")
-        // 打印 “Media library contains 2 movies and 3 songs”
-        /*示例迭代了数组 library 中的所有项。每一次，for-in 循环设置 item 为数组中的下一个 MediaItem。
-         
-         若当前 MediaItem 是一个 Movie 类型的实例，item is Movie 返回 true，否则返回 false。同样的，item is Song 检查 item 是否为 Song 类型的实例。在循环结束后，movieCount 和 songCount 的值就是被找到的属于各自类型的实例的数量。
-         
-         */
-        
-        // MARK: - 向下转型
-        /*
-         某类型的一个常量或变量可能在幕后实际上属于一个子类。当确定是这种情况时，你可以尝试向下转到它的子类型，用类型转换操作符（as? 或 as!）。
-         
-         因为向下转型可能会失败，类型转型操作符带有两种不同形式。条件形式as? 返回一个你试图向下转成的类型的可选值。强制形式 as! 把试图向下转型和强制解包转换结果结合为一个操作。
-         
-         当你不确定向下转型可以成功时，用类型转换的条件形式（as?）。条件形式的类型转换总是返回一个可选值，并且若下转是不可能的，可选值将是 nil。这使你能够检查向下转型是否成功。
-         
-         只有你可以确定向下转型一定会成功时，才使用强制形式（as!）。当你试图向下转型为一个不正确的类型时，强制形式的类型转换会触发一个运行时错误。
-         
-         下面的例子，迭代了 library 里的每一个 MediaItem，并打印出适当的描述。要这样做，item 需要真正作为 Movie 或 Song 的类型来使用，而不仅仅是作为 MediaItem。为了能够在描述中使用 Movie 或 Song 的 director 或 artist 属性，这是必要的。
-         
-         在这个示例中，数组中的每一个 item 可能是 Movie 或 Song。事前你不知道每个 item 的真实类型，所以这里使用条件形式的类型转换（as?）去检查循环里的每次下转：
-         */
-        
-        for item in  library {
-            if let movie = item as? Movie {
-                print("Movie: '\(movie.name)', dir.'\(movie.director)'")
-            }else if let song = item as? Song {
-                print("Song: '\(song.name)', by \(song.artist)")
-            }
-        }
-        // Movie: 'Casablanca', dir. Michael Curtiz
-        // Song: 'Blue Suede Shoes', by Elvis Presley
-        // Movie: 'Citizen Kane', dir. Orson Welles
-        // Song: 'The One And Only', by Chesney Hawkes
-        // Song: 'Never Gonna Give You Up', by Rick Astley
-        /*示例首先试图将 item 下转为 Movie。因为 item 是一个 MediaItem 类型的实例，它可能是一个 Movie；同样，它也可能是一个 Song，或者仅仅是基类 MediaItem。因为不确定，as? 形式在试图下转时将返回一个可选值。item as? Movie 的返回值是 Movie? 或者说“可选 Movie”。
-         
-         当向下转型为 Movie 应用在两个 Song 实例时将会失败。为了处理这种情况，上面的例子使用了可选绑定（optional binding）来检查可选 Movie 真的包含一个值（这个是为了判断下转是否成功。）可选绑定是这样写的“if let movie = item as? Movie”，可以这样解读：
-         
-         “尝试将 item 转为 Movie 类型。若成功，设置一个新的临时常量 movie 来存储返回的可选 Movie 中的值”
-         
-         若向下转型成功，然后 movie 的属性将用于打印一个 Movie 实例的描述，包括它的导演的名字 director。相似的原理被用来检测 Song 实例，当 Song 被找到时则打印它的描述（包含 artist 的名字）。
+         extension SomeType: SomeProtocol, AnotherProctocol {
+         // 协议实现写到这里
+         }
+         通过这种方式添加协议一致性的详细描述请参阅利用扩展添加协议一致性。
          
          注意
-         转换没有真的改变实例或它的值。根本的实例保持不变；只是简单地把它作为它被转换成的类型来使用。
+         如果你通过扩展为一个已有类型添加新功能，那么新功能对该类型的所有已有实例都是可用的，即使它们是在这个扩展定义之前创建的。
+         */
+        
+         // MARK: - 计算型属性
+        /*
+         扩展可以为已有类型添加计算型实例属性和 计算型 类型属性。
+         下面的例子为 Swift 的内建 Double 类型添加了五个计算型实例属性，从而提供与距离单位协作的基本支持：
+         */
+        
+        let oneInch = 25.4.mm
+        print("One inch is \(oneInch) meters")
+        // 打印 “One inch is 0.0254 meters”
+        let threeFeet = 3.ft
+        print("Three feet is \(threeFeet) meters")
+        // 打印 “Three feet is 0.914399970739201 meters”
+        
+        /*
+         这些计算型属性表达的含义是把一个 Double 值看作是某单位下的长度值。即使它们被实现为计算型属性，但这些属性的名字仍可紧接一个浮点型字面值，从而通过点语法来使用，并以此实现距离转换。
+         
+         在上述例子中，Double 值 1.0 用来表示“1米”。这就是为什么计算型属性 m 返回 self，即表达式 1.m 被认为是计算 Double 值 1.0。
+         
+         其它单位则需要一些单位换算。一千米等于 1,000 米，所以计算型属性 km 要把值乘以 1_000.00 来实现千米到米的单位换算。类似地，一米有 3.28024 英尺，所以计算型属性 ft 要把对应的 Double 值除以 3.28024 来实现英尺到米的单位换算。
+         
+         这些属性是只读的计算型属性，为了更简洁，省略了 get 关键字。它们的返回值是 Double，而且可以用于所有接受 Double 值的数学计算中：
+         */
+        
+        let aMarathon = 42.km + 195.m
+        print("A marathon is \(aMarathon) meters long")
+        // 打印 “A marathon is 42195.0 meters long”
+        
+        /*
+         注意
+         扩展可以添加新的计算型属性，但是不可以添加存储型属性，也不可以为已有属性添加属性观察器。
          
          */
         
-        // MARK: - Any 和 AnyObject 的类型转换
+        // MARK: - 构造器
         /*
-         Swift 为不确定类型提供了两种特殊的类型别名：
+         扩展可以为已有类型添加新的构造器。这可以让你扩展其它类型，将你自己的定制类型作为其构造器参数，或者提供该类型的原始实现中未提供的额外初始化选项。
          
-         Any 可以表示任何类型，包括函数类型。
-         AnyObject 可以表示任何类类型的实例。
-         只有当你确实需要它们的行为和功能时才使用 Any 和 AnyObject。在你的代码里使用你期望的明确类型总是更好的。
+         扩展能为类添加新的便利构造器，但是它们不能为类添加新的指定构造器或析构器。指定构造器和析构器必须总是由原始的类实现来提供。
          
-         这里有个示例，使用 Any 类型来和混合的不同类型一起工作，包括函数类型和非类类型。它创建了一个可以存储 Any 类型的数组 things：
-         
-*/
-        var things = [Any]()
+         注意
+         如果你使用扩展为一个值类型添加构造器，同时该值类型的原始实现中未定义任何定制的构造器且所有存储属性提供了默认值，那么我们就可以在扩展中的构造器里调用默认构造器和逐一成员构造器。
+         正如在值类型的构造器代理中描述的，如果你把定制的构造器写在值类型的原始实现中，上述规则将不再适用。
+         下面的例子定义了一个用于描述几何矩形的结构体 Rect。这个例子同时定义了两个辅助结构体 Size 和 Point，它们都把 0.0 作为所有属性的默认值：
+         */
         
-        things.append(0)
-        things.append(0.0)
-        things.append(42)
-        things.append(3.14159)
-        things.append("hello")
-        things.append((3.0, 5.0))
-        things.append(Movie(name: "Ghostbusters", director: "Ivan Reitman"))
-        things.append({ (name: String) -> String in "Hello, \(name)" })
-        // things 数组包含两个 Int 值，两个 Double 值，一个 String 值，一个元组 (Double, Double)，一个Movie实例“Ghostbusters”，以及一个接受 String 值并返回另一个 String 值的闭包表达式。
+        
         /*
-         
-         你可以在 switch 表达式的 case 中使用 is 和 as 操作符来找出只知道是 Any 或 AnyObject 类型的常量或变量的具体类型。下面的示例迭代 things 数组中的每一项，并用 switch 语句查找每一项的类型。有几个 switch 语句的 case 绑定它们匹配到的值到一个指定类型的常量，从而可以打印这些值：
-*/
+         因为结构体 Rect 未提供定制的构造器，因此它会获得一个逐一成员构造器。又因为它为所有存储型属性提供了默认值，它又会获得一个默认构造器。详情请参阅默认构造器。这些构造器可以用于构造新的 Rect 实例：
+         */
+        
+        let defaultRect = Rect()
+        let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0),
+                                  size: Size(width: 5.0, height: 5.0))
+        
+        /*
+         这个新的构造器首先根据提供的 center 和 size 的值计算一个合适的原点。然后调用该结构体的逐一成员构造器 init(origin:size:)，该构造器将新的原点和大小的值保存到了相应的属性中：
+         */
+        
+        // 你可以提供一个额外的接受指定中心点和大小的构造器来扩展 Rect 结构体：
         
         
-        for thing in things {
-            switch thing {
-            case 0 as Int:
-                print("zero as an Int")
-            case 0 as Double:
-                print("zero as a Double")
-            case let someInt as Int:
-                print("an integer value of \(someInt)")
-            case let someDouble as Double where someDouble > 0:
-                print("a positive double value of \(someDouble)")
-            case is Double:
-                print("some other double value that I don't want to print")
-            case let someString as String:
-                print("a string value of \"\(someString)\"")
-            case let (x, y) as (Double, Double):
-                print("an (x, y) point at \(x), \(y)")
-            case let movie as Movie:
-                print("a movie called '\(movie.name)', dir. \(movie.director)")
-            case let stringConverter as (String) -> String:
-                print(stringConverter("Michael"))
-            default:
-                print("something else")
-            }
-        }
-        
-        // zero as an Int
-        // zero as a Double
-        // an integer value of 42
-        // a positive double value of 3.14159
-        // a string value of "hello"
-        // an (x, y) point at 3.0, 5.0
-        // a movie called 'Ghostbusters', dir. Ivan Reitman
-        // Hello, Michael
+        let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+                              size: Size(width: 3.0, height: 3.0))
+        // centerRect 的原点是 (2.5, 2.5)，大小是 (3.0, 3.0)
         /*
          注意
-         Any类型可以表示所有类型的值，包括可选类型。Swift 会在你用Any类型来表示一个可选值的时候，给你一个警告。如果你确实想使用Any类型来承载可选值，你可以使用as操作符显式转换为Any，如下所示：
+         如果你使用扩展提供了一个新的构造器，你依旧有责任确保构造过程能够让实例完全初始化。
          
-        */
-        let optionalNumber: Int? = 3
-        things.append(optionalNumber)        // 警告
-        things.append(optionalNumber as Any) // 没有警告
-
+         */
+        
+        // MARK: - 方法
+        /*
+         扩展可以为已有类型添加新的实例方法和类型方法。下面的例子为 Int 类型添加了一个名为 repetitions 的实例方法：
+         */
+        
+        
+        3.repetitions(task: {
+        print("Hello!")
+        })
+        // Hello!
+        // Hello!
+        // Hello!
+        // 可以使用尾随闭包让调用更加简洁：
+        
+        3.repetitions {
+            print("Goodbye!")
+        }
+        // Goodbye!
+        // Goodbye!
+        // Goodbye!
+        /*
+         
+         */
+        
+        // MARK: - 可变实例方法
+        /*
+         
+         通过扩展添加的实例方法也可以修改该实例本身。结构体和枚举类型中修改 self 或其属性的方法必须将该实例方法标注为 mutating，正如来自原始实现的可变方法一样。
+         
+         下面的例子为 Swift 的 Int 类型添加了一个名为 square 的可变方法，用于计算原始值的平方值：
+         
+         
+         var someInt = 3
+         someInt.square()
+         // someInt 的值现在是 9
+         
+         */
+        
+        // MARK: - 下标
+        /*
+         扩展可以为已有类型添加新下标。这个例子为 Swift 内建类型 Int 添加了一个整型下标。该下标 [n] 返回十进制数字从右向左数的第 n 个数字：
+         
+         123456789[0] 返回 9
+         123456789[1] 返回 8
+         ……以此类推。
+         
+         
+         746381295[0]
+         // 返回 5
+         746381295[1]
+         // 返回 9
+         746381295[2]
+         // 返回 2
+         746381295[8]
+         // 返回 7
+         如果该 Int 值没有足够的位数，即下标越界，那么上述下标实现会返回 0，犹如在数字左边自动补 0：
+         
+         746381295[9]
+         // 返回 0，即等同于：
+         0746381295[9]
+         
+         */
+        // MARK: - 嵌套类型
+        /*
+         扩展可以为已有的类、结构体和枚举添加新的嵌套类型：
+         
+         
+         该例子为 Int 添加了嵌套枚举。这个名为 Kind 的枚举表示特定整数的类型。具体来说，就是表示整数是正数、零或者负数。
+         
+         这个例子还为 Int 添加了一个计算型实例属性，即 kind，用来根据整数返回适当的 Kind 枚举成员。
+         
+         现在，这个嵌套枚举可以和任意 Int 值一起使用了：
+         */
+        func printIntegerKinds(_ numbers: [Int]) {
+            for number in numbers {
+                switch number.kind {
+                case .Negative:
+                    print("- ", terminator: "")
+                case .Zero:
+                    print("0 ", terminator: "")
+                case .Positive:
+                    print("+ ", terminator: "")
+                }
+            }
+            print("")
+        }
+        printIntegerKinds([3, 19, -27, 0, -6, 0, 7])
+        // 打印 “+ + - 0 - 0 + ”
+        /*
+         
+         函数 printIntegerKinds(_:) 接受一个 Int 数组，然后对该数组进行迭代。在每次迭代过程中，对当前整数的计算型属性 kind 的值进行评估，并打印出适当的描述。
+         
+         注意
+         由于已知 number.kind 是 Int.Kind 类型，因此在 switch 语句中，Int.Kind 中的所有成员值都可以使用简写形式，例如使用 . Negative 而不是 Int.Kind.Negative。
+         */
     }
 
+
+}
+
+extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m : Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+
+
+extension Int {
+    func repetitions(task: () -> Void) {
+        for _ in 0..<self {
+            task()
+        }
+    }
+}
+/*
+ 这个 repetitions(task:) 方法接受一个 () -> Void 类型的单参数，表示没有参数且没有返回值的函数。
+ 
+ 定义该扩展之后，你就可以对任意整数调用 repetitions(task:) 方法，将闭包中的任务执行整数对应的次数：
+ 
+ */
+extension Int {
+    mutating func square() {
+        self = self * self
+    }
+}
+extension Int {
+    subscript(digitIndex: Int) -> Int {
+        var decimalBase = 1
+        for _ in 0..<digitIndex {
+            decimalBase *= 10
+        }
+        return (self / decimalBase) % 10
+    }
+}
+extension Int {
+    enum Kind {
+        case Negative, Zero, Positive
+    }
+    var kind: Kind {
+        switch self {
+        case 0:
+            return .Zero
+        case let x where x > 0:
+            return .Positive
+        default:
+            return .Negative
+        }
+    }
 }
