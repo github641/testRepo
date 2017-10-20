@@ -11,6 +11,8 @@
 		6CCC36501F541A690062D606 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CCC364E1F541A690062D606 /* Main.storyboard */; };
 		6CCC36521F541A690062D606 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CCC36511F541A690062D606 /* Assets.xcassets */; };
 		6CCC36551F541A690062D606 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CCC36531F541A690062D606 /* LaunchScreen.storyboard */; };
+		840417A31F99D42B0038CA66 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840417A21F99D42B0038CA66 /* ViewController.swift */; };
+		840417A51F99D6FE0038CA66 /* stackPushPop_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840417A41F99D6FE0038CA66 /* stackPushPop_2x.png */; };
 		8408226A1F6F68DA001208E7 /* Closures08.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840822691F6F68DA001208E7 /* Closures08.swift */; };
 		8408226C1F6F68F5001208E7 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408226B1F6F68F5001208E7 /* Enumerations.swift */; };
 		840FCD7C1F8CA42C00E0BC3C /* OptionalChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840FCD7B1F8CA42C00E0BC3C /* OptionalChaining.swift */; };
@@ -31,7 +33,7 @@
 		847CA52A1F6B724C00663472 /* Functions07.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847CA5291F6B724C00663472 /* Functions07.swift */; };
 		8493B5181F7A0BA70040E086 /* Inheritance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493B5171F7A0BA70040E086 /* Inheritance.swift */; };
 		849437221F7B7E130007B8CF /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849437211F7B7E130007B8CF /* Initialization.swift */; };
-		849CC3081F96E4440007DF51 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849CC3071F96E4440007DF51 /* ViewController.swift */; };
+		849CC3081F96E4440007DF51 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849CC3071F96E4440007DF51 /* Protocols.swift */; };
 		849D89EC1F74E19000AABDE1 /* Methods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849D89EB1F74E19000AABDE1 /* Methods.swift */; };
 		84AE409F1F7F47AD00FEEF91 /* Deinitialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE409E1F7F47AD00FEEF91 /* Deinitialization.swift */; };
 		84C943CA1F9052210052256B /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C943C91F9052210052256B /* ErrorHandling.swift */; };
@@ -47,6 +49,8 @@
 		6CCC36511F541A690062D606 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6CCC36541F541A690062D606 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6CCC36561F541A690062D606 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		840417A21F99D42B0038CA66 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		840417A41F99D6FE0038CA66 /* stackPushPop_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackPushPop_2x.png; sourceTree = "<group>"; };
 		840822691F6F68DA001208E7 /* Closures08.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures08.swift; sourceTree = "<group>"; };
 		8408226B1F6F68F5001208E7 /* Enumerations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		840FCD781F8C9EAD00E0BC3C /* john 和 unit4A强引用关系.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "john 和 unit4A强引用关系.jpg"; sourceTree = "<group>"; };
@@ -78,7 +82,7 @@
 		847CA5291F6B724C00663472 /* Functions07.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions07.swift; sourceTree = "<group>"; };
 		8493B5171F7A0BA70040E086 /* Inheritance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inheritance.swift; sourceTree = "<group>"; };
 		849437211F7B7E130007B8CF /* Initialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
-		849CC3071F96E4440007DF51 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		849CC3071F96E4440007DF51 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		849D89EA1F74C0A800AABDE1 /* Static Properties VUMeter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Static Properties VUMeter.jpg"; sourceTree = "<group>"; };
 		849D89EB1F74E19000AABDE1 /* Methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Methods.swift; sourceTree = "<group>"; };
 		84AE409D1F7F44DC00FEEF91 /* 西洋跳棋棋盘.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "西洋跳棋棋盘.jpg"; sourceTree = "<group>"; };
@@ -120,7 +124,9 @@
 			isa = PBXGroup;
 			children = (
 				6CCC364A1F541A690062D606 /* AppDelegate.swift */,
-				849CC3071F96E4440007DF51 /* ViewController.swift */,
+				840417A21F99D42B0038CA66 /* ViewController.swift */,
+				840417A41F99D6FE0038CA66 /* stackPushPop_2x.png */,
+				849CC3071F96E4440007DF51 /* Protocols.swift */,
 				846EC10C1F95AB4200970508 /* Extensions.swift */,
 				846EC10A1F95959F00970508 /* NestedTypes.swift */,
 				84C943D31F9448690052256B /* TypeCasting.swift */,
@@ -256,6 +262,7 @@
 				847CA5281F6B6C1E00663472 /* (x,y)斜边图.jpg in Resources */,
 				84CC92F61F73B0BF003B1AA0 /* Computed Properties sample.jpg in Resources */,
 				843451271F6A7A7800A46E1B /* while循环：蛇和梯子.jpg in Resources */,
+				840417A51F99D6FE0038CA66 /* stackPushPop_2x.png in Resources */,
 				6CCC36521F541A690062D606 /* Assets.xcassets in Resources */,
 				843451291F6A880700A46E1B /* (x,y).jpg in Resources */,
 				6CCC36501F541A690062D606 /* Main.storyboard in Resources */,
@@ -275,9 +282,10 @@
 				84C943D41F9448690052256B /* TypeCasting.swift in Sources */,
 				843451251F6A746800A46E1B /* Control_Flow06.swift in Sources */,
 				8408226C1F6F68F5001208E7 /* Enumerations.swift in Sources */,
-				849CC3081F96E4440007DF51 /* ViewController.swift in Sources */,
+				849CC3081F96E4440007DF51 /* Protocols.swift in Sources */,
 				845EA6FC1F6299410089284C /* StringsAndCharacters_04_CollectionTypes_05.swift in Sources */,
 				8464FABB1F7273AB003F88FF /* ClassAndStruct.swift in Sources */,
+				840417A31F99D42B0038CA66 /* ViewController.swift in Sources */,
 				849437221F7B7E130007B8CF /* Initialization.swift in Sources */,
 				849D89EC1F74E19000AABDE1 /* Methods.swift in Sources */,
 				845EA6FD1F6299410089284C /* ASwiftTour_01.swift in Sources */,
